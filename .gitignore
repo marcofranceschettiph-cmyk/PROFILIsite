@@ -1,0 +1,21 @@
+.DS_Store
+
+# Appunti di lavoro e note interne: restano sul Drive, non vanno online.
+CLAUDE.md
+CONTENUTI.md
+TODO.md
+
+# Script di servizio e modelli di pagina: servono a noi, non ai visitatori.
+tools/
+
+# File temporanei dell'editor e del sistema
+*.swp
+*~
+.idea/
+.vscode/
+Thumbs.db
+
+# Copie di sicurezza fatte a mano durante le modifiche
+*.bak
+*.bak.html
+*.orig

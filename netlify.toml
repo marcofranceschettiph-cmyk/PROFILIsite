@@ -1,0 +1,60 @@
+# Configurazione per la pubblicazione su Netlify.
+# Il sito e' statico: non c'e' niente da compilare, si pubblica la cartella
+# cosi' com'e'. Questo file serve solo a dire cosa non va online, come
+# rispondere agli indirizzi sbagliati e con quali intestazioni servire i file.
+
+[build]
+  publish = "."
+  command = ""
+
+# ---- Pagina di errore ----
+# Qualsiasi indirizzo che non corrisponde a un file esistente mostra 404.html,
+# con il codice di stato giusto: senza il 404 i motori di ricerca
+# indicizzerebbero la pagina di errore come se fosse una pagina vera.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# ---- Cartelle interne ----
+# tools/ contiene un modello di pagina e degli script di servizio:
+# non e' materiale pubblico.
+[[redirects]]
+  from = "/tools/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# ---- Intestazioni ----
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Il browser non deve indovinare il tipo di un file: usa quello dichiarato.
+    X-Content-Type-Options = "nosniff"
+    # Il sito non va mostrato dentro la cornice di un altro sito.
+    X-Frame-Options = "SAMEORIGIN"
+    # Quando si esce dal sito, l'indirizzo di provenienza resta generico.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Il foglio di stile e lo script cambiano, ma il loro indirizzo porta gia'
+# un numero di versione che cambia con loro: si possono tenere a lungo.
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Le pagine invece si ricontrollano sempre, cosi' una correzione si vede subito.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
