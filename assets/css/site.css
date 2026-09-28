@@ -971,42 +971,74 @@ html.motion .gg.gg-in{animation:gg-in var(--t-base) var(--ease-out)}
 .pf-info a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 .pf-nota{margin-top:24px;font-size:15px;color:var(--mute)}
 
-/* ===== PRO-FILI: colore e tempo (27/9) =====
-   I sei accenti del mondo carta (BRAND_IANUA.md, «Accenti per spettacolo»), in ordine
-   dal caldo al freddo. Sono scritti solo qui: il filo li legge da questi token
-   (site.js, «filo a colori») e ogni artista ne prende uno con data-tinta.
-   Il colore sta nel filo, nei nomi e nelle righe, mai sulle superfici.
-   Il filo nasce nel rosso del filo della locandina (--t-rosso, 6.68:1 su #F4EDE1,
-   6.11:1 su #ECE3D3) e poi vira: rosso, terracotta, bordeaux, prugna, notte, salvia.
-   L'oro resta fuori dal filo: accento del brand e una delle tinte degli artisti. */
-body.carta{--t-oro:#7D602A;--t-terracotta:#875B42;--t-bordeaux:#975153;--t-prugna:#85557D;--t-notte:#4D668A;--t-salvia:#466D5A;--t-rosso:#972C24}
+/* ===== PRO-FILI: il colore (28/9) =====
+   Il festival usa tinte più vive di IANUA, come ha chiesto Marco: tema chiaro su tutto,
+   ma più colore. Logica del colore derivata da Figma: impianto neutro color carta, blocchi
+   pastello a tutta larghezza che interrompono il ritmo, un solo accento saturo (il rosso
+   del marchio, sul conto alla rovescia). Tipografia IANUA invariata.
+   Due scale sulla stessa ruota di sei tinte, rosso → arancio → oro → verde → blu → viola:
+   --f-*  il filo. È un elemento grafico, non testo: gli basta 3:1 (WCAG 1.4.11), quindi
+          può restare vivo. Tutte ≥ 3.3:1 su #F4EDE1 e #ECE3D3. Il rosso è quello del logo.
+   --i-*  gli inchiostri, per i testi che prendono colore: ≥ 4.6:1 sulla carta.
+   La prima versione usava i sei accenti del brand kit, tutti portati a 4.5:1 come se il
+   filo fosse testo: rosso, terracotta, bordeaux e prugna scurivano nello stesso marrone
+   rossastro e il filo sembrava di un colore solo per due terzi del percorso. */
+body.carta{
+  --f-rosso:#A54236;--f-arancio:#BB6501;--f-oro:#997706;--f-verde:#068E41;--f-blu:#057ED8;--f-viola:#A959C1;
+  --i-rosso:#A04035;--i-arancio:#944F04;--i-oro:#7B5F01;--i-verde:#0D7435;--i-blu:#1666AA;--i-viola:#814893;
+}
 
 /* il percorso intero resta neutro: se fosse colorato si vedrebbe il finale prima del tempo.
    Per lo stesso motivo i trattini che scorrono (.flow), che coprono tutto il percorso
-   fin dall'inizio, restano su una tinta sola neutra e non prendono il gradiente. */
+   fin dall'inizio, restano su una tinta sola neutra e non prendono il colore. */
 body.carta .thread svg .ghost{stroke:var(--rule)}
 body.carta .thread svg .flow{stroke:var(--rule-2)}
 /* il filo colorato: tratti brevi, ciascuno col colore del suo punto lungo il percorso
-   (site.js, «filo a colori»). Stesso spessore di .line, che resta nascosta. */
-body.carta .thread svg .filo-tratto{fill:none;stroke-width:1.4;stroke-linecap:round;transition:stroke-width var(--t-base) var(--ease-out)}
-body.carta .thread.is-lit svg .filo-tratto{stroke-width:1.8}
+   (site.js, «filo a colori»). Più spesso della prima versione (1.4): a quello spessore
+   il colore non si leggeva. */
+body.carta .thread svg .filo-tratto{fill:none;stroke-width:2.6;stroke-linecap:round;transition:stroke-width var(--t-base) var(--ease-out)}
+body.carta .thread.is-lit svg .filo-tratto{stroke-width:3.2}
 @media (prefers-reduced-motion:reduce){body.carta .thread svg .filo-tratto{transition:none}}
 
-/* una tinta per artista. --tinta da sola non accende niente: diventa accento solo
-   al passaggio del mouse o col focus (.is-lit la mette il filo), poi torna neutro.
-   Per il mondo carta il brand kit non ha una variante chiara: accento e corsivo
-   prendono lo stesso valore. */
-[data-tinta="oro"]{--tinta:var(--t-oro)}
-[data-tinta="terracotta"]{--tinta:var(--t-terracotta)}
-[data-tinta="bordeaux"]{--tinta:var(--t-bordeaux)}
-[data-tinta="prugna"]{--tinta:var(--t-prugna)}
-[data-tinta="notte"]{--tinta:var(--t-notte)}
-[data-tinta="salvia"]{--tinta:var(--t-salvia)}
+/* una tinta per artista: l'inchiostro della tinta del filo che passa sul suo ritratto.
+   Questi valori sono il ripiego senza JavaScript; site.js li sostituisce con la tinta
+   esatta del punto del filo dove sta ogni ritratto, a ogni larghezza. --tinta da sola
+   non accende niente: diventa accento al passaggio del mouse o col focus, poi torna neutro. */
+[data-tinta="rosso"]{--tinta:var(--i-rosso)}
+[data-tinta="arancio"]{--tinta:var(--i-arancio)}
+[data-tinta="oro"]{--tinta:var(--i-oro)}
+[data-tinta="verde"]{--tinta:var(--i-verde)}
+[data-tinta="blu"]{--tinta:var(--i-blu)}
+[data-tinta="viola"]{--tinta:var(--i-viola)}
 .person[data-tinta].is-lit,.person[data-tinta]:focus-visible{--accent:var(--tinta);--accent-2:var(--tinta)}
 .person[data-tinta] h3,.person[data-tinta] .role{transition:color var(--t-base) var(--ease-out)}
 /* al telefono il passaggio del mouse non c'è: la tinta resta sulla riga sotto il nome */
 @media (hover:none){.person[data-tinta] .role{color:var(--tinta)}}
 @media (prefers-reduced-motion:reduce){.person[data-tinta] h3,.person[data-tinta] .role{transition:none}}
+
+/* blocchi di colore. Le sezioni che prima erano la seconda carta (#ECE3D3) diventano un
+   pastello della tinta a cui è arrivato il filo in quel punto della pagina: rosa, menta,
+   azzurro, lilla. A tutta larghezza, senza angoli arrotondati e senza ombre: è la carta
+   che cambia colore, non una scheda appoggiata sopra. Linee, testi secondari e accenti
+   prendono la tinta del blocco, come vuole il colore su superficie colorata: niente grigi.
+   Calcolati in OKLCH, tutti verificati: accento ≥ 4.6:1, smorzato ≥ 4.6:1, testo ≥ 12.7:1. */
+body.carta [data-sez="rosa"]{--bg:#FEDED8;--bg-2:#FFD0C7;--rule:#EFBDB4;--rule-2:#E1A79E;--fg-2:#543F3C;--mute:#745752;--accent:#A04035;--accent-2:#A04035}
+body.carta [data-sez="menta"]{--bg:#CDF1D3;--bg-2:#BFE9C6;--rule:#B0D6B6;--rule-2:#98C5A0;--fg-2:#3A4A3D;--mute:#4F6653;--accent:#026F31;--accent-2:#026F31}
+body.carta [data-sez="azzurro"]{--bg:#D4E9FF;--bg-2:#C3E0FF;--rule:#AECEF1;--rule-2:#96BBE3;--fg-2:#394655;--mute:#4F6277;--accent:#0F61A5;--accent-2:#0F61A5}
+body.carta [data-sez="lilla"]{--bg:#F6DBFF;--bg-2:#EFCFF9;--rule:#DBBFE4;--rule-2:#CBAAD5;--fg-2:#4B3F4E;--mute:#69586E;--accent:#804691;--accent-2:#804691}
+body.carta [data-sez]::selection,body.carta [data-sez] ::selection{background:var(--rule-2);color:var(--fg)}
+/* la fascia della call ha il fondo scritto a mano (.call-band, #ECE3D3): col blocco vince il blocco */
+body.carta .call-band[data-sez]{background:var(--bg)}
+
+/* la barra fissa prende il colore della sezione che ha sotto (site.js la legge e mette
+   --nav-bg): una barra color carta sopra un blocco rosa sembrava una striscia sbagliata.
+   Senza color-mix resta la regola di prima, color carta. */
+body.carta .nav.solid{background:color-mix(in srgb,var(--nav-bg,#F4EDE1) 86%,transparent);transition:background .45s var(--ease-out),border-color .45s var(--ease-out),transform var(--t-base) var(--ease-out)}
+@media (prefers-reduced-motion:reduce){body.carta .nav.solid{transition:none}}
+
+/* il conto alla rovescia prende il rosso del marchio: è l'unico accento saturo della
+   pagina, e sta dove deve guardare l'occhio appena si apre il sito */
+body.carta .conto-n{color:var(--pf-rosso)}
 
 /* programma: il giorno di oggi, i giorni passati, l'appuntamento in corso e il prossimo.
    Le classi le mette site.js solo fra l'8 e l'11 ottobre 2026. */
@@ -1046,3 +1078,23 @@ body.carta footer .legal a{padding:13px;margin:0 -13px;outline-offset:-11px}
   body.carta #artisti .thread{padding-left:30px;padding-right:30px}
   body.carta #artisti .thread>.people{margin-left:-8px;margin-right:-8px}
 }
+
+/* ===== PRO-FILI: il filo dell'apertura (28/9) =====
+   Disegnato da site.js («il filo dell'apertura») sulle misure vere dei testi: esce dal
+   logo e fa due giri di matassa nello spazio vuoto accanto al titolo. Sta sotto i testi
+   e non intercetta il mouse. La maschera scopre i tratti colorati: è lei che si anima,
+   i colori stanno fermi. */
+body.carta #soglia{position:relative;overflow:hidden}
+body.carta #soglia>.wrap{position:relative;z-index:1}
+.soglia-filo{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.soglia-tratto{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.soglia-maschera{fill:none;stroke:#fff;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.soglia-capo{transition:opacity .2s linear}
+@media (prefers-reduced-motion:reduce){.soglia-capo{transition:none}}
+/* i titoli salgono da sotto una maschera (.ln, overflow hidden) che lasciava sotto 0.08em:
+   col Cormorant corsivo a corpo grande le code di g, f e p restavano tagliate
+   («segui il filo dell'arte»). Il margine negativo rende lo spazio, la pagina non si sposta. */
+body.carta .ln{padding-bottom:.26em;margin-bottom:-.26em}
+
+/* etichetta scritta dell'appuntamento in corso e del prossimo (site.js): stessa voce di «oggi» */
+.app-stato{margin-left:.7em;font-family:var(--sans);font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:var(--accent)}

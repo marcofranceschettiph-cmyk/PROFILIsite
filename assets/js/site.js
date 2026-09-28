@@ -51,7 +51,12 @@
         var el = els[k];
         if (nav.contains(el) || (menu && menu.contains(el))) continue;
         var w = el.closest ? el.closest('[data-world]') : null;
-        if (w) { world = w.getAttribute('data-world'); break; }
+        if (w) {
+          world = w.getAttribute('data-world');
+          // sito del festival: la barra prende il colore della sezione che ha sotto
+          if (document.body.classList.contains('carta')) nav.style.setProperty('--nav-bg', getComputedStyle(w).getPropertyValue('--bg').trim() || '#F4EDE1');
+          break;
+        }
       }
       nav.classList.toggle('on-paper', world === 'paper' && !document.body.classList.contains('menu-open'));
     });
@@ -1040,18 +1045,21 @@
 })();
 
 /* ---------- PRO-FILI: filo a colori, tinte degli artisti, frecce ----------
-   Il filo nasce nel rosso della locandina e poi vira sugli accenti del mondo carta,
-   dal caldo al freddo. I sei colori sono distribuiti sulla LUNGHEZZA del tracciato,
+   Il filo nasce nel rosso del logo e gira sulla ruota delle sei tinte: rosso, arancio,
+   oro, verde, blu, viola. I colori sono distribuiti sulla LUNGHEZZA del tracciato,
    non su un asse dello spazio: con un gradiente dall'alto in basso la griglia, piu'
-   larga che alta, restava tutta sui primi tre colori. Per questo il filo colorato e'
+   larga che alta, restava tutta sui primi colori. Per questo il filo colorato e'
    fatto di tratti brevi (.filo-tratto), ognuno con il colore del suo punto medio lungo
    il percorso; .line resta il tracciato del motore (lunghezza, avanzamento con lo
    scroll, posizione del capo) ma non si vede. Ogni tratto mostra la parte di se' che
    il motore ha gia' disegnato: si legge lo stroke-dashoffset di .line. .flow copre
    tutto il percorso fin dall'inizio e resta neutro (CSS), altrimenti mostrerebbe i
    colori della fine prima che il filo ci arrivi.
-   Il capo prende il colore del punto del tracciato in cui si trova.
-   I colori si leggono dai token --t-* del CSS: stanno scritti in un posto solo.
+   Fra una tinta e l'altra si sfuma in OKLCH, non in sRGB: in sRGB, fra tinte lontane,
+   il colore di mezzo diventa grigio, e il filo si spegneva proprio nei passaggi.
+   Il capo prende il colore del punto del tracciato in cui si trova, e ogni artista
+   prende l'inchiostro della tinta del filo nel punto dove sta il suo ritratto.
+   I colori si leggono dai token --f-* del CSS: stanno scritti in un posto solo.
    Il motore del filo resta quello sopra: qui si osserva soltanto quello che scrive
    (il tracciato 'd', il dashoffset e la posizione del capo), senza cicli propri.
    Da tastiera: un solo ritratto nel giro del Tab, le frecce passano al precedente
@@ -1062,17 +1070,50 @@
   if (!document.body || !document.body.classList.contains('carta')) return;
   var NS = 'http://www.w3.org/2000/svg';
   var stile = getComputedStyle(document.body);
-  var COL = ['rosso', 'terracotta', 'bordeaux', 'prugna', 'notte', 'salvia'].map(function (n) {
-    return stile.getPropertyValue('--t-' + n).trim();
+  var COL = ['rosso', 'arancio', 'oro', 'verde', 'blu', 'viola'].map(function (n) {
+    return stile.getPropertyValue('--f-' + n).trim();
   });
   var ok = COL.every(function (c) { return /^#[0-9a-f]{6}$/i.test(c); });
-  var RGB = COL.map(function (c) { return [1, 3, 5].map(function (k) { return parseInt(c.slice(k, k + 2), 16); }); });
-  // colore alla posizione t (0-1) lungo il filo: interpolazione in sRGB fra i sei colori
-  function colore(t) {
-    t = Math.min(1, Math.max(0, t)) * (RGB.length - 1);
-    var i = Math.min(Math.floor(t), RGB.length - 2), f = t - i, a = RGB[i], b = RGB[i + 1];
-    return 'rgb(' + [0, 1, 2].map(function (k) { return Math.round(a[k] + (b[k] - a[k]) * f); }).join(',') + ')';
+
+  // sRGB <-> OKLCH (Bjorn Ottosson). Serve a sfumare le tinte senza passare dal grigio.
+  function lin(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function enc(c) { c = c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; return Math.round(Math.min(1, Math.max(0, c)) * 255); }
+  function hex2lch(h) {
+    var r = lin(parseInt(h.slice(1, 3), 16)), g = lin(parseInt(h.slice(3, 5), 16)), b = lin(parseInt(h.slice(5, 7), 16));
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    var m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    var s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    var L = 0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s;
+    var A = 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s;
+    var B = 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s;
+    return [L, Math.sqrt(A * A + B * B), (Math.atan2(B, A) * 180 / Math.PI + 360) % 360];
   }
+  function lch2rgb(L, C, H) {
+    for (var k = 0; k < 40; k++) {   // se la tinta esce dallo spazio sRGB si abbassa il croma, non si taglia il canale
+      var a = C * Math.cos(H * Math.PI / 180), b = C * Math.sin(H * Math.PI / 180);
+      var l = Math.pow(L + 0.3963377774 * a + 0.2158037573 * b, 3);
+      var m = Math.pow(L - 0.1055613458 * a - 0.0638541728 * b, 3);
+      var s = Math.pow(L - 0.0894841775 * a - 1.2914855480 * b, 3);
+      var r = 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s;
+      var g = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s;
+      var bb = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s;
+      if ((r >= -0.001 && r <= 1.001 && g >= -0.001 && g <= 1.001 && bb >= -0.001 && bb <= 1.001) || C <= 0.002) return [enc(r), enc(g), enc(bb)];
+      C *= 0.95;
+    }
+    return [enc(r), enc(g), enc(bb)];
+  }
+  var LCH = ok ? COL.map(hex2lch) : [];
+  // tinta alla posizione t (0-1) lungo il filo, in [L, C, H]. Le tonalita' della ruota
+  // crescono sempre (29 -> 318), quindi la sfumatura va dritta senza tornare indietro.
+  function lchAt(t) {
+    t = Math.min(1, Math.max(0, t)) * (LCH.length - 1);
+    var i = Math.min(Math.floor(t), LCH.length - 2), f = t - i, a = LCH[i], b = LCH[i + 1];
+    return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f];
+  }
+  function colore(t) { var c = lchAt(t), v = lch2rgb(c[0], c[1], c[2]); return 'rgb(' + v.join(',') + ')'; }
+  // la stessa tinta scurita per il testo: luminosita' 0.44 regge 4.5:1 sulla carta
+  function inchiostro(t) { var c = lchAt(t), v = lch2rgb(0.44, Math.min(c[1], 0.13), c[2]); return 'rgb(' + v.join(',') + ')'; }
+  if (ok) window.pfFilo = { colore: colore, inchiostro: inchiostro };
   document.querySelectorAll('.thread').forEach(function (th) {
     var svg = th.querySelector('svg'), line = svg && svg.querySelector('.line');
     if (line && ok) {
@@ -1106,7 +1147,26 @@
           s0 = s1;
         }
         tratti.forEach(function (t) { t.len = t.el.getTotalLength(); });
-        mostra(); capo();
+        tingi(); mostra(); capo();
+      };
+      // ogni ritratto prende l'inchiostro della tinta del filo nel punto dove il filo lo
+      // attraversa: passandoci sopra, il nome si accende dello stesso colore del filo.
+      // Si ricalcola a ogni nuovo tracciato, quindi e' giusto a ogni larghezza.
+      var tingi = function () {
+        if (!campioni.length) return;
+        var sr = svg.getBoundingClientRect(), vb = svg.viewBox && svg.viewBox.baseVal;
+        var sx = vb && vb.width ? vb.width / sr.width : 1, sy = vb && vb.height ? vb.height / sr.height : 1;
+        th.querySelectorAll('[data-knot]').forEach(function (k) {
+          var p = k.closest('.person'); if (!p) return;
+          var r = k.getBoundingClientRect();
+          var x = (r.left + r.width / 2 - sr.left) * sx, y = (r.top + r.height / 2 - sr.top) * sy;
+          var best = 0, bd = Infinity;
+          for (var i = 0; i < campioni.length; i++) {
+            var dx = campioni[i][0] - x, dy = campioni[i][1] - y, d2 = dx * dx + dy * dy;
+            if (d2 < bd) { bd = d2; best = campioni[i][2]; }
+          }
+          p.style.setProperty('--tinta', inchiostro(best / L));
+        });
       };
       // quanto filo ha disegnato il motore: L meno lo stroke-dashoffset di .line
       var mostra = function () {
@@ -1204,7 +1264,10 @@
       t.classList.remove('is-oggi', 'is-passato');
       var e = t.querySelector('.gg-oggi'); if (e) e.parentNode.removeChild(e);
     });
-    apps.forEach(function (ap) { ap.classList.remove('is-ora', 'is-poi', 'is-passato'); ap.removeAttribute('aria-current'); });
+    apps.forEach(function (ap) {
+      ap.classList.remove('is-ora', 'is-poi', 'is-passato'); ap.removeAttribute('aria-current');
+      var e = ap.querySelector('.app-stato'); if (e) e.parentNode.removeChild(e);
+    });
   }
 
   function aggiorna() {
@@ -1240,9 +1303,216 @@
       }
     });
     inArrivo.forEach(function (x) { if (x[1] === poi) x[0].classList.add('is-poi'); });
+    // l'appuntamento in corso e il prossimo si distinguevano solo col colore: ora hanno
+    // anche un'etichetta scritta, accanto all'ora, come «oggi» sul giorno
+    apps.forEach(function (ap) {
+      var testo = ap.classList.contains('is-ora') ? 'in corso' : ap.classList.contains('is-poi') ? 'a seguire' : '';
+      var ora2 = ap.querySelector('.app-ora');
+      if (!testo || !ora2) return;
+      var e = document.createElement('span'); e.className = 'app-stato'; e.textContent = testo;
+      ora2.appendChild(e);
+    });
     timer = setTimeout(aggiorna, Math.max(prossimo - ora.getTime(), 0) + 1000);
   }
 
   aggiorna();
   document.addEventListener('visibilitychange', function () { if (!document.hidden) aggiorna(); });
+})();
+
+/* ---------- PRO-FILI: il filo dell'apertura ----------
+   Il primo sguardo sul sito: un filo esce dal logo, fa due giri di matassa nello spazio
+   vuoto accanto al titolo passando per tutte e sei le tinte, e scende fino al bordo
+   basso dell'apertura, come se continuasse nella pagina. Si disegna una volta sola,
+   all'apertura: una maschera scopre i tratti colorati in 2,8 secondi con un'uscita
+   morbida, e il capo del filo corre davanti prendendo il colore del punto in cui si
+   trova. Con prefers-reduced-motion il filo e' gia' disegnato e il capo sta in fondo.
+   Il tracciato si calcola sulle misure vere dei testi dell'apertura e si controlla
+   punto per punto: se una parte cadrebbe su un testo (al telefono accanto al titolo
+   non c'e' posto), il filo passa invece nella fascia libera sotto il conto alla
+   rovescia, con un giro solo. Ricalcolato quando cambia la larghezza, senza ripartire. */
+(function () {
+  'use strict';
+  var hero = document.getElementById('soglia');
+  if (!hero || !window.pfFilo || !document.body.classList.contains('carta')) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  var ridotto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DUR = 2800, RIT = 450, animato = false;
+  var svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('class', 'soglia-filo');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  hero.insertBefore(svg, hero.firstChild);
+
+  // ingombro VERO di un elemento: l'unione delle sue righe di testo e dei suoi figli.
+  // La riga dei dati, i tasti e il conto alla rovescia sono blocchi larghi tutta la
+  // colonna anche dove non c'e' niente: col loro riquadro lo spazio libero sembrava pieno.
+  function box(el) {
+    if (!el || el.hidden) return null;
+    var h = hero.getBoundingClientRect(), rg = document.createRange();
+    rg.selectNodeContents(el);
+    var rs = Array.prototype.filter.call(rg.getClientRects(), function (r) { return r.width > 0 && r.height > 0; });
+    if (!rs.length) { var r0 = el.getBoundingClientRect(); if (!r0.width) return null; rs = [r0]; }
+    var l = Infinity, tp = Infinity, rt = -Infinity, bt = -Infinity;
+    rs.forEach(function (r) { l = Math.min(l, r.left); tp = Math.min(tp, r.top); rt = Math.max(rt, r.right); bt = Math.max(bt, r.bottom); });
+    return { l: l - h.left, t: tp - h.top, r: rt - h.left, b: bt - h.top, w: rt - l, h: bt - tp };
+  }
+  function bez(out, p0, p1, p2, p3) {
+    var n = Math.max(8, Math.ceil(Math.hypot(p3[0] - p0[0], p3[1] - p0[1]) / 6));
+    for (var j = 1; j <= n; j++) {
+      var t = j / n, m = 1 - t;
+      out.push([m * m * m * p0[0] + 3 * m * m * t * p1[0] + 3 * m * t * t * p2[0] + t * t * t * p3[0],
+                m * m * m * p0[1] + 3 * m * m * t * p1[1] + 3 * m * t * t * p2[1] + t * t * t * p3[1]]);
+    }
+  }
+  // un giro di matassa: cicloide allungata, stessa forma dei giri sui ritratti
+  // s = 1 il giro parte dal basso, s = -1 dall'alto
+  function giro(out, cx, cy, r, a, s) {
+    for (var st = 0; st <= 48; st++) {
+      var u = -Math.PI + st * Math.PI / 24;
+      out.push([cx + (a * u - r * Math.sin(u)), cy - s * r * Math.cos(u)]);
+    }
+  }
+  function tocca(pts, rects) {
+    for (var i = 0; i < pts.length; i += 2) {
+      for (var k = 0; k < rects.length; k++) {
+        var q = rects[k];
+        if (pts[i][0] > q.l - 18 && pts[i][0] < q.r + 18 && pts[i][1] > q.t - 14 && pts[i][1] < q.b + 14) return true;
+      }
+    }
+    return false;
+  }
+
+  function tracciato() {
+    var W = hero.clientWidth, H = hero.clientHeight;
+    var logo = box(hero.querySelector('.pf-logo')), h1 = box(hero.querySelector('h1')),
+        sub = box(hero.querySelector('.sub')), meta = box(hero.querySelector('.meta')),
+        az = box(hero.querySelector('.ag-actions')), conto = box(document.getElementById('conto'));
+    var testi = [logo, h1, sub, meta, az, conto].filter(Boolean);
+    var nav = document.querySelector('.nav'), navH = nav ? nav.offsetHeight : 64;
+    var pts = null;
+    // 1) accanto al titolo, nello spazio vuoto a destra: esce dal logo alla sua altezza,
+    //    entra nel primo giro dall'alto (cosi' resta sopra il titolo), poi il secondo giro
+    //    piu' in basso e la discesa fino al bordo dell'apertura
+    if (logo && h1) {
+      // Un giro di raggio r e avanzamento 0.34r occupa in larghezza 2.14r (dal punto
+      // d'ingresso a quello d'uscita), alto 2r. I due giri stanno quasi alla stessa altezza,
+      // il secondo un po' piu' basso e staccato di 0.6R: il raccordo scende di mezzo raggio
+      // su uno spazio piu' largo, senza angoli. Spazio che serve: 4.45R + 70 di discesa.
+      var x0 = Math.max(logo.r, h1.r, sub ? sub.r : 0) + 64, lim = W - 28;
+      var R = Math.min(88, (lim - x0 - 70) / 4.45);
+      if (R >= 40) {
+        pts = [];
+        var r2 = R * 0.8, a1 = R * 0.34, a2 = r2 * 0.34;
+        // 0.39: l'altezza della linea che nel logo unisce «Pro» e «fili», col suo nodo
+        var y0 = logo.t + logo.h * 0.39, start = [logo.r + 12, y0];
+        var c1 = [x0 + 1.07 * R, y0 + R], c2 = [c1[0] + 1.07 * R + 0.6 * R + 1.07 * r2, c1[1] + R * 0.3];
+        var s1 = [c1[0] - a1 * Math.PI, c1[1] - R], e1 = [c1[0] + a1 * Math.PI, c1[1] - R];
+        var s2 = [c2[0] - a2 * Math.PI, c2[1] - r2], e2 = [c2[0] + a2 * Math.PI, c2[1] - r2];
+        var giu = [Math.min(lim, e2[0] + 64), H + 4], dx = s1[0] - start[0], gap = s2[0] - e1[0];
+        pts.push(start);
+        // dal logo al primo giro il filo pende appena, come un filo teso a mano
+        bez(pts, start, [start[0] + dx * 0.3, y0 + Math.min(26, dx * 0.05)], [s1[0] - dx * 0.35, y0], s1);
+        giro(pts, c1[0], c1[1], R, a1, -1);
+        bez(pts, e1, [e1[0] + gap * 0.55, e1[1]], [s2[0] - gap * 0.55, s2[1]], s2);
+        giro(pts, c2[0], c2[1], r2, a2, -1);
+        bez(pts, e2, [e2[0] + (giu[0] - e2[0]) * 0.9, e2[1]], [giu[0], e2[1] + (giu[1] - e2[1]) * 0.25], giu);
+        if (tocca(pts.slice(4), testi.filter(function (q) { return q !== logo; }))) pts = null;
+      }
+    }
+    // una fascia orizzontale da bordo a bordo con un giro solo, fra y1 e y2
+    function fascia(y1, y2) {
+      var y = (y1 + y2) / 2, rr = Math.min(30, (y2 - y1) / 2 - 16);
+      if (rr < 12) return null;
+      var cx = W * 0.64, aa = rr * 0.34, ps = cx - aa * Math.PI, pe = cx + aa * Math.PI, q = [[-8, y - rr]];
+      bez(q, [-8, y - rr], [W * 0.28, y - rr], [ps - 50, y + rr], [ps, y + rr]);
+      giro(q, cx, y, rr, aa, 1);
+      bez(q, [pe, y + rr], [pe + 50, y + rr], [W * 0.84, y - rr], [W + 8, y - rr]);
+      return tocca(q, testi) ? null : q;
+    }
+    // 2) ripiego: sotto il conto alla rovescia (o sotto l'ultimo testo)
+    if (!pts) { var sotto = conto || az || meta || sub || h1; if (sotto) pts = fascia(sotto.b, H); }
+    // 3) al telefono sotto non c'e' posto: sopra il logo, sotto la barra
+    if (!pts && logo) pts = fascia(navH, logo.t);
+    if (!pts) return null;
+    // ricampionamento a passo costante
+    var out = [pts[0]], STEP = 4, carry = 0;
+    for (var i = 1; i < pts.length; i++) {
+      var ax = pts[i - 1][0], ay = pts[i - 1][1], bx = pts[i][0], by = pts[i][1];
+      var seg = Math.hypot(bx - ax, by - ay); if (!seg) continue;
+      var pos = STEP - carry;
+      while (pos <= seg) { out.push([ax + (bx - ax) * pos / seg, ay + (by - ay) * pos / seg]); pos += STEP; }
+      carry = seg - (pos - STEP);
+    }
+    return out;
+  }
+
+  var uid = 'soglia-mask-' + Math.random().toString(36).slice(2, 7);
+  function disegna(conAnimazione) {
+    var pts = tracciato();
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    if (!pts || pts.length < 4) { svg.style.display = 'none'; return; }
+    svg.style.display = '';
+    var W = hero.clientWidth, H = hero.clientHeight;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var d = 'M ' + pts.map(function (p) { return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' L ');
+    var defs = document.createElementNS(NS, 'defs'), mask = document.createElementNS(NS, 'mask');
+    mask.setAttribute('id', uid); mask.setAttribute('maskUnits', 'userSpaceOnUse');
+    mask.setAttribute('x', '-20'); mask.setAttribute('y', '-20'); mask.setAttribute('width', W + 40); mask.setAttribute('height', H + 40);
+    var mp = document.createElementNS(NS, 'path');
+    mp.setAttribute('d', d); mp.setAttribute('class', 'soglia-maschera');
+    mask.appendChild(mp); defs.appendChild(mask); svg.appendChild(defs);
+    var g = document.createElementNS(NS, 'g');
+    g.setAttribute('mask', 'url(#' + uid + ')');
+    // tratti colorati: ogni ~10 px una tinta nuova, sovrapposti di un punto per non lasciare fessure
+    var n = pts.length, passo = 3;
+    for (var i = 0; i < n - 1; i += passo) {
+      var seg = pts.slice(i, Math.min(n, i + passo + 1));
+      var el = document.createElementNS(NS, 'path');
+      el.setAttribute('d', 'M ' + seg.map(function (p) { return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' L '));
+      el.setAttribute('class', 'soglia-tratto');
+      el.style.stroke = window.pfFilo.colore((i + passo / 2) / (n - 1));
+      g.appendChild(el);
+    }
+    svg.appendChild(g);
+    var capo = document.createElementNS(NS, 'circle');
+    capo.setAttribute('class', 'soglia-capo'); capo.setAttribute('r', '5');
+    svg.appendChild(capo);
+    var L = mp.getTotalLength();
+    mp.style.strokeDasharray = L + ' ' + (L + 10);
+    function metti(p) {   // p: quanta parte del filo e' disegnata, 0-1
+      mp.style.strokeDashoffset = (L * (1 - p)).toFixed(1);
+      var q = mp.getPointAtLength(Math.max(0.01, L * p));
+      capo.setAttribute('cx', q.x.toFixed(1)); capo.setAttribute('cy', q.y.toFixed(1));
+      capo.style.fill = window.pfFilo.colore(p);
+      capo.style.opacity = p > 0.002 ? '1' : '0';
+    }
+    if (!conAnimazione || ridotto) { metti(1); return; }
+    metti(0);
+    var t0 = null;
+    function ease(x) { return x >= 1 ? 1 : 1 - Math.pow(2, -10 * x); }   // uscita esponenziale
+    function passo2(ts) {
+      if (t0 === null) t0 = ts;
+      var x = (ts - t0 - RIT) / DUR;
+      if (x < 0) { requestAnimationFrame(passo2); return; }
+      metti(Math.min(1, ease(Math.min(1, x)) / ease(1)));
+      if (x < 1) requestAnimationFrame(passo2);
+    }
+    requestAnimationFrame(passo2);
+  }
+
+  function parti() {
+    if (animato) return;
+    animato = true;
+    disegna(true);
+  }
+  // si aspettano i caratteri: prima le misure dei testi non sono quelle vere
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(parti); else window.addEventListener('load', parti);
+  setTimeout(parti, 1500);
+  var lw = window.innerWidth, tmo = null;
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lw) return;   // al telefono la barra degli indirizzi cambia l'altezza: non si ridisegna
+    lw = window.innerWidth;
+    clearTimeout(tmo);
+    tmo = setTimeout(function () { disegna(false); }, 180);
+  });
 })();
