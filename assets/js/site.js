@@ -511,8 +511,12 @@
     }
     function loops(p, d) {
       // le asole stanno nella fascia bassa della foto: 0.74 tiene fuori anche i ritratti
-      // di profilo degli artisti esterni, che hanno il mento più in basso dei nostri
-      var top = p.t + p.h * (carta ? 0.82 : 0.74), bot = p.t + p.h + (carta ? 7 : -6), R = Math.min((bot - top) / 2, 46);
+      // di profilo degli artisti esterni, che hanno il mento più in basso dei nostri.
+      // Sul sito del festival quasi tutti i ritratti sono di profilo: all'82% l'anello
+      // girava attorno al collo, sotto il mento, e sembrava una collana. 0.9 lo porta
+      // sulle spalle. La fascia si assottiglia, quindi le asole scendono un po' più sotto
+      // la foto (11 px invece di 7) per restare tonde senza arrivare al nome, che sta a 12.
+      var top = p.t + p.h * (carta ? 0.88 : 0.74), bot = p.t + p.h + (carta ? 7 : -6), R = Math.min((bot - top) / 2, 46);
       var n = p.i % 2 === 0 && p.w >= Math.max(R * 4.6, 220) ? 2 : 1;   // foto strette: un solo giro, più largo
       var s = p.i % 2 ? -1 : 1, out = [];              // una foto il giro sopra la linea, la seguente sotto
       for (var q = 0; q < n; q++) {
