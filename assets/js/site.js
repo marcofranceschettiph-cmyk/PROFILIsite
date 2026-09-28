@@ -484,6 +484,17 @@
     });
     var vw = document.documentElement.clientWidth;
     var laneL = -clamp(box.left * 0.5, 8, 28), laneR = box.width + clamp((vw - box.right) * 0.5, 8, 28);
+    // Sito del festival: le corsie del cambio di riga si misurano sui bordi VERI dei ritratti,
+    // non su quelli del contenitore. Nella griglia stretta del telefono le foto sporgono fuori
+    // dal .thread, e una corsia calcolata sul contenitore cadeva dentro la foto: il filo
+    // scendeva lungo il bordo e attraversava i volti dall'alto, 622 punti sopra la fascia
+    // consentita. Il respiro che le corsie richiedono lo dà il CSS, col padding del .thread.
+    if (document.body.classList.contains('carta') && ph.length) {
+      var fl = Infinity, fr = -Infinity;
+      ph.forEach(function (p) { if (p.l < fl) fl = p.l; if (p.l + p.w > fr) fr = p.l + p.w; });
+      laneL = Math.min(laneL, fl - 12);
+      laneR = Math.max(laneR, fr + 12);
+    }
     var poly = [], anchors = new Array(ph.length);
     // Sito del festival (body.carta): ritratti di profilo con mento e collo bassi. Le asole
     // scendono dall'82% dell'altezza e possono sporgere di 7 px sotto la foto (il nome sta

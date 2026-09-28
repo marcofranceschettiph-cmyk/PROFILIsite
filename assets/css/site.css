@@ -926,7 +926,10 @@ body.carta .nav .brand .lg-dark{display:block}
 /* conto alla rovescia: un numero grande in oro, nessun fondo. Parte hidden, lo mostra il JS. */
 .conto{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px clamp(14px,2vw,22px);margin-top:clamp(34px,5vw,56px)}
 .conto[hidden]{display:none}
-.conto-n{font-family:var(--serif);font-weight:300;font-size:clamp(72px,12vw,160px);line-height:.9;letter-spacing:-.02em;color:var(--accent);font-variant-numeric:lining-nums tabular-nums}
+/* Le cifre stavano a -.02em: in Cormorant 300 due "1" accostati si leggevano come due aste,
+   "11" sembrava "I I". Il peso 400 non aiuta, nei font locali è un alias del 300. La
+   spaziatura positiva le separa, e restano numeri in Cormorant come vuole il brand kit. */
+.conto-n{font-family:var(--serif);font-weight:300;font-size:clamp(72px,12vw,160px);line-height:.9;letter-spacing:.045em;color:var(--accent);font-variant-numeric:lining-nums tabular-nums}
 .conto-l{font-family:var(--sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;color:var(--fg-2)}
 
 /* programma: i tab sono righe sottili, l'attivo ha la riga oro sotto.
@@ -1031,3 +1034,15 @@ body.carta footer .legal a{padding:13px;margin:0 -13px;outline-offset:-11px}
 
 /* rosso ufficiale del marchio, campionato dalla locandina Pro-fili. Non ancora in uso: riservato. */
 :root{--pf-rosso:#A54236}
+
+/* ===== PRO-FILI: il filo al telefono (28/9) =====
+   Sotto i 640 px la griglia dei ritratti è larga quanto la pagina e le foto arrivavano
+   fino ai bordi: il filo, che cambia riga scendendo in una corsia laterale, non aveva
+   dove passare e scendeva lungo il bordo delle foto, attraversando i volti dall'alto.
+   Il padding qui apre le due corsie, e il margine negativo sul contenuto recupera
+   l'ampiezza della griglia, così i ritratti non si rimpiccioliscono.
+   Regola di Marco: il filo non tocca mai i volti, né al telefono né al computer. */
+@media (max-width:639px){
+  body.carta #artisti .thread{padding-left:30px;padding-right:30px}
+  body.carta #artisti .thread>.people{margin-left:-8px;margin-right:-8px}
+}
