@@ -7,6 +7,24 @@
   publish = "."
   command = ""
 
+# ---- Cartelle interne ----
+# tools/ contiene un modello di pagina e degli script di servizio:
+# non e' materiale pubblico. Stesso discorso per _modello.html, che sta nella
+# radice e che la regola generica sotto non copre perche' il file esiste.
+# Le regole si leggono dall'alto e vince la prima che corrisponde: queste
+# stanno prima della pagina di errore generica.
+[[redirects]]
+  from = "/tools/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/_modello.html"
+  to = "/404.html"
+  status = 404
+  force = true
+
 # ---- Pagina di errore ----
 # Qualsiasi indirizzo che non corrisponde a un file esistente mostra 404.html,
 # con il codice di stato giusto: senza il 404 i motori di ricerca
@@ -15,15 +33,6 @@
   from = "/*"
   to = "/404.html"
   status = 404
-
-# ---- Cartelle interne ----
-# tools/ contiene un modello di pagina e degli script di servizio:
-# non e' materiale pubblico.
-[[redirects]]
-  from = "/tools/*"
-  to = "/404.html"
-  status = 404
-  force = true
 
 # ---- Intestazioni ----
 [[headers]]

@@ -485,6 +485,11 @@
     var vw = document.documentElement.clientWidth;
     var laneL = -clamp(box.left * 0.5, 8, 28), laneR = box.width + clamp((vw - box.right) * 0.5, 8, 28);
     var poly = [], anchors = new Array(ph.length);
+    // Sito del festival (body.carta): ritratti di profilo con mento e collo bassi. Le asole
+    // scendono dall'82% dell'altezza e possono sporgere di 7 px sotto la foto (il nome sta
+    // 12 px più in basso); i giri piccoli avanzano appena, così restano anelli senza curve
+    // strette; i cambi di riga escono dalla foto in orizzontale e girano nel margine.
+    var carta = document.body.classList.contains('carta');
     function bez(p0, p1, p2, p3) {
       var n = Math.max(6, Math.ceil(Math.hypot(p3[0] - p0[0], p3[1] - p0[1]) / 8));
       for (var j = 1; j <= n; j++) {
@@ -496,12 +501,12 @@
     function loops(p, d) {
       // le asole stanno nella fascia bassa della foto: 0.74 tiene fuori anche i ritratti
       // di profilo degli artisti esterni, che hanno il mento più in basso dei nostri
-      var top = p.t + p.h * 0.74, bot = p.t + p.h - 6, R = Math.min((bot - top) / 2, 46);
+      var top = p.t + p.h * (carta ? 0.82 : 0.74), bot = p.t + p.h + (carta ? 7 : -6), R = Math.min((bot - top) / 2, 46);
       var n = p.i % 2 === 0 && p.w >= Math.max(R * 4.6, 220) ? 2 : 1;   // foto strette: un solo giro, più largo
       var s = p.i % 2 ? -1 : 1, out = [];              // una foto il giro sopra la linea, la seguente sotto
       for (var q = 0; q < n; q++) {
-        var r = Math.min(R, p.w / (n + 1) * 0.46) * (0.92 + rnd(p.i * 7 + q * 3 + 1) * 0.08);
-        var a = r * (r >= 42 ? 0.32 : r >= 34 ? 0.26 : r >= 30 ? 0.18 : 0.08);   // giri piccoli: avanzano meno, così la curva non si stringe (sotto 30 px: telefoni stretti a due colonne)
+        var r = Math.min(R, p.w / (n + 1) * 0.46) * (carta ? 0.97 + rnd(p.i * 7 + q * 3 + 1) * 0.03 : 0.92 + rnd(p.i * 7 + q * 3 + 1) * 0.08);
+        var a = r * (r >= 42 ? 0.32 : r >= 34 ? 0.26 : r >= 30 ? 0.18 : carta ? 0.03 : 0.08);   // giri piccoli: avanzano meno, così la curva non si stringe (sotto 30 px: telefoni stretti a due colonne)
         var cx = p.l + p.w * (d > 0 ? (q + 1) / (n + 1) : (n - q) / (n + 1)) + (rnd(p.i * 11 + q) - 0.5) * p.w * 0.05;
         var cy = clamp((top + bot) / 2, top + r, bot - r);
         out.push({ cx: cx, cy: cy, r: r, a: a, s: s, d: d,
@@ -523,6 +528,16 @@
           } else if (prevDir === d) {
             var kx = Math.abs(S[0] - prevEnd[0]) * 0.45;
             bez(prevEnd, [prevEnd[0] + d * kx, prevEnd[1]], [S[0] - d * kx, S[1]], S);
+          } else if (carta) {
+            // cambio di riga: dritto fino al margine all'altezza del giro, curva di 24 px nel
+            // margine, discesa, curva, di nuovo dritto nella foto. Non attraversa né volti né nomi.
+            var ln = prevDir > 0 ? laneR : laneL, E0 = prevEnd, rr = Math.min(24, (S[1] - E0[1]) / 2), kk = rr * 0.5523;
+            var E1 = [ln - prevDir * rr, E0[1]], A0 = [ln, E0[1] + rr], B0 = [ln, S[1] - rr], S1 = [ln + d * rr, S[1]];
+            bez(E0, [E0[0] + (E1[0] - E0[0]) / 3, E0[1]], [E0[0] + (E1[0] - E0[0]) * 2 / 3, E0[1]], E1);
+            bez(E1, [E1[0] + prevDir * kk, E1[1]], [ln, A0[1] - kk], A0);
+            bez(A0, [ln, A0[1] + (B0[1] - A0[1]) / 3], [ln, B0[1] - (B0[1] - A0[1]) / 3], B0);
+            bez(B0, [ln, B0[1] + kk], [S1[0] - d * kk, S1[1]], S1);
+            bez(S1, [S1[0] + (S[0] - S1[0]) / 3, S[1]], [S1[0] + (S[0] - S1[0]) * 2 / 3, S[1]], S);
           } else {
             // cambio di riga: curva larga verso il margine, discesa diritta, curva larga verso la foto
             var lane = prevDir > 0 ? laneR : laneL, E = prevEnd, dy = S[1] - E[1];
@@ -929,7 +944,7 @@
           .then(function (r) { if (!r.ok) throw 0; form.classList.add('sent'); form.querySelector('.ok').focus(); })
           .catch(function () {
             var to = form.getAttribute('data-mailto'); var body = 'Nome: ' + data.get('nome') + '\nEmail: ' + data.get('email') + '\n\n' + data.get('messaggio');
-            location.href = 'mailto:' + to + '?subject=' + encodeURIComponent('Contatto dal sito IANUA') + '&body=' + encodeURIComponent(body);
+            location.href = 'mailto:' + to + '?subject=' + encodeURIComponent('Contatto dal sito PRO-FILI Festival') + '&body=' + encodeURIComponent(body);
           });
       }
     });
@@ -937,4 +952,282 @@
   }
 
   schedule();
+})();
+
+/* ---------- PRO-FILI: home del festival ----------
+   Conto alla rovescia (#conto) e tab dei giorni (#programma). Tutto parte da
+   HTML che senza script resta leggibile: il conto resta hidden, i quattro
+   pannelli del programma restano visibili uno sotto l'altro. */
+(function () {
+  'use strict';
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function giorno(iso) { var p = iso.split('-'); return new Date(+p[0], p[1] - 1, +p[2]); }
+  var oggi = new Date(); oggi.setHours(0, 0, 0, 0);
+  var conto = document.getElementById('conto');
+  var da = conto ? giorno(conto.getAttribute('data-da')) : null;
+  var a = conto ? giorno(conto.getAttribute('data-a')) : null;
+
+  // Conto alla rovescia: giorni a mezzanotte locale. Dal giorno dopo la chiusura resta nascosto.
+  if (conto && da && a) {
+    var g = Math.round((da - oggi) / 86400000);
+    var n = document.getElementById('conto-n'), l = document.getElementById('conto-l');
+    if (g > 0) {
+      n.textContent = g;
+      l.textContent = g === 1 ? 'giorno all’apertura' : 'giorni all’apertura';
+      conto.hidden = false;
+    } else if (oggi <= a) {
+      n.parentNode.hidden = true;
+      l.textContent = 'Il festival è in corso';
+      conto.hidden = false;
+    }
+  }
+
+  // Tab dei giorni, schema ARIA con attivazione automatica.
+  var lista = document.querySelector('.gg-tabs');
+  if (!lista) return;
+  var tabs = Array.prototype.slice.call(lista.querySelectorAll('[role="tab"]'));
+  var pann = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+  if (!tabs.length || pann.indexOf(null) !== -1) return;
+
+  function scegli(i, fuoco) {
+    tabs.forEach(function (t, k) {
+      var on = k === i;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      pann[k].hidden = !on;
+      pann[k].classList.remove('gg-in');
+    });
+    if (!reduce) { void pann[i].offsetWidth; pann[i].classList.add('gg-in'); }
+    if (fuoco) tabs[i].focus();
+  }
+
+  var primo = 0;
+  if (da && a && oggi >= da && oggi <= a) primo = Math.min(Math.round((oggi - da) / 86400000), tabs.length - 1);
+  pann.forEach(function (p) { p.tabIndex = 0; });
+  lista.hidden = false;
+  if (pann[0].parentNode) pann[0].parentNode.classList.add('gg-box--tabs');
+  scegli(primo, false);
+  pann[primo].classList.remove('gg-in');
+
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { scegli(i, false); });
+    t.addEventListener('keydown', function (e) {
+      var k = -1, last = tabs.length - 1;
+      if (e.key === 'ArrowRight') k = i === last ? 0 : i + 1;
+      else if (e.key === 'ArrowLeft') k = i === 0 ? last : i - 1;
+      else if (e.key === 'Home') k = 0;
+      else if (e.key === 'End') k = last;
+      if (k < 0) return;
+      e.preventDefault();
+      scegli(k, true);
+    });
+  });
+})();
+
+/* ---------- PRO-FILI: filo a colori, tinte degli artisti, frecce ----------
+   Il filo nasce nel rosso della locandina e poi vira sugli accenti del mondo carta,
+   dal caldo al freddo. I sei colori sono distribuiti sulla LUNGHEZZA del tracciato,
+   non su un asse dello spazio: con un gradiente dall'alto in basso la griglia, piu'
+   larga che alta, restava tutta sui primi tre colori. Per questo il filo colorato e'
+   fatto di tratti brevi (.filo-tratto), ognuno con il colore del suo punto medio lungo
+   il percorso; .line resta il tracciato del motore (lunghezza, avanzamento con lo
+   scroll, posizione del capo) ma non si vede. Ogni tratto mostra la parte di se' che
+   il motore ha gia' disegnato: si legge lo stroke-dashoffset di .line. .flow copre
+   tutto il percorso fin dall'inizio e resta neutro (CSS), altrimenti mostrerebbe i
+   colori della fine prima che il filo ci arrivi.
+   Il capo prende il colore del punto del tracciato in cui si trova.
+   I colori si leggono dai token --t-* del CSS: stanno scritti in un posto solo.
+   Il motore del filo resta quello sopra: qui si osserva soltanto quello che scrive
+   (il tracciato 'd', il dashoffset e la posizione del capo), senza cicli propri.
+   Da tastiera: un solo ritratto nel giro del Tab, le frecce passano al precedente
+   e al successivo, Home ed End al primo e all'ultimo. Il focus fa tendere il filo
+   come il mouse, perche' il motore ascolta gia' focusin. */
+(function () {
+  'use strict';
+  if (!document.body || !document.body.classList.contains('carta')) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  var stile = getComputedStyle(document.body);
+  var COL = ['rosso', 'terracotta', 'bordeaux', 'prugna', 'notte', 'salvia'].map(function (n) {
+    return stile.getPropertyValue('--t-' + n).trim();
+  });
+  var ok = COL.every(function (c) { return /^#[0-9a-f]{6}$/i.test(c); });
+  var RGB = COL.map(function (c) { return [1, 3, 5].map(function (k) { return parseInt(c.slice(k, k + 2), 16); }); });
+  // colore alla posizione t (0-1) lungo il filo: interpolazione in sRGB fra i sei colori
+  function colore(t) {
+    t = Math.min(1, Math.max(0, t)) * (RGB.length - 1);
+    var i = Math.min(Math.floor(t), RGB.length - 2), f = t - i, a = RGB[i], b = RGB[i + 1];
+    return 'rgb(' + [0, 1, 2].map(function (k) { return Math.round(a[k] + (b[k] - a[k]) * f); }).join(',') + ')';
+  }
+  document.querySelectorAll('.thread').forEach(function (th) {
+    var svg = th.querySelector('svg'), line = svg && svg.querySelector('.line');
+    if (line && ok) {
+      var bead = svg.querySelector('.bead');
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('class', 'filo-tinte');
+      line.parentNode.insertBefore(g, line.nextSibling);
+      line.style.visibility = 'hidden';
+      var tratti = [], campioni = [], L = 0, fatto = '';
+      var costruisci = function () {
+        if (!line.getAttribute('d')) return;
+        try { L = line.getTotalLength(); } catch (e) { return; }
+        while (g.firstChild) g.removeChild(g.firstChild);
+        tratti = []; campioni = []; fatto = '';
+        if (!L) return;
+        var passo = 3, lung = Math.max(24, L / 160), s0 = 0;
+        for (var s = 0; s <= L + passo / 2; s += passo) {
+          var q = line.getPointAtLength(Math.min(s, L)); campioni.push([q.x, q.y, Math.min(s, L)]);
+        }
+        while (s0 < L) {
+          var s1 = Math.min(L, s0 + lung), d = '', n = 0;
+          campioni.forEach(function (c) {
+            if (c[2] >= s0 - passo && c[2] <= s1 + passo) { d += (n++ ? ' L ' : 'M ') + c[0].toFixed(1) + ' ' + c[1].toFixed(1); }
+          });
+          var el = document.createElementNS(NS, 'path');
+          el.setAttribute('class', 'filo-tratto');
+          el.setAttribute('d', d);
+          el.style.stroke = colore(((s0 + s1) / 2) / L);
+          g.appendChild(el);
+          tratti.push({ el: el, s0: s0, s1: s1, len: 0, stato: '' });
+          s0 = s1;
+        }
+        tratti.forEach(function (t) { t.len = t.el.getTotalLength(); });
+        mostra(); capo();
+      };
+      // quanto filo ha disegnato il motore: L meno lo stroke-dashoffset di .line
+      var mostra = function () {
+        if (!tratti.length) return;
+        var off = parseFloat(line.style.strokeDashoffset);
+        var vis = isNaN(off) ? L : Math.max(0, Math.min(L, L - off));
+        var chiave = vis.toFixed(1);
+        if (chiave === fatto) return;
+        fatto = chiave;
+        tratti.forEach(function (t) {
+          var qui = vis >= t.s1 ? 'tutto' : vis <= t.s0 ? 'niente' : 'parte';
+          if (qui === 'parte') {
+            var v = t.len * (vis - t.s0) / (t.s1 - t.s0);
+            t.el.style.visibility = ''; t.el.style.strokeDasharray = v.toFixed(1) + ' ' + (t.len + 2).toFixed(1); t.el.style.strokeDashoffset = '0';
+          } else if (qui !== t.stato) {
+            t.el.style.visibility = qui === 'tutto' ? '' : 'hidden';
+            t.el.style.strokeDasharray = ''; t.el.style.strokeDashoffset = '';
+          }
+          t.stato = qui;
+        });
+      };
+      var capo = function () {
+        if (!bead || !campioni.length) return;
+        var x = parseFloat(bead.getAttribute('cx')), y = parseFloat(bead.getAttribute('cy'));
+        if (isNaN(x) || isNaN(y)) return;
+        var best = 0, bd = Infinity;
+        for (var i = 0; i < campioni.length; i++) {
+          var dx = campioni[i][0] - x, dy = campioni[i][1] - y, d2 = dx * dx + dy * dy;
+          if (d2 < bd) { bd = d2; best = campioni[i][2]; }
+        }
+        bead.style.fill = colore(best / L);
+      };
+      costruisci();
+      if ('MutationObserver' in window) {
+        new MutationObserver(function (m) {
+          if (m.some(function (r) { return r.attributeName === 'd'; })) costruisci(); else mostra();
+        }).observe(line, { attributes: true, attributeFilter: ['d', 'style'] });
+        if (bead) new MutationObserver(capo).observe(bead, { attributes: true, attributeFilter: ['cx', 'cy'] });
+      }
+    }
+
+    // roving tabindex sui ritratti legati al filo
+    var gente = [];
+    th.querySelectorAll('[data-knot]').forEach(function (k) {
+      var p = k.closest('.person');
+      if (p && p.matches('a[href]') && gente.indexOf(p) < 0) gente.push(p);
+    });
+    if (gente.length < 2) return;
+    function giro(i) { gente.forEach(function (p, k) { p.tabIndex = k === i ? 0 : -1; }); }
+    giro(0);
+    gente.forEach(function (p, i) {
+      p.addEventListener('focus', function () { giro(i); });
+      p.addEventListener('keydown', function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+        var k = -1, last = gente.length - 1;
+        if (e.key === 'ArrowRight') k = Math.min(i + 1, last);
+        else if (e.key === 'ArrowLeft') k = Math.max(i - 1, 0);
+        else if (e.key === 'Home') k = 0;
+        else if (e.key === 'End') k = last;
+        if (k < 0) return;
+        e.preventDefault();
+        if (k !== i) gente[k].focus();
+      });
+    });
+  });
+})();
+
+/* ---------- PRO-FILI: il programma sa che ora e' ----------
+   Solo fra il primo e l'ultimo giorno del festival (#conto, data-da / data-a):
+   - il tab del giorno di oggi prende .is-oggi e l'etichetta «oggi», i giorni gia'
+     passati prendono .is-passato (i tab dichiarano data-giorno="AAAA-MM-GG");
+   - ogni article.app con data-inizio="AAAA-MM-GGTHH:MM" (ora locale) prende .is-ora
+     mentre e' in corso, .is-passato quando e' finito; il primo in arrivo prende
+     .is-poi. La durata e' di 90 minuti se l'appuntamento non dichiara data-durata
+     (in minuti). Per un orario nuovo basta aggiungere data-inizio nell'HTML.
+   Fuori dalle date non si attiva niente. Durante il festival un solo timer punta al
+   prossimo cambio (inizio, fine, mezzanotte): nessun controllo a vuoto. */
+(function () {
+  'use strict';
+  var conto = document.getElementById('conto');
+  if (!conto) return;
+  function giorno(iso) { var p = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ''); return p ? new Date(+p[1], p[2] - 1, +p[3]) : null; }
+  function istante(iso) { var p = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso || ''); return p ? new Date(+p[1], p[2] - 1, +p[3], +p[4], +p[5]) : null; }
+  function dopo(d, giorni) { var x = new Date(d.getTime()); x.setDate(x.getDate() + giorni); return x; }
+  var da = giorno(conto.getAttribute('data-da')), a = giorno(conto.getAttribute('data-a'));
+  if (!da || !a) return;
+  var fine = dopo(a, 1);                                  // mezzanotte dopo l'ultimo giorno
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.gg-tab[data-giorno]'));
+  var apps = Array.prototype.slice.call(document.querySelectorAll('.app[data-inizio]'));
+  if (!tabs.length && !apps.length) return;
+  var timer = null;
+
+  function pulisci() {
+    tabs.forEach(function (t) {
+      t.classList.remove('is-oggi', 'is-passato');
+      var e = t.querySelector('.gg-oggi'); if (e) e.parentNode.removeChild(e);
+    });
+    apps.forEach(function (ap) { ap.classList.remove('is-ora', 'is-poi', 'is-passato'); ap.removeAttribute('aria-current'); });
+  }
+
+  function aggiorna() {
+    clearTimeout(timer); timer = null;
+    var ora = new Date();
+    pulisci();
+    if (ora < da) {                                       // se l'apertura e' entro un giorno, ci si risveglia li'
+      if (da - ora < 864e5) timer = setTimeout(aggiorna, da - ora + 1000);
+      return;
+    }
+    if (ora >= fine) return;
+    var oggi = new Date(ora.getFullYear(), ora.getMonth(), ora.getDate());
+    var prossimo = Math.min(dopo(oggi, 1).getTime(), fine.getTime());
+    tabs.forEach(function (t) {
+      var d = giorno(t.getAttribute('data-giorno')); if (!d) return;
+      if (d.getTime() === oggi.getTime()) {
+        t.classList.add('is-oggi');
+        var e = document.createElement('span'); e.className = 'gg-oggi'; e.textContent = 'oggi';
+        t.appendChild(e);
+      } else if (d < oggi) t.classList.add('is-passato');
+    });
+    var poi = null, inArrivo = [];
+    apps.forEach(function (ap) {
+      var s = istante(ap.getAttribute('data-inizio')); if (!s) return;
+      var dur = parseInt(ap.getAttribute('data-durata'), 10);
+      var e = new Date(s.getTime() + (dur > 0 ? dur : 90) * 60000);
+      if (ora >= e) ap.classList.add('is-passato');
+      else if (ora >= s) { ap.classList.add('is-ora'); ap.setAttribute('aria-current', 'time'); prossimo = Math.min(prossimo, e.getTime()); }
+      else {
+        inArrivo.push([ap, s.getTime()]);
+        if (poi === null || s.getTime() < poi) poi = s.getTime();
+        prossimo = Math.min(prossimo, s.getTime());
+      }
+    });
+    inArrivo.forEach(function (x) { if (x[1] === poi) x[0].classList.add('is-poi'); });
+    timer = setTimeout(aggiorna, Math.max(prossimo - ora.getTime(), 0) + 1000);
+  }
+
+  aggiorna();
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) aggiorna(); });
 })();
