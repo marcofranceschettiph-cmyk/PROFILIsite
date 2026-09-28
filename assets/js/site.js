@@ -440,6 +440,46 @@
     }
     return d;
   }
+  // Punti del tracciato a passo costante, calcolati leggendo le curve dalla stringa 'd'
+  // (il motore la scrive come M seguito da curve cubiche C). Prima si chiamava
+  // getPointAtLength ogni 3 px: circa 2500 chiamate, e ognuna ripercorre il tracciato
+  // dall'inizio. Al caricamento della home occupava 12 secondi di CPU e bloccava la
+  // pagina, animazione dell'apertura compresa. Cosi' e' una passata sola, in pochi ms.
+  // Le lunghezze si riportano sulla lunghezza vera del browser (Ltot), perche' il
+  // motore disegna il filo con lo stroke-dashoffset misurato su quella.
+  function campiona(d, passo, Ltot) {
+    var tk = (d || '').match(/[MC]|-?\d*\.?\d+(?:e-?\d+)?/g);
+    if (!tk) return [];
+    var fitti = [], lun = [0], x = 0, y = 0, i = 0, cmd = '';
+    while (i < tk.length) {
+      if (tk[i] === 'M' || tk[i] === 'C') { cmd = tk[i]; i++; continue; }
+      if (cmd === 'M') { x = +tk[i]; y = +tk[i + 1]; i += 2; fitti.push([x, y]); cmd = 'C'; continue; }
+      var x1 = +tk[i], y1 = +tk[i + 1], x2 = +tk[i + 2], y2 = +tk[i + 3], x3 = +tk[i + 4], y3 = +tk[i + 5];
+      i += 6;
+      if (!fitti.length) fitti.push([x, y]);
+      for (var k = 1; k <= 10; k++) {
+        var u = k / 10, m = 1 - u, a = m * m * m, b = 3 * m * m * u, c = 3 * m * u * u, e = u * u * u;
+        var px = a * x + b * x1 + c * x2 + e * x3, py = a * y + b * y1 + c * y2 + e * y3;
+        var q = fitti[fitti.length - 1];
+        lun.push(lun[lun.length - 1] + Math.hypot(px - q[0], py - q[1]));
+        fitti.push([px, py]);
+      }
+      x = x3; y = y3;
+    }
+    var tot = lun[lun.length - 1];
+    if (!tot || fitti.length < 2) return [];
+    var sc = Ltot / tot, out = [], j = 1;
+    for (var s = 0; s <= Ltot + passo / 2; s += passo) {
+      var sv = Math.min(s, Ltot) / sc;
+      while (j < lun.length - 1 && lun[j] < sv) j++;
+      var l0 = lun[j - 1], l1 = lun[j], f = l1 > l0 ? (sv - l0) / (l1 - l0) : 0;
+      var A = fitti[j - 1], B = fitti[j];
+      out.push([A[0] + (B[0] - A[0]) * f, A[1] + (B[1] - A[1]) * f, Math.min(s, Ltot)]);
+    }
+    return out;
+  }
+  window.pfCampiona = campiona;
+
   // Numero stabile e ripetibile a partire da un indice: serve perché il filo non
   // cambi forma a ogni ridisegno, restando però diverso tratto per tratto.
   function rnd(n) { var x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); }
@@ -599,7 +639,7 @@
     if (!path) return;
     var knots = th.querySelectorAll('[data-knot]'); if (!knots.length) return;
     var tight = th.hasAttribute('data-loop-tight'), aGiri = th.hasAttribute('data-giri');
-    var L = 0, knotLen = [];
+    var L = 0, knotLen = [], fitti = [];
     function build() {
       var box = th.getBoundingClientRect(); var pts = [], anchors;
       if (aGiri) { var g = giri(th, knots); pts = g.pts; anchors = g.anchors; }
@@ -628,8 +668,10 @@
       L = path.getTotalLength(); path.style.strokeDasharray = L + ' ' + L; path.style.strokeDashoffset = reduce ? 0 : L;
       // Dove cade ogni ancoraggio lungo il filo: serve per far correre il capo
       // fin lì quando il mouse (o il focus da tastiera) tocca quella persona o quella data.
-      var samples = [], N = 300;
-      for (var si = 0; si <= N; si++) { var st = L * si / N, sp = path.getPointAtLength(st); samples.push([sp.x, sp.y, st]); }
+      // punti fitti del tracciato, calcolati una volta per costruzione: servono agli
+      // ancoraggi qui sotto e al capo che corre col filo a ogni fotogramma
+      fitti = campiona(d, 4, L);
+      var samples = fitti;
       knotLen = anchors.map(function (a) {
         var best = 0, bd = Infinity;
         for (var i = 0; i < samples.length; i++) {
@@ -638,7 +680,7 @@
         }
         return best;
       });
-      if (bead && reduce) { var pe = path.getPointAtLength(L); bead.setAttribute('cx', pe.x); bead.setAttribute('cy', pe.y); }
+      if (bead && reduce && fitti.length) { var pe = fitti[fitti.length - 1]; bead.setAttribute('cx', pe[0]); bead.setAttribute('cy', pe[1]); }
     }
     build(); addEventListener('resize', build); addEventListener('load', build);
     // stesso motivo: a font arrivati il testo cambia altezza e gli ancoraggi si spostano
@@ -672,8 +714,10 @@
       var target = lit ? knotLen[active] : L * drawn;
       beadAt = lerp(beadAt, target, lit ? 0.18 : 0.34);
       if (bead) {
-        var pt = path.getPointAtLength(clamp(beadAt, 0, L));
-        bead.setAttribute('cx', pt.x); bead.setAttribute('cy', pt.y);
+        // posizione del capo dai punti fitti: getPointAtLength a ogni fotogramma ripercorreva
+        // tutto il tracciato, millisecondi rubati allo scorrimento
+        var pt = fitti.length ? fitti[Math.min(fitti.length - 1, Math.max(0, Math.round(clamp(beadAt, 0, L) / 4)))] : null;
+        if (pt) { bead.setAttribute('cx', pt[0]); bead.setAttribute('cy', pt[1]); }
         bead.setAttribute('r', lit ? 6.5 : 4);
         bead.style.opacity = (lit || (shown > 0.01 && shown < 0.995)) ? 1 : 0;
       }
@@ -1114,6 +1158,9 @@
   // la stessa tinta scurita per il testo: luminosita' 0.44 regge 4.5:1 sulla carta
   function inchiostro(t) { var c = lchAt(t), v = lch2rgb(0.44, Math.min(c[1], 0.13), c[2]); return 'rgb(' + v.join(',') + ')'; }
   if (ok) window.pfFilo = { colore: colore, inchiostro: inchiostro };
+
+  // il campionatore veloce sta accanto al motore del filo (sezione 7): lo usano tutti e due
+  var campiona = window.pfCampiona;
   document.querySelectorAll('.thread').forEach(function (th) {
     var svg = th.querySelector('svg'), line = svg && svg.querySelector('.line');
     if (line && ok) {
@@ -1130,14 +1177,16 @@
         tratti = []; campioni = []; fatto = '';
         if (!L) return;
         var passo = 3, lung = Math.max(24, L / 160), s0 = 0;
-        for (var s = 0; s <= L + passo / 2; s += passo) {
-          var q = line.getPointAtLength(Math.min(s, L)); campioni.push([q.x, q.y, Math.min(s, L)]);
-        }
+        campioni = campiona(line.getAttribute('d'), passo, L);
+        if (!campioni.length) return;
         while (s0 < L) {
           var s1 = Math.min(L, s0 + lung), d = '', n = 0;
-          campioni.forEach(function (c) {
+          // i campioni sono ordinati e a passo costante: l'intervallo si trova per indice
+          var i0 = Math.max(0, Math.floor((s0 - passo) / passo)), i1 = Math.min(campioni.length - 1, Math.ceil((s1 + passo) / passo));
+          for (var ci = i0; ci <= i1; ci++) {
+            var c = campioni[ci];
             if (c[2] >= s0 - passo && c[2] <= s1 + passo) { d += (n++ ? ' L ' : 'M ') + c[0].toFixed(1) + ' ' + c[1].toFixed(1); }
-          });
+          }
           var el = document.createElementNS(NS, 'path');
           el.setAttribute('class', 'filo-tratto');
           el.setAttribute('d', d);
@@ -1481,18 +1530,22 @@
     mp.style.strokeDasharray = L + ' ' + (L + 10);
     function metti(p) {   // p: quanta parte del filo e' disegnata, 0-1
       mp.style.strokeDashoffset = (L * (1 - p)).toFixed(1);
-      var q = mp.getPointAtLength(Math.max(0.01, L * p));
-      capo.setAttribute('cx', q.x.toFixed(1)); capo.setAttribute('cy', q.y.toFixed(1));
+      var q = pts[Math.min(pts.length - 1, Math.round(p * (pts.length - 1)))];   // i punti sono a passo costante
+      capo.setAttribute('cx', q[0].toFixed(1)); capo.setAttribute('cy', q[1].toFixed(1));
       capo.style.fill = window.pfFilo.colore(p);
       capo.style.opacity = p > 0.002 ? '1' : '0';
     }
     if (!conAnimazione || ridotto) { metti(1); return; }
     metti(0);
-    var t0 = null;
+    // Il tempo si accumula fotogramma per fotogramma, con un massimo di 50 ms per passo:
+    // se il browser si ferma (caricamento, scheda in secondo piano) l'animazione riprende
+    // da dove era. Col tempo dell'orologio saltava direttamente al filo finito.
+    var tempo = 0, prima = null;
     function ease(x) { return x >= 1 ? 1 : 1 - Math.pow(2, -10 * x); }   // uscita esponenziale
     function passo2(ts) {
-      if (t0 === null) t0 = ts;
-      var x = (ts - t0 - RIT) / DUR;
+      if (prima !== null) tempo += Math.min(50, ts - prima);
+      prima = ts;
+      var x = (tempo - RIT) / DUR;
       if (x < 0) { requestAnimationFrame(passo2); return; }
       metti(Math.min(1, ease(Math.min(1, x)) / ease(1)));
       if (x < 1) requestAnimationFrame(passo2);
