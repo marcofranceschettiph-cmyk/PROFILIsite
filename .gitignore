@@ -7,6 +7,7 @@ TODO.md
 
 # Script di servizio e modelli di pagina: servono a noi, non ai visitatori.
 tools/
+_modello.html
 
 # File temporanei dell'editor e del sistema
 *.swp

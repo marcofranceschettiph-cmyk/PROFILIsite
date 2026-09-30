@@ -1,0 +1,36 @@
+# Intestazioni con cui vengono serviti i file. Formato uguale per Cloudflare
+# Pages e per Netlify, quindi il sito resta pubblicabile su entrambi: la prima
+# riga è il percorso, le righe indentate sotto sono le intestazioni.
+#
+# Su Cloudflare la pagina di errore non ha bisogno di regole: basta che 404.html
+# stia nella radice e ci pensa lui. Le cartelle di servizio (tools/, docs/) non
+# sono nel repository, quindi non arrivano online in nessun caso.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# I fotogrammi della porta e le foto non cambiano mai: il browser può tenerli
+# un anno. Sono la parte pesante del sito, e ricaricarli a ogni visita
+# renderebbe lenta l'apertura a chi torna.
+/assets/frames/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/locandina/*
+  Cache-Control: public, max-age=604800
+
+# Foglio di stile e script cambiano, ma il loro indirizzo porta già un numero
+# di versione che cambia insieme a loro.
+/assets/css/*
+  Cache-Control: public, max-age=604800
+
+/assets/js/*
+  Cache-Control: public, max-age=604800
+
+# Le pagine si ricontrollano sempre, così una correzione si vede subito.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

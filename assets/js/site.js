@@ -1026,16 +1026,25 @@
         var ok = i.checkValidity(); f.classList.toggle('invalid', !ok); if (!ok) bad = true;
       });
       if (bad) { e.preventDefault(); form.querySelector('.invalid input, .invalid textarea').focus(); return; }
-      if (form.hasAttribute('data-netlify') && window.fetch) {
-        e.preventDefault();
-        var data = new FormData(form);
-        fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
-          .then(function (r) { if (!r.ok) throw 0; form.classList.add('sent'); form.querySelector('.ok').focus(); })
-          .catch(function () {
-            var to = form.getAttribute('data-mailto'); var body = 'Nome: ' + data.get('nome') + '\nEmail: ' + data.get('email') + '\n\n' + data.get('messaggio');
-            location.href = 'mailto:' + to + '?subject=' + encodeURIComponent('Contatto dal sito PRO-FILI Festival') + '&body=' + encodeURIComponent(body);
-          });
+      // Dove va il messaggio lo dice data-endpoint. Su Netlify era la radice del
+      // sito, che raccoglieva i moduli da sola; altrove ci vuole un servizio che
+      // li riceva. Senza endpoint si apre direttamente il programma di posta con
+      // il messaggio già scritto: meglio di un modulo che dice «grazie» e non
+      // manda niente a nessuno.
+      e.preventDefault();
+      var data = new FormData(form);
+      var dove = form.getAttribute('data-endpoint');
+
+      function perPosta() {
+        var to = form.getAttribute('data-mailto');
+        var corpo = 'Nome: ' + data.get('nome') + '\nEmail: ' + data.get('email') + '\n\n' + data.get('messaggio');
+        location.href = 'mailto:' + to + '?subject=' + encodeURIComponent('Contatto dal sito PRO-FILI Festival') + '&body=' + encodeURIComponent(corpo);
       }
+
+      if (!dove || !window.fetch) { perPosta(); return; }
+      fetch(dove, { method: 'POST', headers: { 'Accept': 'application/json' }, body: data })
+        .then(function (r) { if (!r.ok) throw 0; form.classList.add('sent'); form.querySelector('.ok').focus(); })
+        .catch(perPosta);
     });
     form.querySelectorAll('input,textarea').forEach(function (i) { i.addEventListener('input', function () { i.closest('.field').classList.remove('invalid'); }); });
   }
