@@ -1108,3 +1108,8 @@ body.carta .ln{padding-bottom:.26em;margin-bottom:-.26em}
 
 /* Le tre cose aperte per tutto il festival, sopra i giorni: staccate da quello che segue. */
 .tech.sempre{margin-bottom:clamp(34px,5vw,56px)}
+
+/* Un marchio molto piu' alto che largo, stretto in 40px, diventa un puntino:
+   a questi si da' il doppio dello spazio (Briciole, Non Solo Arte). */
+.pt-logo--verticale{height:78px}
+.pt-logo--verticale img{max-height:74px}
