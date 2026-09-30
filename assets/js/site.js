@@ -749,8 +749,33 @@
   function icsEsc(t) {
     return String(t).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
   }
-  function ymd(iso) { return iso.replace(/-/g, ''); }
-  function plusDay(iso) { var d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + 1); return d.toISOString().slice(0, 10); }
+  function ymd(iso) { return iso.slice(0, 10).replace(/-/g, ''); }
+  function plusDay(iso) { var d = new Date(iso.slice(0, 10) + 'T12:00:00'); d.setDate(d.getDate() + 1); return d.toISOString().slice(0, 10); }
+
+  /* Un appuntamento che dichiara anche l'ora (data-ev-start="2026-10-10T21:00") entra
+     nel calendario come appuntamento vero, non come giornata intera. L'ora scritta
+     nell'HTML e' sempre ora italiana, e nel file diventa UTC: cosi' chi ha il telefono
+     su un altro fuso vede comunque l'ora giusta. L'accordo fra Roma e UTC lo si chiede
+     al sistema invece di darlo per scontato, perche' a fine ottobre cambia con l'ora
+     solare. Senza data-ev-fine l'appuntamento dura un'ora e mezza. */
+  function minutiAvantiSuUtc(istante) {
+    var f = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Rome', hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    var p = {}; f.formatToParts(istante).forEach(function (x) { p[x.type] = x.value; });
+    return (Date.UTC(+p.year, p.month - 1, +p.day, +p.hour % 24, +p.minute) - istante.getTime()) / 60000;
+  }
+  function istanteItaliano(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso || ''); if (!m) return null;
+    var comeSeFosseUtc = Date.UTC(+m[1], m[2] - 1, +m[3], +m[4], +m[5]);
+    return new Date(comeSeFosseUtc - minutiAvantiSuUtc(new Date(comeSeFosseUtc)) * 60000);
+  }
+  function inUtc(d) { return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'; }
+  function righeQuando(start, end, fine) {
+    var inizio = istanteItaliano(start);
+    if (!inizio) return ['DTSTART;VALUE=DATE:' + ymd(start), 'DTEND;VALUE=DATE:' + ymd(plusDay(end))];
+    var termine = istanteItaliano(fine) || new Date(inizio.getTime() + 90 * 60000);
+    return ['DTSTART:' + inUtc(inizio), 'DTEND:' + inUtc(termine)];
+  }
 
   function buildIcs(el) {
     var title = el.getAttribute('data-ev-title');
@@ -770,10 +795,10 @@
     var stamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     var uid = ymd(start) + '-' + title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40) + '@ianua';
     var L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//IANUA//sito//IT', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
-      'BEGIN:VEVENT', 'UID:' + uid, 'DTSTAMP:' + stamp,
-      'DTSTART;VALUE=DATE:' + ymd(start), 'DTEND;VALUE=DATE:' + ymd(plusDay(end)),
-      'SUMMARY:' + icsEsc(title), 'LOCATION:' + icsEsc(place), 'URL:' + url,
-      'DESCRIPTION:' + icsEsc(desc), 'END:VEVENT', 'END:VCALENDAR'];
+      'BEGIN:VEVENT', 'UID:' + uid, 'DTSTAMP:' + stamp]
+      .concat(righeQuando(start, end, el.getAttribute('data-ev-fine')))
+      .concat(['SUMMARY:' + icsEsc(title), 'LOCATION:' + icsEsc(place), 'URL:' + url,
+      'DESCRIPTION:' + icsEsc(desc), 'END:VEVENT', 'END:VCALENDAR']);
     return L.map(icsFold).join('\r\n') + '\r\n';
   }
 

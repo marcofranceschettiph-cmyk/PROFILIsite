@@ -20,7 +20,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-italic-latin.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20260930a">
+<link rel="stylesheet" href="assets/css/site.css?v=20260930b">
 <!-- senza JavaScript il calendario e il menu non funzionano: meglio non mostrarli -->
 <noscript><style>[data-ics],.burger{display:none!important}</style></noscript>
 </head>
@@ -211,11 +211,16 @@
 
 <section class="block paper tono-2" id="programma" data-sez="menta" data-world="paper">
   <div class="wrap">
-    <div class="head rv"><div><p class="eyebrow">Programma</p><h2>Tre <em>giorni</em></h2></div><p class="lede">Le date e gli orari dei vari appuntamenti saranno pubblicati a brevissimo, una volta conclusa la selezione degli artisti.</p></div>
+    <div class="head rv"><div><p class="eyebrow">Programma</p><h2>Tre <em>giorni</em></h2></div><p class="lede">Tre giorni alla Pescheria Nuova, a ingresso libero. Alcune cose restano aperte per tutta la durata del festival, le altre hanno il loro orario.</p></div>
     <p class="loc" id="locandina" data-loc-base="assets/locandina/" hidden>
       <a class="ag-btn" id="loc-apri" href="#" target="_blank" rel="noopener" aria-label="Apri la locandina del programma: si apre in una nuova scheda">Apri la locandina</a>
       <a class="ag-btn" id="loc-scarica" href="#" download>Scarica</a>
     </p>
+    <ul class="tech sempre rv">
+      <li><b>Tutti i giorni</b><span><em>Il filo del discorso</em>, luogo di riflessione e scrittura</span></li>
+      <li><b>Tutti i giorni</b><span>Opere collettive e interattive, lascia il tuo segno!</span></li>
+      <li><b>Tutti i giorni</b><span>Esposizione di opere e profili artistici</span></li>
+    </ul>
     <div class="gg-tabs" role="tablist" aria-label="I giorni del festival" hidden>
       <button class="gg-tab" role="tab" id="t-g9" data-giorno="2026-10-09" aria-controls="g9" aria-selected="true" type="button">ven 9</button>
       <button class="gg-tab" role="tab" id="t-g10" data-giorno="2026-10-10" aria-controls="g10" aria-selected="false" type="button">sab 10</button>
@@ -223,72 +228,81 @@
     </div>
     <div class="gg-box">
       <div class="gg" id="g9" role="tabpanel" aria-labelledby="t-g9">
-        <div class="gg-head"><p class="gg-w">Venerdì 9 ottobre</p><h3 class="gg-t">Si apre</h3><p class="gg-p">Laboratori aperti a tutti e il primo brindisi. Gli orari li pubblichiamo appena il programma è chiuso.</p></div>
-        <article class="app" id="g9-laboratori">
-          <p class="app-ora app-ora--attesa">orario in arrivo</p>
-          <h4 class="app-t">Laboratori aperti a tutti</h4>
-          <p class="app-chi">Condotti da artisti e realtà locali</p>
-          <div class="app-az" data-ev-title="Laboratori aperti a tutti — PRO-FILI" data-ev-start="2026-10-09" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo"><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <div class="gg-head"><p class="gg-w">Venerdì 9 ottobre</p><h3 class="gg-t">Si apre</h3><p class="gg-p">Si apre alle 18.30 con brindisi e saluti, poi la presentazione e il laboratorio creativo.</p></div>
+        <article class="app" id="g09-inaugurazione" data-inizio="2026-10-09T18:30">
+          <p class="app-ora"><span class="app-da">ore</span><time datetime="2026-10-09T18:30">18.30</time></p>
+          <h4 class="app-t">Inaugurazione</h4>
+          <p class="app-chi">Con brindisi e saluti istituzionali</p>
+          <div class="app-az" data-ev-title="Inaugurazione — PRO-FILI" data-ev-start="2026-10-09T18:30" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 18.30. Con brindisi e saluti istituzionali."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
-        <article class="app" id="g9-inaugurazione">
-          <p class="app-ora app-ora--attesa">orario in arrivo</p>
-          <h4 class="app-t">Inaugurazione e aperitivo di apertura</h4>
-          <p class="app-chi">Copertura e interviste a cura di Radio Kappa</p>
-          <div class="app-az" data-ev-title="Inaugurazione e aperitivo di apertura — PRO-FILI" data-ev-start="2026-10-09" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo"><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <article class="app" id="g09-intrecci-e-presentazione" data-inizio="2026-10-09T19:00">
+          <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-09T19:00">19.00</time></p>
+          <h4 class="app-t">Intrecci e presentazione</h4>
+          <div class="app-az" data-ev-title="Intrecci e presentazione — PRO-FILI" data-ev-start="2026-10-09T19:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 19.00."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        </article>
+        <article class="app" id="g09-laboratorio-creativo-aperto-" data-inizio="2026-10-09T21:00">
+          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-09T21:00">21.00</time></p>
+          <h4 class="app-t">Laboratorio creativo aperto a tutti</h4>
+          <div class="app-az" data-ev-title="Laboratorio creativo aperto a tutti — PRO-FILI" data-ev-start="2026-10-09T21:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 21.00."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
       </div>
       <div class="gg" id="g10" role="tabpanel" aria-labelledby="t-g10">
-        <div class="gg-head"><p class="gg-w">Sabato 10 ottobre</p><h3 class="gg-t">La giornata piena</h3><p class="gg-p">Si va dal pomeriggio fino a tarda sera, dentro e fuori la Pescheria. I dettagli arrivano con il programma.</p></div>
-        <article class="app" id="g10-ritratti">
-          <p class="app-ora app-ora--attesa">orario in arrivo</p>
-          <h4 class="app-t">Ritratti «su arrivo»</h4>
-          <p class="app-chi">Quattro artisti, quattro ritratti: scritto, disegnato, fotografato, musicale</p>
-          <div class="app-az" data-ev-title="Ritratti «su arrivo» — PRO-FILI" data-ev-start="2026-10-10" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo"><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <div class="gg-head"><p class="gg-w">Sabato 10 ottobre</p><h3 class="gg-t">La giornata piena</h3><p class="gg-p">Si comincia la mattina con la scrittura collettiva e si finisce a tarda notte allo Spazio-T, con l'intervista a FILO.</p></div>
+        <article class="app" id="g10-poesia-aperta" data-inizio="2026-10-10T10:00">
+          <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-10T10:00">10.00</time></p>
+          <h4 class="app-t">Poesia Aperta</h4>
+          <p class="app-chi">/// scrittura collettiva</p>
+          <div class="app-az" data-ev-title="Poesia Aperta — PRO-FILI" data-ev-start="2026-10-10T10:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 10.00. /// scrittura collettiva."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
-        <article class="app" id="g10-installazione">
-          <p class="app-ora app-ora--attesa">orario in arrivo</p>
-          <h4 class="app-t">Installazione degli artisti del territorio</h4>
-          <p class="app-chi">Visitabile tutto il giorno</p>
-          <div class="app-az" data-ev-title="Installazione degli artisti del territorio — PRO-FILI" data-ev-start="2026-10-10" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo"><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <article class="app" id="g10-incontri" data-inizio="2026-10-10T14:00">
+          <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-10T14:00">14.00</time></p>
+          <h4 class="app-t">Incontri</h4>
+          <p class="app-chi">Una clessidra, due sedie, tu e l'artista</p>
+          <div class="app-az" data-ev-title="Incontri — PRO-FILI" data-ev-start="2026-10-10T14:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 14.00. Una clessidra, due sedie, tu e l&#x27;artista."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
-        <article class="app" id="g10-dialogo" data-inizio="2026-10-10T17:00">
-          <p class="app-ora"><time datetime="2026-10-10T17:00">17.00</time></p>
-          <h4 class="app-t">Gruppo di dialogo: Parliamo d'arte</h4>
-          <p class="app-chi">A cura del collettivo IANUA</p>
-          <div class="app-az" data-ev-title="Gruppo di dialogo: Parliamo d'arte — PRO-FILI" data-ev-start="2026-10-10" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 17.00."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <article class="app" id="g10-gruppo-di-dialogo" data-inizio="2026-10-10T18:00">
+          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-10T18:00">18.00</time></p>
+          <h4 class="app-t">Gruppo di Dialogo</h4>
+          <p class="app-chi">ARTE e MONDO</p>
+          <div class="app-az" data-ev-title="Gruppo di Dialogo — PRO-FILI" data-ev-start="2026-10-10T18:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 18.00. ARTE e MONDO."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
-        <article class="app" id="g10-concerto">
-          <p class="app-ora app-ora--attesa">orario in arrivo</p>
-          <h4 class="app-t">Concerto di FILO</h4>
-          <p class="app-chi">Filippo Monti, in arte FILO, con Nicola Elias Rigato al pianoforte</p>
-          <div class="app-az" data-ev-title="Concerto di FILO — PRO-FILI" data-ev-start="2026-10-10" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo"><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <article class="app" id="g10-in-cerca-di-un-filo" data-inizio="2026-10-10T21:00">
+          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-10T21:00">21.00</time></p>
+          <h4 class="app-t">In Cerca Di Un Filo</h4>
+          <p class="app-chi">Concerto live del cantautore Filippo Monti, in arte FILO. Anteprima del disco in prima assoluta. Seconde voci Annalisa Palmieri, pianoforte Nicola Elias Rigato</p>
+          <div class="app-az" data-ev-title="In Cerca Di Un Filo — PRO-FILI" data-ev-start="2026-10-10T21:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 21.00. Concerto live del cantautore Filippo Monti, in arte FILO. Anteprima del disco in prima assoluta. Seconde voci Annalisa Palmieri, pianoforte Nicola Elias Rigato."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
-        <article class="app" id="g10-la-palude" data-inizio="2026-10-10T23:30">
-          <p class="app-ora"><time datetime="2026-10-10T23:30">23.30</time></p>
-          <h4 class="app-t">La Palude, puntata speciale</h4>
-          <p class="app-chi">Radio Kappa, con gli artisti del festival</p>
-          <div class="app-az" data-ev-title="La Palude, puntata speciale — PRO-FILI" data-ev-start="2026-10-10" data-ev-place="SpazioT, Rovigo" data-ev-note="Ore 23.30, dallo SpazioT."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <article class="app" id="g10-intervista-live-di-filo" data-inizio="2026-10-10T23:30">
+          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-10T23:30">23.30</time></p>
+          <h4 class="app-t">Intervista live di FILO</h4>
+          <p class="app-chi">A cura di LA PALUDE, presso Spazio-T</p>
+          <div class="app-az" data-ev-title="Intervista live di FILO — PRO-FILI" data-ev-start="2026-10-10T23:30" data-ev-place="SpazioT, Rovigo" data-ev-note="Ore 23.30. A cura di LA PALUDE, presso Spazio-T."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
       </div>
       <div class="gg" id="g11" role="tabpanel" aria-labelledby="t-g11">
-        <div class="gg-head"><p class="gg-w">Domenica 11 ottobre</p><h3 class="gg-t">Si chiude</h3><p class="gg-p">Musica e un ultimo incontro prima dei saluti, con uno sguardo già all'anno prossimo.</p></div>
-        <article class="app" id="g11-concerto-classico">
-          <p class="app-ora app-ora--attesa">orario in arrivo</p>
-          <h4 class="app-t">Concerto classico</h4>
-          <p class="app-chi">Con artisti locali, tra cui il pianista Andrea Mariani del Conservatorio Venezze</p>
-          <div class="app-az" data-ev-title="Concerto classico — PRO-FILI" data-ev-start="2026-10-11" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo"><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <div class="gg-head"><p class="gg-w">Domenica 11 ottobre</p><h3 class="gg-t">Si chiude</h3><p class="gg-p">Si ritirano i ritratti prenotati, gli artisti raccontano la loro poetica, si improvvisa in tanti. Alle 18 si smonta, con un rilancio al 2027.</p></div>
+        <article class="app" id="g11-raccogli-il-tuo-ritratto" data-inizio="2026-10-11T10:00">
+          <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-11T10:00">10.00</time></p>
+          <h4 class="app-t">Raccogli il tuo ritratto</h4>
+          <p class="app-chi">Il tuo ritratto poetico, disegnato, musicale. Su prenotazione: 346 0315409</p>
+          <div class="app-az" data-ev-title="Raccogli il tuo ritratto — PRO-FILI" data-ev-start="2026-10-11T10:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 10.00. Il tuo ritratto poetico, disegnato, musicale. Su prenotazione: 346 0315409."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
-        <article class="app" id="g11-anatomia">
-          <p class="app-ora app-ora--attesa">orario in arrivo</p>
-          <h4 class="app-t">Anatomia di un abbraccio</h4>
-          <p class="app-chi">Spettacolo per pianista e danzatrice, con Nicola Elias Rigato e Chiara Tosti</p>
-          <div class="app-az" data-ev-title="Anatomia di un abbraccio — PRO-FILI" data-ev-start="2026-10-11" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo"><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <article class="app" id="g11-tavola-rotonda-tra-artisti" data-inizio="2026-10-11T11:30">
+          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-11T11:30">11.30</time></p>
+          <h4 class="app-t">Tavola rotonda tra artisti</h4>
+          <p class="app-chi">Scopri la poetica nascosta dietro le forme d'arte</p>
+          <div class="app-az" data-ev-title="Tavola rotonda tra artisti — PRO-FILI" data-ev-start="2026-10-11T11:30" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 11.30. Scopri la poetica nascosta dietro le forme d&#x27;arte."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
-        <article class="app" id="g11-confronto">
-          <p class="app-ora app-ora--attesa">orario in arrivo</p>
-          <h4 class="app-t">Confronto finale</h4>
-          <p class="app-chi">Tavola rotonda e rilancio all'edizione 2027</p>
-          <div class="app-az" data-ev-title="Confronto finale — PRO-FILI" data-ev-start="2026-10-11" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo"><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        <article class="app" id="g11-improvvisazione-collettiva" data-inizio="2026-10-11T15:00">
+          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-11T15:00">15.00</time></p>
+          <h4 class="app-t">Improvvisazione collettiva</h4>
+          <p class="app-chi">Per smartphone e pianoforte</p>
+          <div class="app-az" data-ev-title="Improvvisazione collettiva — PRO-FILI" data-ev-start="2026-10-11T15:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 15.00. Per smartphone e pianoforte."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+        </article>
+        <article class="app" id="g11-disallestimento-e-rilancio-a" data-inizio="2026-10-11T18:00">
+          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-11T18:00">18.00</time></p>
+          <h4 class="app-t">Disallestimento e rilancio al 2027</h4>
+          <div class="app-az" data-ev-title="Disallestimento e rilancio al 2027 — PRO-FILI" data-ev-start="2026-10-11T18:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 18.00."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
       </div>
     </div>
@@ -491,6 +505,6 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=20260930a" defer></script>
+<script src="assets/js/site.js?v=20260930b" defer></script>
 </body>
 </html>

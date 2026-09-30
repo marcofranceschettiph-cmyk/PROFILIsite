@@ -961,6 +961,8 @@ html.motion .gg.gg-in{animation:gg-in var(--t-base) var(--ease-out)}
   .app-ora{grid-area:ora}.app-t{grid-area:t}.app-chi{grid-area:chi}.app-az{grid-area:az;align-self:center}
 }
 .app-ora{font-family:var(--serif);font-weight:300;font-size:clamp(26px,2.6vw,32px);line-height:1.1;color:var(--accent);font-variant-numeric:lining-nums tabular-nums}
+/* «ore», «dalle», «alle»: sta sopra l'orario, piccolo, per non rubargli la scena. */
+.app-da{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--mute)}
 .app-ora--attesa{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;line-height:1.6;color:var(--mute)}
 .app-t{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.2vw,26px);line-height:1.15}
 .app-chi{font-size:15px;line-height:1.5;color:var(--fg-2)}
@@ -1103,3 +1105,6 @@ body.carta .ln{padding-bottom:.26em;margin-bottom:-.26em}
    lo accende site.js quando trova la locandina in assets/locandina/. */
 .loc{display:flex;flex-wrap:wrap;gap:10px 12px;margin:clamp(22px,3vw,32px) 0 clamp(30px,4vw,44px)}
 .loc[hidden]{display:none}
+
+/* Le tre cose aperte per tutto il festival, sopra i giorni: staccate da quello che segue. */
+.tech.sempre{margin-bottom:clamp(34px,5vw,56px)}
