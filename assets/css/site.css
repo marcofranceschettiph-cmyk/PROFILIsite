@@ -273,7 +273,7 @@ h1 .ln,h2 .ln,h3 .ln,h4 .ln,h1 .ln-i,h2 .ln-i,h3 .ln-i,h4 .ln-i{font:inherit;col
 .thread{position:relative}
 .thread svg{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2}
 .days{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);position:relative}
-@media (min-width:860px){.days{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:860px){.days{grid-template-columns:repeat(3,1fr)}}
 .day{background:var(--ground-2);padding:28px 24px 32px;position:relative}
 .day .d{font-family:var(--serif);font-size:56px;font-weight:300;line-height:1;color:var(--accent-2);font-variant-numeric:tabular-nums}
 .day .w{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute);margin:8px 0 18px}
@@ -933,7 +933,7 @@ body.carta .nav .brand .lg-dark{display:block}
 .conto-l{font-family:var(--sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;color:var(--fg-2)}
 
 /* programma: i tab sono righe sottili, l'attivo ha la riga oro sotto.
-   Senza JS la fascia resta hidden e i quattro giorni si leggono uno sotto l'altro. */
+   Senza JS la fascia resta hidden e i tre giorni si leggono uno sotto l'altro. */
 .gg-tabs{display:flex;border-bottom:1px solid var(--rule);margin-bottom:clamp(28px,4vw,48px);overflow-x:auto}
 .gg-tabs[hidden]{display:none}
 .gg-tab{flex:1 0 auto;min-height:48px;padding:12px 18px;margin-bottom:-1px;border-bottom:2px solid transparent;
@@ -1098,3 +1098,8 @@ body.carta .ln{padding-bottom:.26em;margin-bottom:-.26em}
 
 /* etichetta scritta dell'appuntamento in corso e del prossimo (site.js): stessa voce di «oggi» */
 .app-stato{margin-left:.7em;font-family:var(--sans);font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:var(--accent)}
+
+/* Locandina del programma. Il tasto sta nascosto finche' il file non c'e':
+   lo accende site.js quando trova la locandina in assets/locandina/. */
+.loc{display:flex;flex-wrap:wrap;gap:10px 12px;margin:clamp(22px,3vw,32px) 0 clamp(30px,4vw,44px)}
+.loc[hidden]{display:none}

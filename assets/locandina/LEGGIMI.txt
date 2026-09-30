@@ -1,0 +1,9 @@
+Qui va la locandina del programma di PRO-FILI.
+
+Nome del file: programma.pdf (va bene anche programma.jpg).
+Appena il file e' qui, sul sito compare da solo il tasto «Apri la locandina» con
+accanto «Scarica», nella sezione Programma. Non serve toccare il codice.
+Se togli il file, il tasto sparisce da solo.
+
+Altri formati (png, webp, heic): dimmelo e lo converto, oppure aggiungo il nome
+alla ricerca dentro assets/js/site.js.
