@@ -1621,10 +1621,9 @@
   var nomi = ['programma.pdf', 'programma.jpg'];   // due tentativi, non di piu': ogni file assente e' un 404 in console
 
   function accendi(url) {
-    var apri = document.getElementById('loc-apri'), scarica = document.getElementById('loc-scarica');
-    if (!apri || !scarica) return;
+    var apri = document.getElementById('loc-apri');
+    if (!apri) return;
     apri.href = url;
-    scarica.href = url;
     box.hidden = false;
   }
 

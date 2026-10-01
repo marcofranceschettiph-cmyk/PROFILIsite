@@ -20,7 +20,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-italic-latin.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20260930c">
+<link rel="stylesheet" href="assets/css/site.css?v=20260930d">
 <!-- senza JavaScript il calendario e il menu non funzionano: meglio non mostrarli -->
 <noscript><style>[data-ics],.burger{display:none!important}</style></noscript>
 </head>
@@ -214,7 +214,6 @@
     <div class="head rv"><div><p class="eyebrow">Programma</p><h2>Tre <em>giorni</em></h2></div><p class="lede">Tre giorni alla Pescheria Nuova, a ingresso libero. Alcune cose restano aperte per tutta la durata del festival, le altre hanno il loro orario.</p></div>
     <p class="loc" id="locandina" data-loc-base="assets/locandina/" hidden>
       <a class="ag-btn" id="loc-apri" href="#" target="_blank" rel="noopener" aria-label="Apri la locandina del programma: si apre in una nuova scheda">Apri la locandina</a>
-      <a class="ag-btn" id="loc-scarica" href="#" download>Scarica</a>
     </p>
     <ul class="tech sempre rv">
       <li><b>Tutti i giorni</b><span><em>Il filo del discorso</em>, luogo di riflessione e scrittura</span></li>
@@ -251,8 +250,8 @@
         <article class="app" id="g10-poesia-aperta" data-inizio="2026-10-10T10:00" data-durata="240">
           <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-10T10:00">10.00</time></p>
           <h4 class="app-t">Poesia Aperta</h4>
-          <p class="app-chi">/// scrittura collettiva</p>
-          <div class="app-az" data-ev-title="Poesia Aperta — PRO-FILI" data-ev-start="2026-10-10T10:00" data-ev-fine="2026-10-10T14:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 10.00. /// scrittura collettiva."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
+          <p class="app-chi">scrittura collettiva</p>
+          <div class="app-az" data-ev-title="Poesia Aperta — PRO-FILI" data-ev-start="2026-10-10T10:00" data-ev-fine="2026-10-10T14:00" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 10.00, scrittura collettiva."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
         <article class="app" id="g10-incontri" data-inizio="2026-10-10T14:00" data-durata="240">
           <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-10T14:00">14.00</time></p>
@@ -284,7 +283,7 @@
         <article class="app" id="g11-raccogli-il-tuo-ritratto" data-inizio="2026-10-11T10:00" data-durata="90">
           <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-11T10:00">10.00</time></p>
           <h4 class="app-t">Raccogli il tuo ritratto</h4>
-          <p class="app-chi">Il tuo ritratto poetico, disegnato, musicale. Su prenotazione: 346 0315409</p>
+          <p class="app-chi">Il tuo ritratto poetico, disegnato, musicale. Su prenotazione: <a href="https://wa.me/393460315409" target="_blank" rel="noopener" aria-label="Scrivi su WhatsApp al 346 0315409, si apre in una nuova scheda">346 0315409</a></p>
           <div class="app-az" data-ev-title="Raccogli il tuo ritratto — PRO-FILI" data-ev-start="2026-10-11T10:00" data-ev-fine="2026-10-11T11:30" data-ev-place="Pescheria Nuova, Corso del Popolo 140, Rovigo" data-ev-note="Ore 10.00. Il tuo ritratto poetico, disegnato, musicale. Su prenotazione: 346 0315409."><button class="ag-btn" type="button" data-ics>Aggiungi al calendario</button></div>
         </article>
         <article class="app" id="g11-tavola-rotonda-tra-artisti" data-inizio="2026-10-11T11:30">
@@ -356,6 +355,7 @@
       <h3>In collaborazione con</h3>
       <ul class="pt-list">
           <li class="pt">
+            <div class="pt-logo pt-logo--colore"><img src="assets/img/partner/studio-panta-rei.png" alt="Studio Panta Rei" width="600" height="176" loading="lazy"></div>
             <h4>Studio Panta Rei</h4>
             <p class="pt-type">Studio multidisciplinare e formazione</p>
             <p class="pt-does">Supporto organizzativo e sostegno economico.</p>
@@ -459,7 +459,7 @@
             <h4>Rovigoinfocittà.it</h4>
             <p class="pt-type">Portale della provincia di Rovigo</p>
             <p class="pt-does">Racconta il festival sul suo portale.</p>
-            <p class="pt-links"><a href="https://www.rovigoinfocitta.it" target="_blank" rel="noopener" aria-label="Sito di Rovigoinfocittà.it, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a></p>
+            <p class="pt-links"><a href="https://www.rovigoinfocitta.it" target="_blank" rel="noopener" aria-label="Sito di Rovigoinfocittà.it, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a><a href="https://www.instagram.com/rovigoinfocitta/" target="_blank" rel="noopener" aria-label="Instagram di Rovigoinfocittà.it, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
           </li>
       </ul>
     </div>
@@ -490,7 +490,7 @@
         <p class="muted" style="margin-top:22px;max-width:44ch">Produzioni, laboratori, eventi e progetti territoriali. Scrivici per portare uno spettacolo nel tuo spazio o costruire qualcosa di nuovo.</p>
         <div class="contact-list">
           <a href="mailto:ianuaeventi@gmail.com">ianuaeventi@gmail.com<small>email</small></a>
-          <a href="tel:+393460315409">+39 346 031 5409<small>segreteria</small></a>
+          <a href="https://wa.me/393460315409" target="_blank" rel="noopener" aria-label="Scrivi su WhatsApp al +39 346 031 5409, si apre in una nuova scheda">+39 346 031 5409<small>segreteria</small></a>
           <a href="https://instagram.com/___ianua___" target="_blank" rel="noopener">@___ianua___<small>instagram</small></a>
         </div>
       </div>
@@ -540,6 +540,6 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=20260930c" defer></script>
+<script src="assets/js/site.js?v=20260930d" defer></script>
 </body>
 </html>

@@ -914,6 +914,15 @@ body.carta .nav .brand .lg-dark{display:block}
   .pt-coppia .pt-logo img{max-height:62px;width:auto}
 }
 
+/* Sotto i 760px la fascia e' su tre colonne uguali: patrocinio un terzo (un solo partner),
+   collaborazione due terzi (due partner affiancati). Le etichette vanno a capo anche dentro la parola. */
+@media (max-width:759px){
+  .pt-coppia{grid-template-columns:1fr 2fr}
+  .pt-coppia > .pt-gruppo:first-child .pt-list{grid-template-columns:minmax(0,1fr)}
+  .pt-coppia > .pt-gruppo:last-child .pt-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pt-coppia .pt-type{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;letter-spacing:.10em}
+}
+
 /* ===== PRO-FILI: barra e piede del sito del festival ===== */
 .nav .brand .pf-logo--nav{height:2.2rem;width:auto}
 

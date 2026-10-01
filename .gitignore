@@ -1,13 +1,16 @@
 .DS_Store
 
 # Appunti di lavoro e note interne: restano sul Drive, non vanno online.
+docs/
 CLAUDE.md
 CONTENUTI.md
 TODO.md
+README.md
 
 # Script di servizio e modelli di pagina: servono a noi, non ai visitatori.
 tools/
 _modello.html
+assets/locandina/LEGGIMI.txt
 
 # File temporanei dell'editor e del sistema
 *.swp
