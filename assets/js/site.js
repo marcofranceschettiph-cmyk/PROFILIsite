@@ -1481,6 +1481,9 @@
   var NS = 'http://www.w3.org/2000/svg';
   var ridotto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var DUR = 2800, RIT = 450, animato = false;
+  // la matassa sopra l'apertura (assets/js/matassa.js): se c'e', il filo nasce dalla lana
+  var palcoMatassa = document.getElementById('matassa');
+  var matassa = !!(palcoMatassa && window.THREE && !palcoMatassa.classList.contains('senza-3d'));
   var svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('class', 'soglia-filo');
   svg.setAttribute('aria-hidden', 'true');
@@ -1553,9 +1556,17 @@
         var s1 = [c1[0] - a1 * Math.PI, c1[1] - R], e1 = [c1[0] + a1 * Math.PI, c1[1] - R];
         var s2 = [c2[0] - a2 * Math.PI, c2[1] - r2], e2 = [c2[0] + a2 * Math.PI, c2[1] - r2];
         var giu = [Math.min(lim, e2[0] + 64), H + 4], dx = s1[0] - start[0], gap = s2[0] - e1[0];
-        pts.push(start);
-        // dal logo al primo giro il filo pende appena, come un filo teso a mano
-        bez(pts, start, [start[0] + dx * 0.3, y0 + Math.min(26, dx * 0.05)], [s1[0] - dx * 0.35, y0], s1);
+        if (matassa) {
+          // c'e' la matassa sopra: il filo di lana entra dal bordo alto, poco a destra
+          // dell'ingresso del primo giro, e ci scende dentro con una curva morbida
+          start = [Math.min(lim, s1[0] + R * 0.35), -6];
+          pts.push(start);
+          bez(pts, start, [start[0], s1[1] * 0.5], [s1[0] - R * 0.25, s1[1]], s1);
+        } else {
+          pts.push(start);
+          // dal logo al primo giro il filo pende appena, come un filo teso a mano
+          bez(pts, start, [start[0] + dx * 0.3, y0 + Math.min(26, dx * 0.05)], [s1[0] - dx * 0.35, y0], s1);
+        }
         giro(pts, c1[0], c1[1], R, a1, -1);
         bez(pts, e1, [e1[0] + gap * 0.55, e1[1]], [s2[0] - gap * 0.55, s2[1]], s2);
         giro(pts, c2[0], c2[1], r2, a2, -1);
@@ -1573,11 +1584,25 @@
       bez(q, [pe, y + rr], [pe + 50, y + rr], [W * 0.84, y - rr], [W + 8, y - rr]);
       return tocca(q, testi) ? null : q;
     }
+    // con la matassa al telefono: la lana scende lungo il bordo destro fin sotto la barra,
+    // poi il filo attraversa la striscia libera sopra il logo ed esce a sinistra
+    if (!pts && matassa && logo && logo.t - navH > 30) {
+      var ym = (navH + logo.t) / 2, xa = W - 22;
+      pts = [[xa, -6]];
+      bez(pts, [xa, -6], [xa, ym * 0.6], [xa - 20, ym], [xa - 70, ym]);
+      bez(pts, [xa - 70, ym], [W * 0.55, ym - 10], [W * 0.3, ym + 10], [-10, ym]);
+      if (tocca(pts.slice(4), testi)) pts = null;
+    }
     // 2) ripiego: sotto il conto alla rovescia (o sotto l'ultimo testo)
     if (!pts) { var sotto = conto || az || meta || sub || h1; if (sotto) pts = fascia(sotto.b, H); }
     // 3) al telefono sotto non c'e' posto: sopra il logo, sotto la barra
     if (!pts && logo) pts = fascia(navH, logo.t);
     if (!pts) return null;
+    if (matassa) {
+      // la matassa fa uscire la lana dal fondo del palco proprio qui
+      window.pfFiloIngresso = pts[0][0] / W;
+      window.dispatchEvent(new Event('pf-ingresso'));
+    }
     // ricampionamento a passo costante
     var out = [pts[0]], STEP = 4, carry = 0;
     for (var i = 1; i < pts.length; i++) {
@@ -1591,7 +1616,8 @@
   }
 
   var uid = 'soglia-mask-' + Math.random().toString(36).slice(2, 7);
-  function disegna(conAnimazione) {
+  var avvia = null;   // con la matassa: l'animazione pronta, in attesa che l'apertura sia a schermo
+  function disegna(conAnimazione, attendi) {
     var pts = tracciato();
     while (svg.firstChild) svg.removeChild(svg.firstChild);
     if (!pts || pts.length < 4) { svg.style.display = 'none'; return; }
@@ -1609,29 +1635,65 @@
     g.setAttribute('mask', 'url(#' + uid + ')');
     // tratti colorati: ogni ~10 px una tinta nuova, sovrapposti di un punto per non lasciare fessure
     var n = pts.length, passo = 3;
+    // con la matassa i primi 120 px sono lana: partono dallo spessore del filo di lana
+    // sul fondo del palco e si assottigliano fino al filo colorato (i punti distano 4 px)
+    var lana = matassa ? (window.pfLanaPx || 14) : 0, sfuma = (W < 640 ? 160 : 220) / 4;
+    // il tratto di lana sta in un gruppo con la peluria: un filtro che sfrangia i bordi
+    var gl = g;
+    if (matassa) {
+      var fil = document.createElementNS(NS, 'filter');
+      fil.setAttribute('id', uid + '-lana');
+      fil.setAttribute('x', '-50%'); fil.setAttribute('y', '-5%'); fil.setAttribute('width', '200%'); fil.setAttribute('height', '110%');
+      fil.innerHTML = '<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4"/>' +
+                      '<feDisplacementMap in="SourceGraphic" scale="' + Math.max(2, lana * 0.22).toFixed(1) + '" xChannelSelector="R" yChannelSelector="G"/>';
+      defs.appendChild(fil);
+      gl = document.createElementNS(NS, 'g');
+      gl.setAttribute('filter', 'url(#' + uid + '-lana)');
+      g.appendChild(gl);
+    }
     for (var i = 0; i < n - 1; i += passo) {
       var seg = pts.slice(i, Math.min(n, i + passo + 1));
       var el = document.createElementNS(NS, 'path');
       el.setAttribute('d', 'M ' + seg.map(function (p) { return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' L '));
       el.setAttribute('class', 'soglia-tratto');
       el.style.stroke = window.pfFilo.colore((i + passo / 2) / (n - 1));
+      if (lana && i < sfuma) {
+        var f = i / sfuma, liscio = f * f * (3 - 2 * f), spess = lana + (3 - lana) * liscio;
+        el.style.strokeWidth = spess.toFixed(2) + 'px';
+        gl.appendChild(el);
+        // la torsione: tratti scuri brevi fra un capo e l'altro, che svaniscono col filo sottile
+        var tor = el.cloneNode(false);
+        tor.setAttribute('class', 'soglia-torsione');
+        tor.style.stroke = '';
+        tor.style.strokeDasharray = (spess * 0.3).toFixed(2) + ' ' + (spess * 0.6).toFixed(2);
+        tor.style.opacity = (0.4 * (1 - liscio)).toFixed(2);
+        gl.appendChild(tor);
+        continue;
+      }
       g.appendChild(el);
     }
+    if (lana) mp.style.strokeWidth = (lana + 6).toFixed(1) + 'px';
     svg.appendChild(g);
     var capo = document.createElementNS(NS, 'circle');
     capo.setAttribute('class', 'soglia-capo'); capo.setAttribute('r', '5');
     svg.appendChild(capo);
     var L = mp.getTotalLength();
     mp.style.strokeDasharray = L + ' ' + (L + 10);
-    function metti(p) {   // p: quanta parte del filo e' disegnata, 0-1
-      mp.style.strokeDashoffset = (L * (1 - p)).toFixed(1);
-      var q = pts[Math.min(pts.length - 1, Math.round(p * (pts.length - 1)))];   // i punti sono a passo costante
+    // il tratto di lana resta sempre scoperto: continua la lana del palco anche prima
+    // che il filo colorato parta, e l'animazione comincia da dove la lana finisce
+    var Lt = lana ? Math.min(L, sfuma * 4) : 0;
+    function metti(p) {   // p: quanta parte del filo colorato e' disegnata, 0-1
+      var vis = Lt + (L - Lt) * p;
+      mp.style.strokeDashoffset = (L - vis).toFixed(1);
+      var q = pts[Math.min(pts.length - 1, Math.round(vis / L * (pts.length - 1)))];   // i punti sono a passo costante
       capo.setAttribute('cx', q[0].toFixed(1)); capo.setAttribute('cy', q[1].toFixed(1));
       capo.style.fill = window.pfFilo.colore(p);
       capo.style.opacity = p > 0.002 ? '1' : '0';
     }
-    if (!conAnimazione || ridotto) { metti(1); return; }
+    if (!conAnimazione || ridotto) { metti(1); avvia = null; return; }
     metti(0);
+    avvia = function () {
+    avvia = null;
     // Il tempo si accumula fotogramma per fotogramma, con un massimo di 50 ms per passo:
     // se il browser si ferma (caricamento, scheda in secondo piano) l'animazione riprende
     // da dove era. Col tempo dell'orologio saltava direttamente al filo finito.
@@ -1646,6 +1708,8 @@
       if (x < 1) requestAnimationFrame(passo2);
     }
     requestAnimationFrame(passo2);
+    };
+    if (!attendi) avvia();
   }
 
   function parti() {
@@ -1653,9 +1717,33 @@
     animato = true;
     disegna(true);
   }
-  // si aspettano i caratteri: prima le misure dei testi non sono quelle vere
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(parti); else window.addEventListener('load', parti);
-  setTimeout(parti, 1500);
+  // si aspettano i caratteri: prima le misure dei testi non sono quelle vere.
+  // Con la matassa il filo si disegna quando l'apertura entra nello schermo: prima
+  // si calcola solo il tracciato, perche' la matassa sappia dove far uscire la lana.
+  var caratteri = document.fonts && document.fonts.ready ? document.fonts.ready : null;
+  if (matassa && 'IntersectionObserver' in window) {
+    // appena ci sono i caratteri il filo si prepara: la lana e' gia' disegnata,
+    // il resto parte quando l'apertura entra nello schermo
+    var visto = false, pronti = false;
+    var prepara = function () { pronti = true; animato = true; disegna(true, true); prova(); };
+    var prova = function () { if (visto && pronti && avvia) avvia(); };
+    if (caratteri) caratteri.then(prepara); else setTimeout(prepara, 0);
+    new IntersectionObserver(function (v, o) {
+      if (v[0].isIntersecting) { visto = true; o.disconnect(); prova(); }
+    }, { threshold: 0.25 }).observe(hero);
+    // la lana cambia spessore solo se cambia l'altezza del palco: si riprepara il filo
+    // se non e' ancora partito, altrimenti si ridisegna finito (al telefono la barra degli
+    // indirizzi cambia l'altezza a ogni scorrimento: sotto i 2 px non si tocca niente)
+    var lanaPx = window.pfLanaPx || 0;
+    window.addEventListener('pf-lana', function () {
+      if (!animato || Math.abs((window.pfLanaPx || 0) - lanaPx) < 2) return;
+      lanaPx = window.pfLanaPx;
+      if (avvia) disegna(true, true); else disegna(false);
+    });
+  } else {
+    if (caratteri) caratteri.then(parti); else window.addEventListener('load', parti);
+    setTimeout(parti, 1500);
+  }
   var lw = window.innerWidth, tmo = null;
   window.addEventListener('resize', function () {
     if (window.innerWidth === lw) return;   // al telefono la barra degli indirizzi cambia l'altezza: non si ridisegna
