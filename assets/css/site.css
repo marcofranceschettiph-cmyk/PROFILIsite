@@ -1028,13 +1028,7 @@ body.carta .thread.is-lit svg .filo-tratto{stroke-width:3.2}
    che cambia colore, non una scheda appoggiata sopra. Linee, testi secondari e accenti
    prendono la tinta del blocco, come vuole il colore su superficie colorata: niente grigi.
    Calcolati in OKLCH, tutti verificati: accento ≥ 4.6:1, smorzato ≥ 4.6:1, testo ≥ 12.7:1. */
-body.carta [data-sez="rosa"]{--bg:#FEDED8;--bg-2:#FFD0C7;--rule:#EFBDB4;--rule-2:#E1A79E;--fg-2:#543F3C;--mute:#745752;--accent:#A04035;--accent-2:#A04035}
-body.carta [data-sez="menta"]{--bg:#CDF1D3;--bg-2:#BFE9C6;--rule:#B0D6B6;--rule-2:#98C5A0;--fg-2:#3A4A3D;--mute:#4F6653;--accent:#026F31;--accent-2:#026F31}
-body.carta [data-sez="azzurro"]{--bg:#D4E9FF;--bg-2:#C3E0FF;--rule:#AECEF1;--rule-2:#96BBE3;--fg-2:#394655;--mute:#4F6277;--accent:#0F61A5;--accent-2:#0F61A5}
-body.carta [data-sez="lilla"]{--bg:#F6DBFF;--bg-2:#EFCFF9;--rule:#DBBFE4;--rule-2:#CBAAD5;--fg-2:#4B3F4E;--mute:#69586E;--accent:#804691;--accent-2:#804691}
-body.carta [data-sez]::selection,body.carta [data-sez] ::selection{background:var(--rule-2);color:var(--fg)}
-/* la fascia della call ha il fondo scritto a mano (.call-band, #ECE3D3): col blocco vince il blocco */
-body.carta .call-band[data-sez]{background:var(--bg)}
+/* (2/10) le quattro fasce pastello sono diventate fasce notte: vedi «fasce notte» in fondo */
 
 /* la barra fissa prende il colore della sezione che ha sotto (site.js la legge e mette
    --nav-bg): una barra color carta sopra un blocco rosa sembrava una striscia sbagliata.
@@ -1186,3 +1180,18 @@ body.carta .ln{padding-bottom:.26em;margin-bottom:-.26em}
 footer .f-brand .f-ianua{display:inline-flex;min-height:44px;align-items:center}
 footer .f-brand .f-ianua img{height:28px;opacity:.8;transition:opacity var(--t-fast)}
 footer .f-brand .f-ianua:hover img{opacity:1}
+
+/* ===== PRO-FILI: fasce notte (2/10) =====
+   Concept, programma, informazioni e «sostienici» erano quattro fasce pastello, ognuna
+   col suo accento: la pagina sembrava fatta di siti diversi. Ora alternano avorio e
+   nero con l'oro, come il sito di IANUA. Il colore resta al filo, che è l'unico
+   elemento multicolore, e al rosso del marchio (logo e conto alla rovescia).
+   Le sezioni sono .block.dark.notte con data-world="dark": le variabili le dà .dark. */
+body.carta .notte.call-band{background:var(--bg)}
+
+/* barra: sopra una fascia notte il testo diventa chiaro e la riga sotto scura.
+   site.js toglie .on-paper quando sotto c'è un mondo dark, e anche col menu aperto:
+   col menu aperto la barra resta inchiostro su carta, perché il menu è color carta. */
+body.carta:not(.menu-open) .nav:not(.on-paper){color:var(--ink)}
+body.carta:not(.menu-open) .nav.solid:not(.on-paper){border-color:var(--line)}
+body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper-line)}
