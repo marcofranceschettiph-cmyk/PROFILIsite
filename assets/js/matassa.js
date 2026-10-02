@@ -1,13 +1,14 @@
 /* ---------- PRO-FILI: la matassa dell'apertura ----------
    Prima dell'apertura c'e' un palco fisso (#matassa): mentre la pagina scorre, una
-   matassa di lana grossa rossa gira su se stessa e si sfila in parte. Il capo libero
-   scende ed esce dal fondo del palco nel punto in cui, subito sotto, l'apertura fa
-   partire il filo colorato (window.pfFiloIngresso, scritto da site.js): li' la lana
+   matassa di lana grossa rossa gira su se stessa, si sfila in parte e si allontana nel
+   fondo. Il capo libero avanza come un serpente e disegna nell'aria tre profili
+   stilizzati, che a loro volta si allontanano; poi torna verso chi guarda ed esce dal
+   fondo del palco nel punto in cui, subito sotto, l'apertura fa partire il filo colorato (window.pfFiloIngresso, scritto da site.js): li' la lana
    si assottiglia e diventa il filo a colori che prosegue nel sito.
    La matassa e' disegnata dal codice con three.js: una sola linea avvolta su se
    stessa, a tre capi ritorti, con la peluria in tre gusci e fibre sciolte.
-   Si disegna solo mentre il palco e' a schermo. Con prefers-reduced-motion la
-   matassa e' ferma e segue lo scorrimento senza inseguimento morbido. */
+   Si disegna solo mentre il palco e' a schermo. Con prefers-reduced-motion il palco
+   e' alto uno schermo e mostra ferma la scena finale: profili disegnati, filo che esce. */
 (function () {
   'use strict';
   var palco = document.getElementById('matassa');
@@ -157,10 +158,123 @@
   geoFibre.setAttribute('color', new THREE.BufferAttribute(col, 3));
   gruppo.add(new THREE.LineSegments(geoFibre, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.5 })));
 
-  // il capo libero: filo e gusci, ricostruiti a ogni fotogramma (sono corti)
-  var capo = { filo: new THREE.Mesh(new THREE.BufferGeometry(), materialeFilo(1)), gusci: [] };
-  scene.add(capo.filo);
-  GUSCI.forEach(function (G) { var m = new THREE.Mesh(new THREE.BufferGeometry(), materialeGuscio(G, 1)); capo.gusci.push(m); scene.add(m); });
+  // il serpente: il capo libero, ricostruito a ogni fotogramma solo per il tratto gia'
+  // uscito. Filo e un guscio di peluria: tre gusci su un tubo che cambia a ogni
+  // fotogramma costerebbero troppo al telefono.
+  var GUSCIO_S = GUSCI[1];
+  var serpe = {
+    filo: new THREE.Mesh(new THREE.BufferGeometry(), materialeFilo(1)),
+    peli: new THREE.Mesh(new THREE.BufferGeometry(), materialeGuscio(GUSCIO_S, 1))
+  };
+  scene.add(serpe.filo); scene.add(serpe.peli);
+  // la nebbia color carta: quello che si allontana sbiadisce nel fondo
+  scene.fog = new THREE.Fog(CARTA, 10, 26);
+
+  // Tre profili stilizzati, in una scatola 100 x 140, rivolti a destra, nell'ordine in
+  // cui li percorre il filo: entra dalla gola, sale su mento, labbra, naso e fronte,
+  // gira sulla testa, scende dalla nuca ed esce dal collo. Cosi' non taglia mai il viso.
+  // Il secondo ha la crocchia e il terzo il naso piu' lungo.
+  var PROFILI = [
+    [[58, 140], [58, 130, 57, 122, 58, 114], [62, 110, 70, 110, 76, 106], [80, 102, 81, 96, 79, 90],
+     [84, 86, 84, 80, 80, 74], [85, 72, 89, 70, 92, 66], [86, 58, 80, 52, 78, 44],
+     [80, 30, 76, 15, 62, 12], [40, 8, 14, 24, 12, 52], [10, 76, 16, 96, 28, 106], [32, 116, 30, 128, 30, 140]],
+    [[58, 140], [58, 130, 57, 122, 58, 115], [62, 111, 70, 111, 75, 107], [79, 103, 80, 97, 78, 91],
+     [83, 87, 83, 81, 79, 75], [83, 73, 86, 71, 88, 68], [83, 60, 81, 54, 79, 46],
+     [81, 32, 78, 18, 64, 15], [44, 10, 22, 18, 16, 34], [4, 28, -2, 46, 8, 52],
+     [18, 58, 24, 46, 16, 40], [10, 62, 16, 94, 28, 106], [32, 116, 30, 128, 30, 140]],
+    [[58, 140], [58, 130, 57, 123, 58, 116], [62, 112, 70, 112, 75, 108], [80, 104, 81, 98, 79, 92],
+     [84, 88, 84, 82, 81, 76], [87, 74, 92, 72, 97, 69], [90, 60, 81, 52, 79, 42],
+     [81, 26, 76, 8, 60, 6], [36, 2, 10, 20, 9, 50], [8, 76, 15, 96, 27, 106], [31, 116, 30, 128, 30, 140]]
+  ];
+  function bez3(out, a, b, c, d, n) {
+    for (var j = 1; j <= n; j++) {
+      var t = j / n, m = 1 - t;
+      out.push(new THREE.Vector3(
+        m * m * m * a.x + 3 * m * m * t * b.x + 3 * m * t * t * c.x + t * t * t * d.x,
+        m * m * m * a.y + 3 * m * m * t * b.y + 3 * m * t * t * c.y + t * t * t * d.y,
+        m * m * m * a.z + 3 * m * m * t * b.z + 3 * m * t * t * c.z + t * t * t * d.z));
+    }
+  }
+  // un profilo nello spazio: centro, scala, verso (1 a destra, -1 a sinistra)
+  function profilo(out, def, cx, cy, cz, sc, verso) {
+    function V(x, y) { return new THREE.Vector3(cx + (x - 50) * sc * verso, cy - (y - 70) * sc, cz); }
+    var cur = V(def[0][0], def[0][1]);
+    for (var i = 1; i < def.length; i++) {
+      var c = def[i], fine = V(c[4], c[5]);
+      bez3(out, cur, V(c[0], c[1]), V(c[2], c[3]), fine, 10);
+      cur = fine;
+    }
+    return cur;
+  }
+
+  var punta = new THREE.Vector3(), tangente = new THREE.Vector3();
+  // il tracciato completo del serpente, in coordinate del mondo, per l'avanzamento p
+  function tracciatoSerpe(resta, p, tempo) {
+    var u = resta / SEG;
+    curva.getPointAt(u, punta); gruppo.localToWorld(punta);
+    curva.getTangentAt(u, tangente).transformDirection(gruppo.matrixWorld);
+    var Hh = mezzaAltezza, Wh = mezzaAltezza * camera.aspect;
+    var sc = Hh * (stretto() ? 0.36 : 0.56) / 140;
+    // i profili stanno a profondita' diverse e, mentre il filo avanza, si allontanano
+    // il primo davanti e a destra, il secondo piu' in fondo a sinistra, il terzo lontano
+    // in alto al centro: cosi' non si coprono fra loro e non stanno dietro la matassa
+    var via = p * 4;
+    // al telefono lo schermo e' stretto e alto: i profili stanno uno sopra l'altro,
+    // il primo in basso e vicino, l'ultimo in alto e lontano
+    var posti = stretto() ? [
+      [-Wh * 0.32, -Hh * 0.38, 0.4 - via, 1],
+      [Wh * 0.34, -Hh * 0.02, -3 - via, -1],
+      [-Wh * 0.22, Hh * 0.3, -7 - via, 1]
+    ] : [
+      [Wh * 0.42, -Hh * 0.06, 0.4 - via, 1],
+      [-Wh * 0.4, Hh * 0.04, -3 - via, -1],
+      [Wh * 0.08, Hh * 0.36, -7 - via, 1]
+    ];
+    var pts = [punta.clone()], cur = punta.clone(), giu = new THREE.Vector3(0, -sc * 70, 0);
+    posti.forEach(function (q, i) {
+      var def = PROFILI[i];
+      var ingresso = new THREE.Vector3(q[0] + (def[0][0] - 50) * sc * q[3], q[1] - (def[0][1] - 70) * sc, q[2]);
+      // il raccordo arriva alla gola girando dal lato della nuca, mai davanti al viso
+      var nuca = new THREE.Vector3(-q[3] * sc * 80, 0, 0);
+      var primo = i === 0 ? cur.clone().addScaledVector(tangente, 0.45).add(nuca) : cur.clone().add(giu).add(nuca);
+      bez3(pts, cur, primo, ingresso.clone().add(giu).add(giu).add(nuca), ingresso, 24);
+      cur = profilo(pts, def, q[0], q[1], q[2], sc, q[3]);
+    });
+    // la discesa: dall'ultimo profilo il filo torna verso chi guarda ed esce dal fondo,
+    // nel punto dove l'apertura fa partire il filo colorato
+    var fx = typeof window.pfFiloIngresso === 'number' ? window.pfFiloIngresso : (stretto() ? 0.9 : 0.72);
+    // la discesa passa lungo il bordo destro, fuori dai profili, e arriva all'uscita
+    var uscita = new THREE.Vector3((fx * 2 - 1) * Wh, -Hh * 1.08, 0);
+    var bordo = new THREE.Vector3(Wh * 0.9, -Hh * 0.2, -1);
+    bez3(pts, cur, cur.clone().sub(giu), new THREE.Vector3(Wh * 0.95, Hh * 0.85, -4), bordo, 30);
+    bez3(pts, bordo, new THREE.Vector3(Wh * 0.88, -Hh * 0.6, 0), new THREE.Vector3(uscita.x, uscita.y + Hh * 0.35, 0), uscita, 30);
+    // il serpente ondeggia appena, un'onda che corre lungo il filo
+    if (!ridotto) for (var k = 1; k < pts.length - 1; k++) pts[k].y += Math.sin(k * 0.09 - tempo * 2.2) * 0.012;
+    return pts;
+  }
+
+  function serpente(resta, p, quanto, tempo) {
+    var pts = tracciatoSerpe(resta, p, tempo);
+    // si taglia il tracciato alla lunghezza gia' uscita
+    var lun = [0];
+    for (var i = 1; i < pts.length; i++) lun.push(lun[i - 1] + pts[i].distanceTo(pts[i - 1]));
+    var tot = lun[lun.length - 1], fino = Math.max(0.05, tot * quanto), vis = [pts[0]];
+    for (i = 1; i < pts.length; i++) {
+      if (lun[i] <= fino) { vis.push(pts[i]); continue; }
+      var f = (fino - lun[i - 1]) / (lun[i] - lun[i - 1]);
+      vis.push(pts[i - 1].clone().lerp(pts[i], f));
+      break;
+    }
+    if (vis.length < 2) vis.push(pts[0].clone().addScaledVector(tangente, 0.02));
+    var c = new THREE.CatmullRomCurve3(vis), segm = Math.min(700, Math.max(8, vis.length));
+    var vecchie = [serpe.filo.geometry, serpe.peli.geometry];
+    serpe.filo.geometry = new THREE.TubeGeometry(c, segm, L.spessore, L.radiali, false);
+    serpe.peli.geometry = new THREE.TubeGeometry(c, segm, L.spessore * GUSCIO_S.largo, RAD_GUSCIO, false);
+    vecchie.forEach(function (g) { g.dispose(); });
+    var rt = fino / (L.spessore * L.torsione), rp = fino / (L.spessore * 3.2);
+    serpe.filo.material.map.repeat.set(rt, 1); serpe.filo.material.bumpMap.repeat.set(rt, 1);
+    serpe.peli.material.map.repeat.set(rp, 1);
+  }
 
   // inquadratura
   var mezzaAltezza = 1, altezzaPx = 1;
@@ -180,34 +294,10 @@
   }
 
   function progresso() {
+    // movimento ridotto: il palco e' alto uno schermo e mostra la scena finale, ferma
+    if (ridotto) return 1;
     var b = palco.getBoundingClientRect(), corsa = b.height - innerHeight;
     return Math.min(1, Math.max(0, -b.top / (corsa || 1)));
-  }
-
-  var punta = new THREE.Vector3(), tangente = new THREE.Vector3();
-  function capoLibero(resta, tempo) {
-    var u = resta / SEG;
-    curva.getPointAt(u, punta); gruppo.localToWorld(punta);
-    curva.getTangentAt(u, tangente).transformDirection(gruppo.matrixWorld);
-    // esce dal fondo, nel punto dove l'apertura fa partire il filo colorato
-    var fx = typeof window.pfFiloIngresso === 'number' ? window.pfFiloIngresso : (stretto() ? 0.9 : 0.72);
-    var fondoY = -mezzaAltezza * 1.06;
-    var xU = (fx * 2 - 1) * mezzaAltezza * camera.aspect;
-    var ctrl = [
-      punta.clone(),
-      punta.clone().addScaledVector(tangente, 0.28),
-      new THREE.Vector3((punta.x + xU) / 2 + 0.35 * camera.aspect, (punta.y + fondoY) / 2 + Math.sin(tempo * 0.7) * 0.05, 0.25),
-      new THREE.Vector3(xU, fondoY + mezzaAltezza * 0.35, 0),
-      new THREE.Vector3(xU, fondoY, 0)
-    ];
-    var c = new THREE.CatmullRomCurve3(ctrl), lung = c.getLength();
-    var vecchie = [capo.filo.geometry].concat(capo.gusci.map(function (m) { return m.geometry; }));
-    capo.filo.geometry = new THREE.TubeGeometry(c, 160, L.spessore, L.radiali, false);
-    capo.gusci.forEach(function (m, i) { m.geometry = new THREE.TubeGeometry(c, 160, L.spessore * GUSCI[i].largo, RAD_GUSCIO, false); });
-    vecchie.forEach(function (g) { g.dispose(); });
-    var rt = lung / (L.spessore * L.torsione), rp = lung / (L.spessore * 3.2);
-    capo.filo.material.map.repeat.set(rt, 1); capo.filo.material.bumpMap.repeat.set(rt, 1);
-    capo.gusci.forEach(function (m) { m.material.map.repeat.set(rp, 1); });
   }
 
   var IND_FILO = L.radiali * 6, IND_GUSCIO = RAD_GUSCIO * 6;
@@ -217,20 +307,21 @@
     if (!aSchermo) return;
     p += (progresso() - p) * (ridotto ? 1 : 0.14);
     var tempo = ridotto ? 0 : (ora - t0) / 1000;
-    // si sfila il 38% del filo, tra il 5% e il 75% dello scorrimento del palco
-    var sfila = Math.min(1, Math.max(0, (p - 0.05) / 0.7));
-    sfila = 1 - Math.pow(1 - sfila, 1.6);
-    var resta = Math.floor(SEG * (1 - sfila * 0.38));
+    // quanto filo e' uscito: cresce per quasi tutto il palco, con un avvio e un arrivo morbidi
+    var x = Math.min(1, Math.max(0, (p - 0.06) / 0.86)), quanto = x * x * (3 - 2 * x);
+    var resta = Math.floor(SEG * (1 - quanto * 0.3));
     geoFilo.setDrawRange(0, resta * IND_FILO);
     geoGusci.forEach(function (g) { g.setDrawRange(0, resta * IND_GUSCIO); });
     geoFibre.setDrawRange(0, Math.floor(FIBRE * resta / SEG) * 2);
-    // la matassa sta in alto, gira su se stessa e risale un poco mentre si alleggerisce
-    gruppo.position.set(stretto() ? -0.15 : -0.6, mezzaAltezza * (stretto() ? 0.3 : 0.2) + p * 0.25, 0);
+    // la matassa parte in alto, gira su se stessa e intanto si allontana nel fondo
+    // la matassa: all'inizio in primo piano, poi si allontana verso l'alto a sinistra
+    var Wh = mezzaAltezza * camera.aspect;
+    gruppo.position.set(stretto() ? -0.15 - p * Wh * 0.3 : -0.6 - p * Wh * 0.35, mezzaAltezza * (stretto() ? 0.3 : 0.2) + p * mezzaAltezza * 0.45, -p * 13);
     gruppo.scale.setScalar(stretto() ? 0.82 : 1);
     gruppo.rotation.y = tempo * 0.16 + p * Math.PI * 3;
     gruppo.rotation.x = 0.3 + p * 0.8;
     gruppo.updateMatrixWorld(true);
-    capoLibero(resta, tempo);
+    serpente(resta, p, quanto, tempo);
     renderer.render(scene, camera);
     palco.style.setProperty('--scorri', p > 0.03 ? '0' : '1');
     giro();

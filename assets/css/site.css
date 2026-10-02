@@ -1200,7 +1200,7 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
 /* ===== PRO-FILI: la matassa dell'apertura (2/10) =====
    Un palco fisso alto due schermi prima dell'apertura: la tela resta ferma in cima
    mentre la pagina scorre, e la matassa si sfila. Senza WebGL il palco si chiude. */
-.matassa{position:relative;height:200vh;background:var(--paper)}
+.matassa{position:relative;height:240vh;background:var(--paper)}
 .matassa-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .matassa-palco canvas{display:block;width:100%;height:100%}
 .matassa-scorri{position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom));margin:0;text-align:center;
