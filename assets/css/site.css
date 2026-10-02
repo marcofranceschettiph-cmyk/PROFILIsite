@@ -932,14 +932,9 @@ body.carta .nav .brand .lg-dark{display:block}
 .soglia-film[hidden]{display:none}
 .soglia-film video,.soglia-film img{display:block;width:100%;height:100%;object-fit:cover}
 
-/* conto alla rovescia: un numero grande in oro, nessun fondo. Parte hidden, lo mostra il JS. */
-.conto{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px clamp(14px,2vw,22px);margin-top:clamp(34px,5vw,56px)}
-.conto[hidden]{display:none}
-/* Le cifre stavano a -.02em: in Cormorant 300 due "1" accostati si leggevano come due aste,
-   "11" sembrava "I I". Il peso 400 non aiuta, nei font locali è un alias del 300. La
-   spaziatura positiva le separa, e restano numeri in Cormorant come vuole il brand kit. */
-.conto-n{font-family:var(--serif);font-weight:300;font-size:clamp(72px,12vw,160px);line-height:.9;letter-spacing:.045em;color:var(--accent);font-variant-numeric:lining-nums tabular-nums}
-.conto-l{font-family:var(--sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;color:var(--fg-2)}
+/* conto alla rovescia: lo stesso della fascia PRO-FILI sul sito di IANUA (vedi in fondo,
+   «il conto come su IANUA»). Qui resta solo la distanza dai pulsanti sopra. */
+.conto{display:block;margin-top:clamp(34px,5vw,56px)}
 
 /* programma: i tab sono righe sottili, l'attivo ha la riga oro sotto.
    Senza JS la fascia resta hidden e i tre giorni si leggono uno sotto l'altro. */
@@ -1049,7 +1044,7 @@ body.carta .nav.solid{background:color-mix(in srgb,var(--nav-bg,#F4EDE1) 86%,tra
 
 /* il conto alla rovescia prende il rosso del marchio: è l'unico accento saturo della
    pagina, e sta dove deve guardare l'occhio appena si apre il sito */
-body.carta .conto-n{color:var(--pf-rosso)}
+body.carta .pf-cd-val{color:var(--pf-rosso)}
 
 /* programma: il giorno di oggi, i giorni passati, l'appuntamento in corso e il prossimo.
    Le classi le mette site.js solo fra l'8 e l'11 ottobre 2026. */
@@ -1122,3 +1117,72 @@ body.carta .ln{padding-bottom:.26em;margin-bottom:-.26em}
    a questi si da' il doppio dello spazio (Briciole, Non Solo Arte). */
 .pt-logo--verticale{height:78px}
 .pt-logo--verticale img{max-height:74px}
+
+
+/* ===== PRO-FILI: rifiniture del 2 ottobre ===== */
+
+/* il conto come su IANUA: etichetta «Mancano», poi giorni, ore, minuti e secondi in
+   Cormorant con le cifre che scorrono. Stesse misure del sito del collettivo, così
+   chi passa da un sito all'altro ritrova lo stesso oggetto. */
+.pf-cd{font-family:var(--sans)}
+.pf-cd-lab{display:block;font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;color:var(--fg-2)}
+.pf-cd-lab[hidden]{display:none}
+.pf-cd-val{display:block;margin-top:12px;font-family:var(--serif);font-weight:300;
+           font-size:clamp(36px,6.4vw,64px);line-height:1;letter-spacing:-.01em;
+           color:var(--accent-2);font-variant-numeric:tabular-nums;text-wrap:balance}
+/* ogni cifra sta in una finestra alta una riga; quando cambia, la striscia con la
+   vecchia sopra e la nuova sotto sale di mezza altezza. Il margine negativo riporta
+   la linea di base della finestra su quella del testo. */
+.pf-cd-u{display:inline-block;white-space:nowrap;margin-right:.32em}
+.pf-cd-u:last-child{margin-right:0}
+.pf-cd-d{display:inline-block;height:1.15em;line-height:1.15;overflow:hidden;
+         min-width:.55em;text-align:center;margin-bottom:-.25em}
+.pf-cd-s{display:block}
+.pf-cd-s > span{display:block;height:1.15em}
+.pf-cd-s.is-go{transform:translateY(-50%);transition:transform var(--t-base) var(--ease-out)}
+.pf-cd-w{margin-left:.3em;font-family:var(--sans);font-size:11px;letter-spacing:.2em;
+         text-transform:uppercase;font-weight:500;color:var(--fg-2)}
+@media (prefers-reduced-motion:reduce){.pf-cd-s.is-go{transform:none;transition:none}}
+
+/* chi lo organizza, subito sotto il sottotitolo: una riga piccola, con IANUA che porta
+   al sito del collettivo */
+.pf-cura{margin-top:14px;font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-2)}
+.pf-cura a{color:var(--fg);font-weight:500;text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:.35em;transition:color var(--t-fast),text-decoration-color var(--t-fast)}
+.pf-cura a:hover{color:var(--pf-rosso);text-decoration-color:var(--pf-rosso)}
+.head .lede .more{display:table;margin-top:16px;font-family:var(--sans);font-size:11px;line-height:1.4}
+
+/* menu aperto: le voci partono sotto la barra, mai sotto il logo. I margini automatici
+   centrano l'elenco quando c'è spazio e si annullano quando non ce n'è, così la prima
+   voce non sale mai sopra il bordo; se lo schermo è basso il menu scorre. */
+.menu{justify-content:flex-start;padding-top:calc(88px + env(safe-area-inset-top));padding-bottom:calc(28px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain}
+.menu ol{margin-top:auto}
+.menu .foot{margin-bottom:auto}
+@media (max-width:639px){.menu a{padding:15px 0}}
+
+/* artisti, ospiti, organizzatori al telefono: le schede restano rientrate per lasciare
+   le corsie al filo (regola di Marco: il filo non tocca mai i volti), ma i titoli
+   delle sezioni tornano sul margine della pagina, come «Gli artisti» sopra. */
+@media (max-width:639px){
+  body.carta #artisti .thread>.head{margin-left:-30px;margin-right:-30px}
+}
+
+/* partner, coppia patrocinio / collaborazione: stessa casella logo per tutti e tre,
+   col marchio appoggiato in basso, così i tre nomi stanno sulla stessa riga anche se
+   il Comune non ha logo e Briciole è più alto che largo. */
+.pt-coppia .pt-logo{height:78px;align-items:flex-end;margin-bottom:12px}
+.pt-coppia .pt-logo img{max-height:74px}
+/* al telefono il titoletto del patrocinio va su tre righe, quello accanto su una:
+   stessa altezza per tutti e due, così le due righe sotto si allineano */
+@media (max-width:759px){
+  .pt-coppia .pt-gruppo h3{min-height:calc(3 * 1.5em + 12px);display:flex;align-items:flex-end;line-height:1.5}
+  .pt-coppia .pt-logo{height:64px}
+  .pt-coppia .pt-logo img{max-height:62px}
+}
+/* il marchio del Lions è tondo e ha il bordo vuoto: a 40px diventava un bottone.
+   Prende tutta la casella, che resta alta come le altre, così il nome resta in riga. */
+.pt-logo--tondo img{max-height:44px}
+
+/* piede: il marchio di IANUA porta al sito del collettivo, un po' più leggibile di prima */
+footer .f-brand .f-ianua{display:inline-flex;min-height:44px;align-items:center}
+footer .f-brand .f-ianua img{height:28px;opacity:.8;transition:opacity var(--t-fast)}
+footer .f-brand .f-ianua:hover img{opacity:1}

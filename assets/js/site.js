@@ -1054,31 +1054,92 @@
 
 /* ---------- PRO-FILI: home del festival ----------
    Conto alla rovescia (#conto) e tab dei giorni (#programma). Tutto parte da
-   HTML che senza script resta leggibile: il conto resta hidden, i tre
+   HTML che senza script resta leggibile: il conto mostra la data, i tre
    pannelli del programma restano visibili uno sotto l'altro. */
 (function () {
   'use strict';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   function giorno(iso) { var p = iso.split('-'); return new Date(+p[0], p[1] - 1, +p[2]); }
   var oggi = new Date(); oggi.setHours(0, 0, 0, 0);
+  // le date del festival stanno su #conto: le usa anche il programma qui sotto
   var conto = document.getElementById('conto');
   var da = conto ? giorno(conto.getAttribute('data-da')) : null;
   var a = conto ? giorno(conto.getAttribute('data-a')) : null;
-
-  // Conto alla rovescia: giorni a mezzanotte locale. Dal giorno dopo la chiusura resta nascosto.
-  if (conto && da && a) {
-    var g = Math.round((da - oggi) / 86400000);
-    var n = document.getElementById('conto-n'), l = document.getElementById('conto-l');
-    if (g > 0) {
-      n.textContent = g;
-      l.textContent = g === 1 ? 'giorno all’apertura' : 'giorni all’apertura';
-      conto.hidden = false;
-    } else if (oggi <= a) {
-      n.parentNode.hidden = true;
-      l.textContent = 'Il festival è in corso';
-      conto.hidden = false;
+  // Conto alla rovescia, lo stesso della fascia PRO-FILI sul sito di IANUA: giorni, ore,
+  // minuti e secondi. Le cifre che cambiano scorrono (la vecchia esce in alto, la nuova
+  // entra dal basso); le altre restano ferme. Il controllo gira a ogni fotogramma ma
+  // ridisegna solo quando cambia il secondo. Il gruppo e' aria-hidden: la data per esteso
+  // sta in un .sr-only accanto. Senza script resta scritto «Si apre 9 ottobre 2026».
+  document.querySelectorAll('[data-countdown-live]').forEach(function (el) {
+    var meta = new Date(el.getAttribute('data-countdown-live'));
+    var fineAttr = el.getAttribute('data-countdown-live-end');
+    var fine = fineAttr ? new Date(fineAttr) : null;
+    var box = el.parentNode;
+    var lab = box ? box.querySelector('[data-countdown-live-label]') : null;
+    var gruppi = null, ultimo = null;
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+    function cifraFerma(c, d) { c.s.className = 'pf-cd-s'; c.s.innerHTML = '<span>' + d + '</span>'; }
+    function cifra(c, d) {
+      if (c.v === d) return;
+      var prima = c.v; c.v = d;
+      clearTimeout(c.tm);
+      if (reduce || prima == null) { cifraFerma(c, d); return; }
+      c.s.className = 'pf-cd-s';
+      c.s.innerHTML = '<span>' + prima + '</span><span>' + d + '</span>';
+      void c.s.offsetHeight;                       // parte dalla posizione di riposo
+      c.s.classList.add('is-go');
+      c.tm = setTimeout(function () { cifraFerma(c, d); }, 480);
     }
-  }
+    function numero(g, testo) {
+      if (g.celle.length !== testo.length) {        // cambia il numero di cifre: si ricompone fermo
+        g.n.textContent = ''; g.celle = [];
+        for (var k = 0; k < testo.length; k++) {
+          var d = document.createElement('span'); d.className = 'pf-cd-d';
+          var st = document.createElement('span'); d.appendChild(st);
+          g.n.appendChild(d); g.celle.push({ s: st, v: null });
+        }
+      }
+      for (var i = 0; i < testo.length; i++) cifra(g.celle[i], testo.charAt(i));
+    }
+    function monta() {
+      el.textContent = ''; el.classList.add('is-live');
+      if (lab) lab.textContent = 'Mancano';
+      gruppi = [['giorno', 'giorni'], ['ora', 'ore'], ['minuto', 'minuti'], ['secondo', 'secondi']].map(function (w) {
+        var u = document.createElement('span'); u.className = 'pf-cd-u';
+        var n = document.createElement('span'); n.className = 'pf-cd-n';
+        var t = document.createElement('span'); t.className = 'pf-cd-w';
+        u.appendChild(n); u.appendChild(t); el.appendChild(u); el.appendChild(document.createTextNode(' '));
+        return { n: n, t: t, w: w, celle: [] };
+      });
+    }
+    function finito(ora) {
+      if (lab) lab.hidden = true;
+      if (box) box.removeAttribute('aria-hidden');
+      el.classList.remove('is-live'); gruppi = null;
+      var t = (fine && ora < fine) ? 'Il festival è in corso' : 'Edizione 0 conclusa';
+      if (el.textContent !== t) el.textContent = t;
+      return !(fine && ora < fine);                 // true: non c'e' piu' niente da aggiornare
+    }
+    function scrivi(ora) {
+      var ms = meta - ora;
+      if (ms <= 0) return finito(ora);
+      if (!gruppi) monta();
+      var sec = Math.floor(ms / 1000);
+      var v = [Math.floor(sec / 86400), Math.floor(sec / 3600) % 24, Math.floor(sec / 60) % 60, sec % 60];
+      gruppi.forEach(function (g, i) {
+        numero(g, i === 0 ? String(v[i]) : pad(v[i]));
+        var w = v[i] === 1 ? g.w[0] : g.w[1];
+        if (g.t.textContent !== w) g.t.textContent = w;
+      });
+      return false;
+    }
+    function giro() {
+      var ora = new Date(), s = Math.floor(ora.getTime() / 1000);
+      if (s !== ultimo) { ultimo = s; if (scrivi(ora)) return; }
+      requestAnimationFrame(giro);
+    }
+    giro();
+  });
 
   // Tab dei giorni, schema ARIA con attivazione automatica.
   var lista = document.querySelector('.gg-tabs');
