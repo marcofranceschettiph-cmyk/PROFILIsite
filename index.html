@@ -20,7 +20,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-italic-latin.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261002c">
+<link rel="stylesheet" href="assets/css/site.css?v=20261002f">
 <!-- senza JavaScript il calendario e il menu non funzionano: meglio non mostrarli -->
 <noscript><style>[data-ics],.burger{display:none!important}</style></noscript>
 </head>
@@ -58,12 +58,16 @@
   <p class="foot">PRO-FILI Festival · Rovigo</p>
 </div>
 
-<!-- La matassa: un palco fisso prima dell'apertura. Scorrendo la matassa di lana gira e si
-     sfila; il capo esce dal fondo e nell'apertura diventa il filo colorato (assets/js/matassa.js). -->
-<section class="matassa" id="matassa" data-world="paper" aria-label="Una matassa di lana rossa che si sfila">
+<!-- La matassa: un palco fisso prima dell'apertura. Scorrendo il filo di lana si srotola
+     e lega tre profili di carta; il capo esce dal fondo e nell'apertura diventa il filo
+     colorato (assets/js/matassa.js). -->
+<section class="matassa" id="matassa" data-world="paper" aria-label="Una matassa di lana rossa il cui filo lega tre profili di carta">
   <div class="matassa-palco">
-    <canvas id="matassa-tela" aria-hidden="true"></canvas>
     <p class="matassa-scorri" aria-hidden="true">Scorri</p>
+    <div class="matassa-tela">
+      <canvas id="matassa-base" width="1344" height="752" aria-hidden="true"></canvas>
+      <canvas id="matassa-filo" width="1344" height="752" aria-hidden="true"></canvas>
+    </div>
   </div>
 </section>
 
@@ -558,8 +562,7 @@
 </footer>
 
 <!-- prima la matassa: site.js deve sapere se c'e' per far nascere il filo colorato dalla lana -->
-<script src="assets/js/vendor/three.min.js" defer></script>
-<script src="assets/js/matassa.js?v=20261002c" defer></script>
-<script src="assets/js/site.js?v=20261002c" defer></script>
+<script src="assets/js/matassa.js?v=20261002f" defer></script>
+<script src="assets/js/site.js?v=20261002f" defer></script>
 </body>
 </html>

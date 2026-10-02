@@ -1198,15 +1198,31 @@ body.carta:not(.menu-open) .nav.solid:not(.on-paper){border-color:var(--line)}
 body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper-line)}
 
 /* ===== PRO-FILI: la matassa dell'apertura (2/10) =====
-   Un palco fisso alto due schermi prima dell'apertura: la tela resta ferma in cima
-   mentre la pagina scorre, e la matassa si sfila. Senza WebGL il palco si chiude. */
-.matassa{position:relative;height:240vh;background:var(--paper)}
-.matassa-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-.matassa-palco canvas{display:block;width:100%;height:100%}
-.matassa-scorri{position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom));margin:0;text-align:center;
+   Un palco fisso prima dell'apertura: la foto resta ferma in fondo allo schermo mentre
+   la pagina scorre e il filo di lana si srotola. Il filo esce dal bordo basso della foto,
+   che quindi tocca il fondo del palco; gli altri tre bordi sfumano nella carta. */
+.matassa{position:relative;height:260vh;background:var(--paper)}
+.matassa-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.matassa-tela{position:relative;width:min(100%, calc((100svh - 96px) * 1344 / 752));aspect-ratio:1344/752;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent),linear-gradient(to bottom,transparent,#000 5%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent),linear-gradient(to bottom,transparent,#000 5%);
+  mask-composite:intersect}
+.matassa-tela canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.matassa-scorri{position:absolute;left:0;right:0;top:calc(50% - 4px);margin:0;text-align:center;pointer-events:none;
   font-family:var(--sans);font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;color:var(--ink-d2);
   opacity:var(--scorri,1);transition:opacity .4s}
+.matassa:not(.pronta) .matassa-scorri{opacity:0}
+@media (min-aspect-ratio:4/3){.matassa-scorri{top:auto;bottom:calc(22px + env(safe-area-inset-bottom));left:auto;right:28px}}
 .matassa.senza-3d{display:none}
 @media (prefers-reduced-motion:reduce){.matassa{height:100vh;height:100svh}}
+/* schermo in verticale: la foto e' alta tre quarti dello schermo, piu' larga di lui, e
+   scorre di lato seguendo il filo (matassa.js); i bordi laterali non entrano mai */
+@media (max-aspect-ratio:1/1){
+  .matassa-palco{align-items:flex-start}
+  .matassa-tela{width:calc(76svh * 1344 / 752);max-width:none;flex:none;will-change:transform;
+    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 5%);mask-image:linear-gradient(to bottom,transparent,#000 5%)}
+}
 /* l'apertura subito sotto: il filo entra dal bordo alto, quindi niente riga di separazione */
 .matassa + .page-hero{border-top:0}

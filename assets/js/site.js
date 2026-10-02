@@ -1483,7 +1483,9 @@
   var DUR = 2800, RIT = 450, animato = false;
   // la matassa sopra l'apertura (assets/js/matassa.js): se c'e', il filo nasce dalla lana
   var palcoMatassa = document.getElementById('matassa');
-  var matassa = !!(palcoMatassa && window.THREE && !palcoMatassa.classList.contains('senza-3d'));
+  var matassa = !!(palcoMatassa && !palcoMatassa.classList.contains('senza-3d'));
+  // il punto in cui la lana esce dal fondo del palco (scritto da matassa.js), in frazione della larghezza
+  function uscita(W, ripiego) { return typeof window.pfFiloUscita === 'number' ? window.pfFiloUscita * W : ripiego; }
   var svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('class', 'soglia-filo');
   svg.setAttribute('aria-hidden', 'true');
@@ -1559,7 +1561,7 @@
         if (matassa) {
           // c'e' la matassa sopra: il filo di lana entra dal bordo alto, poco a destra
           // dell'ingresso del primo giro, e ci scende dentro con una curva morbida
-          start = [Math.min(lim, s1[0] + R * 0.35), -6];
+          start = [uscita(W, Math.min(lim, s1[0] + R * 0.35)), -6];
           pts.push(start);
           bez(pts, start, [start[0], s1[1] * 0.5], [s1[0] - R * 0.25, s1[1]], s1);
         } else {
@@ -1587,7 +1589,7 @@
     // con la matassa al telefono: la lana scende lungo il bordo destro fin sotto la barra,
     // poi il filo attraversa la striscia libera sopra il logo ed esce a sinistra
     if (!pts && matassa && logo && logo.t - navH > 30) {
-      var ym = (navH + logo.t) / 2, xa = W - 22;
+      var ym = (navH + logo.t) / 2, xa = uscita(W, W - 22);
       pts = [[xa, -6]];
       bez(pts, [xa, -6], [xa, ym * 0.6], [xa - 20, ym], [xa - 70, ym]);
       bez(pts, [xa - 70, ym], [W * 0.55, ym - 10], [W * 0.3, ym + 10], [-10, ym]);
