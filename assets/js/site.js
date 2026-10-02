@@ -1533,6 +1533,8 @@
         az = box(hero.querySelector('.ag-actions')), conto = box(document.getElementById('conto'));
     var testi = [logo, h1, sub, meta, az, conto].filter(Boolean);
     var nav = document.querySelector('.nav'), navH = nav ? nav.offsetHeight : 64;
+    // con la matassa prima, l'apertura non parte sotto la barra: lo spazio in alto e' tutto suo
+    if (document.getElementById('matassa')) navH = 8;
     var pts = null;
     // 1) accanto al titolo, nello spazio vuoto a destra: esce dal logo alla sua altezza,
     //    entra nel primo giro dall'alto (cosi' resta sopra il titolo), poi il secondo giro

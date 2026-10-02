@@ -2,10 +2,10 @@
    Prima dell'apertura c'e' un palco fisso (#matassa) con una foto: una matassa di lana
    rossa e tre profili di carta nera. Mentre la pagina scorre, il filo di lana della foto
    ricompare pezzo per pezzo nell'ordine in cui si srotola: parte dalla matassa (che
-   gira), lega il primo profilo, passa dietro la nuca, lega il secondo e il terzo ed
-   esce di scena dal fondo del palco, mentre la pagina prosegue con l'apertura.
+   gira), lega il primo profilo, passa dietro la nuca, lega il secondo e il terzo,
+   scende e scorre via fuori scena a sinistra, mentre la pagina prosegue con l'apertura.
    Due tagli della foto (assets/img/matassa/): «largo» per gli schermi orizzontali,
-   «stretto» per quelli verticali, dove la matassa e' avvicinata al primo profilo.
+   «stretto» per quelli verticali, piu' vicino, con la matassa spostata in alto a sinistra.
    Per ogni taglio tre immagini:
    - base.webp: la foto senza filo;
    - filo.webp: solo il filo, con la trasparenza;
@@ -24,8 +24,8 @@
 
   // per ogni taglio: misure, la matassa (centro e raggio) e il capo (3 px su tutto il percorso)
   var TAGLI = {
-    largo:   { W: 1344, H: 776, palla: { x: 133, y: 92, r: 73 }, punta: 3 / 2594 },
-    stretto: { W: 560,  H: 776, palla: { x: 98, y: 130, r: 73 }, punta: 3 / 2200 }
+    largo:   { W: 1344, H: 776, palla: { x: 133, y: 92, r: 73 }, punta: 3 / 3285 },
+    stretto: { W: 500,  H: 776, palla: { x: 89, y: 80, r: 73 }, punta: 3 / 3000 }
   };
   var DIR = 'assets/img/matassa/';
   var scena = null;   // il taglio caricato: immagine di base, pixel del filo, tempi
