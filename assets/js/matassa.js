@@ -4,7 +4,9 @@
    ricompare pezzo per pezzo nell'ordine in cui si srotola: parte dalla matassa (che
    gira), lega il primo profilo, passa dietro la nuca, lega il secondo e il terzo ed
    esce di scena dal fondo del palco, mentre la pagina prosegue con l'apertura.
-   Le tre immagini (assets/img/matassa/):
+   Due tagli della foto (assets/img/matassa/): «largo» per gli schermi orizzontali,
+   «stretto» per quelli verticali, dove la matassa e' avvicinata al primo profilo.
+   Per ogni taglio tre immagini:
    - base.webp: la foto senza filo;
    - filo.webp: solo il filo, con la trasparenza;
    - tempo.png: per ogni pixel del filo, quando ricompare (0 = alla matassa, 1 = in
@@ -14,116 +16,96 @@
   'use strict';
   var palco = document.getElementById('matassa');
   if (!palco) return;
-  var tela = palco.querySelector('.matassa-tela');
   var cBase = document.getElementById('matassa-base');
   var cFilo = document.getElementById('matassa-filo');
-  if (!tela || !cBase || !cFilo || !cBase.getContext) { palco.classList.add('senza-3d'); return; }
+  if (!cBase || !cFilo || !cBase.getContext) { palco.classList.add('senza-3d'); return; }
   var ridotto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var verticale = window.matchMedia ? matchMedia('(max-aspect-ratio: 1/1)') : null;
 
-  var W = 1344, H = 752;                    // pixel della foto
-  var PALLA = { x: 133, y: 68, r: 73 };     // la matassa: centro e raggio
-  var USCITA = { x: 672 };                  // dove il filo tocca il fondo della foto
-  var PUNTA = 3 / 2594;                     // il capo: 3 px di sfumatura su tutto il percorso
+  // per ogni taglio: misure, la matassa (centro e raggio) e il capo (3 px su tutto il percorso)
+  var TAGLI = {
+    largo:   { W: 1344, H: 776, palla: { x: 133, y: 92, r: 73 }, punta: 3 / 2594 },
+    stretto: { W: 560,  H: 776, palla: { x: 98, y: 130, r: 73 }, punta: 3 / 2200 }
+  };
   var DIR = 'assets/img/matassa/';
-
-  // Al telefono la foto e' piu' larga dello schermo e scorre di lato seguendo il capo
-  // del filo, come una telecamera: i bordi della foto non entrano mai.
-  var scia = null;   // dove si trova il capo (x nella foto) lungo il percorso, 0-1
-  function sposta(x, s, vw, tw) { return Math.min(0, Math.max(vw - tw, vw / 2 - x * s)); }
+  var scena = null;   // il taglio caricato: immagine di base, pixel del filo, tempi
+  var ultimo = -1, visibile = true, attesa = false;
 
   function carica(src) {
     return new Promise(function (ok, ko) { var i = new Image(); i.onload = function () { ok(i); }; i.onerror = ko; i.src = src; });
   }
-  function pixel(img) {
+  function pixel(img, W, H) {
     var c = document.createElement('canvas'); c.width = W; c.height = H;
     var x = c.getContext('2d', { willReadFrequently: true });
     x.drawImage(img, 0, 0);
     return x.getImageData(0, 0, W, H).data;
   }
 
-  Promise.all([carica(DIR + 'base.webp'), carica(DIR + 'filo.webp'), carica(DIR + 'tempo.png')]).then(function (r) {
-    var base = r[0], fp = pixel(r[1]), tp = pixel(r[2]);
-    var cb = cBase.getContext('2d'), cf = cFilo.getContext('2d');
-    var out = cf.createImageData(W, H), od = out.data;
-    // solo i pixel del filo: dove sono, quanto sono pieni, quando ricompaiono
-    var idx = [], a0 = [], tt = [];
-    for (var i = 0, n = W * H; i < n; i++) {
-      var k = i * 4, a = fp[k + 3];
-      if (!a) continue;
-      od[k] = fp[k]; od[k + 1] = fp[k + 1]; od[k + 2] = fp[k + 2];
-      idx.push(k + 3); a0.push(a); tt.push((tp[k] * 256 + tp[k + 1]) / 65535);
-    }
-    var N = idx.length, ultimo = -1, visibile = true;
-
-    // la scia del capo: la x media dei pixel che ricompaiono in ogni tratto del percorso,
-    // riempita dove il filo passa dietro le teste e ammorbidita
-    var B = 240, sx = new Float32Array(B), sn = new Float32Array(B);
-    for (var q = 0; q < N; q++) {
-      var b0 = Math.min(B - 1, Math.floor(tt[q] * B));
-      sx[b0] += ((idx[q] - 3) / 4) % W; sn[b0]++;
-    }
-    var grezza = [], prima = -1;
-    for (var b1 = 0; b1 < B; b1++) {
-      if (sn[b1]) {
-        grezza[b1] = sx[b1] / sn[b1];
-        if (prima >= 0) for (var g = prima + 1; g < b1; g++) grezza[g] = grezza[prima] + (grezza[b1] - grezza[prima]) * (g - prima) / (b1 - prima);
-        else for (var g2 = 0; g2 < b1; g2++) grezza[g2] = grezza[b1];
-        prima = b1;
+  function prepara() {
+    var nome = verticale && verticale.matches ? 'stretto' : 'largo', T = TAGLI[nome];
+    if (scena && scena.nome === nome) return;
+    Promise.all([carica(DIR + nome + '-base.webp'), carica(DIR + nome + '-filo.webp'), carica(DIR + nome + '-tempo.png')]).then(function (r) {
+      var fp = pixel(r[1], T.W, T.H), tp = pixel(r[2], T.W, T.H);
+      cBase.width = cFilo.width = T.W; cBase.height = cFilo.height = T.H;
+      var out = cFilo.getContext('2d').createImageData(T.W, T.H), od = out.data;
+      // solo i pixel del filo: dove sono, quanto sono pieni, quando ricompaiono
+      var idx = [], a0 = [], tt = [];
+      for (var i = 0, n = T.W * T.H; i < n; i++) {
+        var k = i * 4, a = fp[k + 3];
+        if (!a) continue;
+        od[k] = fp[k]; od[k + 1] = fp[k + 1]; od[k + 2] = fp[k + 2];
+        idx.push(k + 3); a0.push(a); tt.push((tp[k] * 256 + tp[k + 1]) / 65535);
       }
-    }
-    for (var b2 = prima + 1; b2 < B; b2++) grezza[b2] = grezza[prima];
-    scia = [];
-    for (var b3 = 0; b3 < B; b3++) {
-      var tot = 0, cnt = 0;
-      for (var d = -14; d <= 14; d++) { var e = Math.min(B - 1, Math.max(0, b3 + d)); tot += grezza[e]; cnt++; }
-      scia.push(tot / cnt);
-    }
-    scia[B - 1] = USCITA.x;
+      scena = { nome: nome, T: T, base: r[0], out: out, idx: idx, a0: a0, tt: tt };
+      palco.setAttribute('data-taglio', nome);
+      palco.classList.add('pronta');
+      ultimo = -1;
+      disegna();
+    }, function () { if (!scena) palco.classList.add('senza-3d'); });
+  }
 
-    function progresso() {
-      if (ridotto) return 1;
-      var b = palco.getBoundingClientRect(), corsa = b.height - window.innerHeight;
-      return corsa > 0 ? Math.min(1, Math.max(0, -b.top / corsa)) : 1;
+  function progresso() {
+    if (ridotto) return 1;
+    var b = palco.getBoundingClientRect(), corsa = b.height - window.innerHeight;
+    return corsa > 0 ? Math.min(1, Math.max(0, -b.top / corsa)) : 1;
+  }
+  function disegna() {
+    if (!scena) return;
+    var p = progresso();
+    if (Math.abs(p - ultimo) < 0.0004) return;
+    ultimo = p;
+    var T = scena.T, P = T.palla, cb = cBase.getContext('2d');
+    // la matassa gira mentre si srotola
+    cb.drawImage(scena.base, 0, 0);
+    cb.save();
+    cb.beginPath(); cb.arc(P.x, P.y, P.r, 0, Math.PI * 2); cb.clip();
+    cb.translate(P.x, P.y); cb.rotate(-p * Math.PI * 1.6); cb.translate(-P.x, -P.y);
+    cb.drawImage(scena.base, 0, 0);
+    cb.restore();
+    // il filo: tutto quello che e' gia' uscito, con un capo netto
+    var od = scena.out.data, idx = scena.idx, a0 = scena.a0, tt = scena.tt, N = idx.length;
+    var punta = T.punta, fine = p * (1 + punta);
+    for (var j = 0; j < N; j++) {
+      var f = (fine - tt[j]) / punta;
+      od[idx[j]] = f >= 1 ? a0[j] : f <= 0 ? 0 : a0[j] * f;
     }
-    function disegna() {
-      var p = progresso();
-      if (Math.abs(p - ultimo) < 0.0004) return;
-      ultimo = p;
-      // la matassa gira mentre si srotola
-      cb.drawImage(base, 0, 0);
-      cb.save();
-      cb.beginPath(); cb.arc(PALLA.x, PALLA.y, PALLA.r, 0, Math.PI * 2); cb.clip();
-      cb.translate(PALLA.x, PALLA.y); cb.rotate(-p * Math.PI * 1.6); cb.translate(-PALLA.x, -PALLA.y);
-      cb.drawImage(base, 0, 0);
-      cb.restore();
-      // il filo: tutto quello che e' gia' uscito, con un capo netto
-      var T = p * (1 + PUNTA);
-      for (var j = 0; j < N; j++) {
-        var f = (T - tt[j]) / PUNTA;
-        od[idx[j]] = f >= 1 ? a0[j] : f <= 0 ? 0 : a0[j] * f;
-      }
-      cf.putImageData(out, 0, 0);
-      var vw = document.documentElement.clientWidth, tw = tela.offsetWidth;
-      if (tw > vw + 1) {
-        var u = p * (scia.length - 1), i0 = Math.floor(u), i1 = Math.min(scia.length - 1, i0 + 1);
-        var x = scia[i0] + (scia[i1] - scia[i0]) * (u - i0);
-        if (p > 0.9) x += (USCITA.x - x) * (p - 0.9) / 0.1;   // in fondo il capo va dritto all'uscita
-        tela.style.transform = 'translateX(' + sposta(x, tw / W, vw, tw).toFixed(1) + 'px)';
-      } else tela.style.transform = '';
-      palco.style.setProperty('--scorri', p < 0.04 ? 1 : 0);
-    }
-    var attesa = false;
-    function suScroll() {
-      if (attesa || !visibile) return;
-      attesa = true;
-      requestAnimationFrame(function () { attesa = false; disegna(); });
-    }
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (v) { visibile = v[0].isIntersecting; if (visibile) suScroll(); }).observe(palco);
-    }
-    window.addEventListener('scroll', suScroll, { passive: true });
-    window.addEventListener('resize', suScroll);
-    palco.classList.add('pronta');
-    disegna();
-  }, function () { palco.classList.add('senza-3d'); });
+    cFilo.getContext('2d').putImageData(scena.out, 0, 0);
+    palco.style.setProperty('--scorri', p < 0.04 ? 1 : 0);
+  }
+  function suScroll() {
+    if (attesa || !visibile) return;
+    attesa = true;
+    requestAnimationFrame(function () { attesa = false; disegna(); });
+  }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (v) { visibile = v[0].isIntersecting; if (visibile) suScroll(); }).observe(palco);
+  }
+  window.addEventListener('scroll', suScroll, { passive: true });
+  window.addEventListener('resize', suScroll);
+  if (verticale) {
+    if (verticale.addEventListener) verticale.addEventListener('change', prepara);
+    else if (verticale.addListener) verticale.addListener(prepara);
+  }
+  prepara();
 })();
