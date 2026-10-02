@@ -3,8 +3,7 @@
    rossa e tre profili di carta nera. Mentre la pagina scorre, il filo di lana della foto
    ricompare pezzo per pezzo nell'ordine in cui si srotola: parte dalla matassa (che
    gira), lega il primo profilo, passa dietro la nuca, lega il secondo e il terzo ed
-   esce dal fondo del palco. Li' sotto l'apertura fa partire il filo colorato, dallo
-   stesso punto e con lo stesso spessore (window.pfFiloUscita, window.pfLanaPx).
+   esce di scena dal fondo del palco, mentre la pagina prosegue con l'apertura.
    Le tre immagini (assets/img/matassa/):
    - base.webp: la foto senza filo;
    - filo.webp: solo il filo, con la trasparenza;
@@ -23,28 +22,14 @@
 
   var W = 1344, H = 752;                    // pixel della foto
   var PALLA = { x: 133, y: 68, r: 73 };     // la matassa: centro e raggio
-  var USCITA = { x: 672, largo: 16 };       // dove il filo tocca il fondo della foto
+  var USCITA = { x: 672 };                  // dove il filo tocca il fondo della foto
   var PUNTA = 3 / 2594;                     // il capo: 3 px di sfumatura su tutto il percorso
   var DIR = 'assets/img/matassa/';
 
   // Al telefono la foto e' piu' larga dello schermo e scorre di lato seguendo il capo
-  // del filo, come una telecamera; alla fine il capo e' al centro, sopra l'uscita.
+  // del filo, come una telecamera: i bordi della foto non entrano mai.
   var scia = null;   // dove si trova il capo (x nella foto) lungo il percorso, 0-1
   function sposta(x, s, vw, tw) { return Math.min(0, Math.max(vw - tw, vw / 2 - x * s)); }
-
-  // dove esce il filo, in frazione della larghezza della pagina, e quanto e' spesso
-  function misura() {
-    var vw = document.documentElement.clientWidth, tw = tela.offsetWidth, s = tw / W;
-    var sx = tw > vw + 1 ? sposta(USCITA.x, s, vw, tw) : tela.offsetLeft;
-    window.pfFiloUscita = (sx + USCITA.x * s) / vw;
-    var px = USCITA.largo * s;
-    if (Math.abs((window.pfLanaPx || 0) - px) >= 0.5) {
-      window.pfLanaPx = px;
-      window.dispatchEvent(new Event('pf-lana'));
-    }
-  }
-  misura();
-  window.addEventListener('resize', misura);
 
   function carica(src) {
     return new Promise(function (ok, ko) { var i = new Image(); i.onload = function () { ok(i); }; i.onerror = ko; i.src = src; });

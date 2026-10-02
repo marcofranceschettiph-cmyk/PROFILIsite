@@ -20,7 +20,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-italic-latin.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261002f">
+<link rel="stylesheet" href="assets/css/site.css?v=20261002g">
 <!-- senza JavaScript il calendario e il menu non funzionano: meglio non mostrarli -->
 <noscript><style>[data-ics],.burger{display:none!important}</style></noscript>
 </head>
@@ -58,9 +58,8 @@
   <p class="foot">PRO-FILI Festival · Rovigo</p>
 </div>
 
-<!-- La matassa: un palco fisso prima dell'apertura. Scorrendo il filo di lana si srotola
-     e lega tre profili di carta; il capo esce dal fondo e nell'apertura diventa il filo
-     colorato (assets/js/matassa.js). -->
+<!-- La matassa: un palco fisso prima dell'apertura. Scorrendo il filo di lana si srotola,
+     lega tre profili di carta ed esce di scena dal fondo (assets/js/matassa.js). -->
 <section class="matassa" id="matassa" data-world="paper" aria-label="Una matassa di lana rossa il cui filo lega tre profili di carta">
   <div class="matassa-palco">
     <p class="matassa-scorri" aria-hidden="true">Scorri</p>
@@ -561,8 +560,8 @@
   </div>
 </footer>
 
-<!-- prima la matassa: site.js deve sapere se c'e' per far nascere il filo colorato dalla lana -->
-<script src="assets/js/matassa.js?v=20261002f" defer></script>
-<script src="assets/js/site.js?v=20261002f" defer></script>
+<!-- prima la matassa: se c'e', site.js aspetta che l'apertura sia a schermo per disegnare il filo colorato -->
+<script src="assets/js/matassa.js?v=20261002g" defer></script>
+<script src="assets/js/site.js?v=20261002g" defer></script>
 </body>
 </html>
