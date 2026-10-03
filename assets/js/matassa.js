@@ -25,7 +25,7 @@
   // per ogni taglio: misure, la matassa (centro e raggio) e il capo (3 px su tutto il percorso)
   var TAGLI = {
     largo:   { W: 1344, H: 776, palla: { x: 133, y: 92, r: 73 }, punta: 3 / 3285 },
-    stretto: { W: 500,  H: 776, palla: { x: 89, y: 80, r: 73 }, punta: 3 / 3000 }
+    stretto: { W: 450,  H: 776, palla: { x: 87, y: 80, r: 73 }, punta: 3 / 3000 }
   };
   var DIR = 'assets/img/matassa/';
   var scena = null;   // il taglio caricato: immagine di base, pixel del filo, tempi

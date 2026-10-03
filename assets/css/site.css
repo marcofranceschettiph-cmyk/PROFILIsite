@@ -1204,7 +1204,7 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
 .matassa{position:relative;height:260vh;background:var(--paper)}
 .matassa-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
   display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
-.matassa-tela{position:relative;width:min(100%, calc((100svh - 96px) * 1344 / 776));aspect-ratio:1344/776;
+.matassa-tela{position:relative;width:min(100%, calc((100svh - 64px) * 1344 / 776));aspect-ratio:1344/776;
   -webkit-mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
   -webkit-mask-composite:source-in;
   mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
@@ -1219,12 +1219,12 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
 @media (prefers-reduced-motion:reduce){.matassa{height:100vh;height:100svh}}
 /* schermo in verticale: il taglio «stretto» della foto (matassa.js), largo quanto lo schermo */
 @media (max-aspect-ratio:1/1){
-  .matassa-palco{justify-content:center;padding-top:76px}
+  .matassa-palco{justify-content:flex-start;padding-top:68px}
   .matassa-scorri{top:auto;bottom:calc(22px + env(safe-area-inset-bottom))}
-  .matassa-tela{width:min(100%, calc((100svh - 96px) * 500 / 776));aspect-ratio:500/776;
+  .matassa-tela{width:min(100%, calc((100svh - 68px) * 450 / 776));aspect-ratio:450/776;
     -webkit-mask-image:linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
     mask-image:linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent)}
 }
 /* l'apertura subito sotto: la carta continua, niente riga di separazione e poco spazio
-   sopra (la barra non la copre: sopra c'e' la matassa) */
-.matassa + .page-hero{border-top:0;padding-top:calc(64px + 3vw)}
+   sopra (la barra non la copre: sopra c'e' la matassa; il filo colorato qui non c'e') */
+.matassa + .page-hero{border-top:0;padding-top:clamp(12px,2vw,32px)}

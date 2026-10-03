@@ -1478,6 +1478,9 @@
   'use strict';
   var hero = document.getElementById('soglia');
   if (!hero || !window.pfFilo || !document.body.classList.contains('carta')) return;
+  // con la matassa in apertura (assets/js/matassa.js) il filo e' gia' la lana: qui niente
+  // filo colorato, che riparte piu' giu' con gli artisti
+  if (document.getElementById('matassa')) return;
   var NS = 'http://www.w3.org/2000/svg';
   var ridotto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var DUR = 2800, RIT = 450, animato = false;
@@ -1533,8 +1536,6 @@
         az = box(hero.querySelector('.ag-actions')), conto = box(document.getElementById('conto'));
     var testi = [logo, h1, sub, meta, az, conto].filter(Boolean);
     var nav = document.querySelector('.nav'), navH = nav ? nav.offsetHeight : 64;
-    // con la matassa prima, l'apertura non parte sotto la barra: lo spazio in alto e' tutto suo
-    if (document.getElementById('matassa')) navH = 8;
     var pts = null;
     // 1) accanto al titolo, nello spazio vuoto a destra: esce dal logo alla sua altezza,
     //    entra nel primo giro dall'alto (cosi' resta sopra il titolo), poi il secondo giro
@@ -1650,22 +1651,14 @@
     requestAnimationFrame(passo2);
   }
 
-  // si aspettano i caratteri: prima le misure dei testi non sono quelle vere.
-  // Con la matassa prima dell'apertura (assets/js/matassa.js) il filo parte solo quando
-  // l'apertura arriva a schermo: prima si starebbe ancora guardando la matassa.
-  var caratteri = false;
-  var aschermo = !document.getElementById('matassa') || !('IntersectionObserver' in window);
   function parti() {
-    if (animato || !caratteri || !aschermo) return;
+    if (animato) return;
     animato = true;
     disegna(true);
   }
-  function pronti() { caratteri = true; parti(); }
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(pronti); else window.addEventListener('load', pronti);
-  setTimeout(pronti, 1500);
-  if (!aschermo) new IntersectionObserver(function (v, o) {
-    if (v[0].isIntersecting) { aschermo = true; o.disconnect(); parti(); }
-  }, { threshold: 0.25 }).observe(hero);
+  // si aspettano i caratteri: prima le misure dei testi non sono quelle vere
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(parti); else window.addEventListener('load', parti);
+  setTimeout(parti, 1500);
   var lw = window.innerWidth, tmo = null;
   window.addEventListener('resize', function () {
     if (window.innerWidth === lw) return;   // al telefono la barra degli indirizzi cambia l'altezza: non si ridisegna
