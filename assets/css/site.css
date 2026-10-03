@@ -1258,3 +1258,8 @@ body.carta .person[data-tinta].is-lit,body.carta .person[data-tinta]:focus-visib
 /* i giorni del programma: grandi, nel carattere dei titoli */
 .gg-tab{min-height:64px;padding:14px 22px;font-family:var(--serif);font-size:clamp(24px,2.8vw,34px);letter-spacing:.01em;text-transform:none;font-weight:300}
 .gg-tab[aria-selected="true"]{font-style:italic}
+
+/* solo lana: niente filo che lega i ritratti (le sezioni le cuce la lana) */
+body.carta #artisti .thread > svg{display:none}
+/* «Aggiungi al calendario» sotto ogni appuntamento: piccolo, un'etichetta discreta */
+.app-az .ag-btn{min-height:30px;padding:0 11px;font-size:9.5px;letter-spacing:.16em}
