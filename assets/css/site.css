@@ -1291,3 +1291,5 @@ body.carta #artisti .thread > svg{display:none}
 .app-ora[role="button"]:hover time,.app-ora[role="button"]:focus-visible time{text-decoration-color:currentColor}
 .app-ora[role="button"]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media (prefers-reduced-motion:reduce){.app-az .ag-btn,.app-az .ag-btn::before,.app-ora[role="button"],.app-ora[role="button"] time{transition:none}}
+/* «tutti i giorni»: sotto il programma dei singoli giorni */
+.tech.sempre--sotto{margin-top:clamp(36px,5vw,56px)}
