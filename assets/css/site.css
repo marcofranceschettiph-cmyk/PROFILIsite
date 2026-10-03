@@ -1242,3 +1242,12 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
 .cucitura--dentro canvas{top:calc(50% - 50px)}
 .cucitura--dentro + .head-ospiti{margin-top:0}
 .block + .block:has(> .cucitura){border-top:0}
+
+/* ===== PRO-FILI: tutto chiaro e monocromatico (3/10) =====
+   Niente fasce scure ne' filo a colori fra gli artisti: l'unico colore della pagina,
+   oltre al logo, e' la lana delle cuciture. Le schede degli artisti accese restano oro. */
+body.carta #artisti .thread > svg{display:none}
+/* le sezioni le divide la lana: niente riga sotto l'apertura */
+body.carta .matassa ~ .page-hero{border-bottom:0}
+body.carta .person[data-tinta].is-lit,body.carta .person[data-tinta]:focus-visible{--accent:var(--gold-d);--accent-2:var(--gold-d2)}
+@media (hover:none){body.carta .person[data-tinta] .role{color:var(--accent)}}
