@@ -835,6 +835,17 @@
       setTimeout(function () { btn.removeAttribute('data-done'); btn.textContent = was; }, 2600);
     });
   });
+  // nel programma anche l'orario di ogni appuntamento lo aggiunge al calendario
+  document.querySelectorAll('.app').forEach(function (app) {
+    var ora = app.querySelector('.app-ora'), btn = app.querySelector('[data-ev-start] [data-ics]');
+    if (!ora || !btn || !ora.querySelector('time')) return;
+    ora.setAttribute('role', 'button');
+    ora.setAttribute('tabindex', '0');
+    ora.setAttribute('title', 'Aggiungi al calendario');
+    ora.setAttribute('aria-label', 'Aggiungi al calendario: ' + (app.querySelector('.app-t') || ora).textContent.trim() + ', ' + ora.textContent.trim());
+    ora.addEventListener('click', function () { btn.click(); });
+    ora.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); } });
+  });
 
 
   /* ---------- 7c. «Gli altri artisti»: quattro a caso a ogni visita ----------

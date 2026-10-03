@@ -1261,5 +1261,15 @@ body.carta .person[data-tinta].is-lit,body.carta .person[data-tinta]:focus-visib
 
 /* solo lana: niente filo che lega i ritratti (le sezioni le cuce la lana) */
 body.carta #artisti .thread > svg{display:none}
-/* «Aggiungi al calendario» sotto ogni appuntamento: piccolo, un'etichetta discreta */
-.app-az .ag-btn{min-height:30px;padding:0 11px;font-size:9.5px;letter-spacing:.16em}
+/* «Aggiungi al calendario» sotto ogni appuntamento, come sul sito IANUA: niente riquadro,
+   una lineetta e la scritta piccola; passandoci sopra la lineetta si allunga e si accende */
+.app-az .ag-btn{min-height:36px;padding:0;border:0;background:none;gap:10px;font-size:10.5px;letter-spacing:.2em;color:var(--mute);transition:color var(--t-base)}
+.app-az .ag-btn::before{content:"";width:22px;height:1px;background:var(--rule-2);transition:width var(--t-base) var(--ease-out),background var(--t-base)}
+.app-az .ag-btn:hover,.app-az .ag-btn[data-done]{color:var(--accent-2);border:0}
+.app-az .ag-btn:hover::before,.app-az .ag-btn[data-done]::before{width:34px;background:var(--accent)}
+/* anche l'orario aggiunge l'appuntamento al calendario */
+.app-ora[role="button"]{cursor:pointer;transition:color var(--t-base)}
+.app-ora[role="button"] time{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em;text-decoration-color:transparent;transition:text-decoration-color var(--t-base)}
+.app-ora[role="button"]:hover time,.app-ora[role="button"]:focus-visible time{text-decoration-color:currentColor}
+.app-ora[role="button"]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+@media (prefers-reduced-motion:reduce){.app-az .ag-btn,.app-az .ag-btn::before,.app-ora[role="button"],.app-ora[role="button"] time{transition:none}}
