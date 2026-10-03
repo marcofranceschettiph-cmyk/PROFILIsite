@@ -1304,5 +1304,9 @@ body.carta #artisti .thread > svg{display:none}
 /* numeri «moderni» dentro i testi in Cormorant: lo 0 non deve sembrare una o */
 .num{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 
-/* il filo sul bordo sinistro (assets/js/filo-laterale.js): un solo canvas fisso, sopra le sezioni e sotto il menu */
-.filo-laterale{position:fixed;left:0;right:0;top:0;bottom:0;width:100%;height:100%;pointer-events:none;z-index:50}
+/* il filo sul bordo sinistro (assets/js/filo-laterale.js): uno strato alto quanto la pagina, che scorre
+   con il contenuto, sopra le sezioni e sotto il menu; i rami stanno sotto il filo verticale */
+.filo-strato{position:absolute;left:0;top:0;width:100%;pointer-events:none;z-index:50;overflow:hidden}
+.filo-strato canvas{position:absolute;display:block}
+.filo-ramo{z-index:1}
+.filo-tegola{z-index:2}
