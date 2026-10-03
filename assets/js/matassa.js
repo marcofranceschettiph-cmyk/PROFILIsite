@@ -13,7 +13,8 @@
      fondo), in 16 bit: rosso = byte alto, verde = byte basso;
    - palla.png: la matassa ritagliata con la sua peluria su sfondo trasparente, a doppia
      risoluzione (708x708, si disegna a 354 nel quadro {x,y}); nella base al suo posto c'e' la carta
-     con l'ombra proiettata, ferma. Girando il png la lana gira tutta e il bordo resta peloso.
+     piatta (via le ombre della foto) con le ombre fisse, disegnate, dei profili e della matassa;
+     l'ombra del filo sta nel livello del filo e compare con lui. Girando il png la lana gira tutta.
    Con prefers-reduced-motion il palco e' alto uno schermo e il filo e' gia' tutto. */
 (function () {
   'use strict';
@@ -48,8 +49,8 @@
   function prepara() {
     var nome = verticale && verticale.matches ? 'stretto' : 'largo', T = TAGLI[nome];
     if (scena && scena.nome === nome) return;
-    Promise.all([carica(DIR + nome + '-base.webp?v=9'), carica(DIR + nome + '-filo.webp?v=9'), carica(DIR + nome + '-tempo.png?v=9'),
-                 carica(DIR + nome + '-palla.png?v=1')]).then(function (r) {
+    Promise.all([carica(DIR + nome + '-base.webp?v=10'), carica(DIR + nome + '-filo.webp?v=10'), carica(DIR + nome + '-tempo.png?v=10'),
+                 carica(DIR + nome + '-palla.png?v=2')]).then(function (r) {
       var fp = pixel(r[1], T.W, T.H), tp = pixel(r[2], T.W, T.H);
       cBase.width = cFilo.width = T.W; cBase.height = cFilo.height = T.H;
       var out = cFilo.getContext('2d').createImageData(T.W, T.H), od = out.data;
