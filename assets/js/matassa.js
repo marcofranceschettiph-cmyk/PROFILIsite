@@ -11,8 +11,8 @@
    - filo.webp: solo il filo, con la trasparenza;
    - tempo.png: per ogni pixel del filo, quando ricompare (0 = alla matassa, 1 = in
      fondo), in 16 bit: rosso = byte alto, verde = byte basso;
-   - palla.webp: la matassa intera raddrizzata a cerchio pieno di lana (354x354, centro 177),
-     e palla-maschera.png: la sua sagoma vera, con il bordo morbido. Mentre si scorre la
+   - palla.webp: la matassa pari pari dalla foto, a doppia risoluzione (708x708, si disegna a 354),
+     con la lana specchiata oltre il bordo; palla-maschera.png: la sua sagoma vera con la peluria. Mentre si scorre la
      texture gira sotto la maschera ferma: cosi' gira tutta la lana fino al bordo, mentre
      il contorno e l'ombra proiettata sulla carta restano al loro posto.
    Con prefers-reduced-motion il palco e' alto uno schermo e il filo e' gia' tutto. */
@@ -49,8 +49,8 @@
   function prepara() {
     var nome = verticale && verticale.matches ? 'stretto' : 'largo', T = TAGLI[nome];
     if (scena && scena.nome === nome) return;
-    Promise.all([carica(DIR + nome + '-base.webp?v=7'), carica(DIR + nome + '-filo.webp?v=7'), carica(DIR + nome + '-tempo.png?v=7'),
-                 carica(DIR + nome + '-palla.webp?v=2'), carica(DIR + nome + '-palla-maschera.png?v=3')]).then(function (r) {
+    Promise.all([carica(DIR + nome + '-base.webp?v=8'), carica(DIR + nome + '-filo.webp?v=8'), carica(DIR + nome + '-tempo.png?v=8'),
+                 carica(DIR + nome + '-palla.webp?v=3'), carica(DIR + nome + '-palla-maschera.png?v=4')]).then(function (r) {
       var fp = pixel(r[1], T.W, T.H), tp = pixel(r[2], T.W, T.H);
       cBase.width = cFilo.width = T.W; cBase.height = cFilo.height = T.H;
       var out = cFilo.getContext('2d').createImageData(T.W, T.H), od = out.data;
@@ -94,7 +94,7 @@
     gc.setTransform(1, 0, 0, 1, 0, 0);
     gc.clearRect(0, 0, PALLA, PALLA);
     gc.translate(CP, CP); gc.rotate(-p * Math.PI * 1.6);
-    gc.drawImage(scena.palla, -CP, -CP);
+    gc.drawImage(scena.palla, -CP, -CP, PALLA, PALLA);
     gc.setTransform(1, 0, 0, 1, 0, 0);
     gc.globalCompositeOperation = 'destination-in';
     gc.drawImage(scena.maschera, 0, 0);
