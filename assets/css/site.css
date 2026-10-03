@@ -1227,10 +1227,11 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
 }
 /* l'apertura subito sotto: la carta continua, niente riga di separazione e poco spazio
    sopra (la barra non la copre: sopra c'e' la matassa; il filo colorato qui non c'e').
-   In verticale sotto la foto resta un avanzo di schermo: l'apertura ci sale sopra per tre quarti */
-.matassa + .page-hero{border-top:0;padding-top:clamp(8px,1vw,16px)}
+   L'apertura sale sulla carta in fondo alla foto, sotto il filo che esce; in verticale
+   sale anche sopra l'avanzo di schermo che resta sotto la foto. */
+.matassa + .page-hero{border-top:0;padding-top:clamp(8px,1vw,16px);margin-top:-24px}
 @media (max-aspect-ratio:1/1){
-  .matassa + .page-hero{margin-top:calc(-0.75 * max(0px, 100svh - 68px - 100vw * 776 / 450))}
+  .matassa + .page-hero{margin-top:calc(-1 * max(0px, 100svh - 68px - 100vw * 776 / 450) - 6px)}
 }
 
 /* ===== PRO-FILI: le cuciture (assets/js/cuciture.js) =====
