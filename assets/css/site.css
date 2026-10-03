@@ -1293,3 +1293,8 @@ body.carta #artisti .thread > svg{display:none}
 @media (prefers-reduced-motion:reduce){.app-az .ag-btn,.app-az .ag-btn::before,.app-ora[role="button"],.app-ora[role="button"] time{transition:none}}
 /* «tutti i giorni»: sotto il programma dei singoli giorni */
 .tech.sempre--sotto{margin-top:clamp(36px,5vw,56px)}
+/* «Tutti i giorni» grande, nel carattere e nel colore degli orari del programma */
+.tech.sempre li{align-items:baseline;padding:16px 0}
+.tech.sempre li b{font-family:var(--serif);font-weight:300;font-size:clamp(22px,2.4vw,28px);line-height:1.1;letter-spacing:.01em;text-transform:none;color:var(--accent);padding-top:0}
+.tech.sempre li span{font-size:16px}
+@media (max-width:640px){.tech.sempre li{grid-template-columns:1fr;gap:4px}}
