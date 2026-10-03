@@ -1256,8 +1256,26 @@ body.carta .person[data-tinta].is-lit,body.carta .person[data-tinta]:focus-visib
 @media (hover:none){body.carta .person[data-tinta] .role{color:var(--accent)}}
 
 /* i giorni del programma: grandi, nel carattere dei titoli */
-.gg-tab{min-height:64px;padding:14px 22px;font-family:var(--serif);font-size:clamp(24px,2.8vw,34px);letter-spacing:.01em;text-transform:none;font-weight:300}
-.gg-tab[aria-selected="true"]{font-style:italic}
+/* i giorni del programma: tre veri tasti, grandi, nel carattere dei titoli. Quello aperto
+   e' pieno (inchiostro su carta rovesciato), gli altri hanno il bordo e sotto la scritta
+   «apri il programma»; sopra c'e' l'invito a toccarli. */
+.gg-hint{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--accent-2)}
+.gg-hint:has(+ .gg-tabs[hidden]){display:none}
+.gg-hint-freccia{width:9px;height:9px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-3px)}
+html.motion .gg-hint-freccia{animation:gg-giu 1.6s var(--ease-out) infinite}
+@keyframes gg-giu{0%,100%{transform:rotate(45deg) translate(-2px,-2px)}50%{transform:rotate(45deg) translate(2px,2px)}}
+.gg-tabs{gap:clamp(8px,1.4vw,16px);border-bottom:0;overflow:visible;flex-wrap:nowrap}
+.gg-tab{flex:1 1 0;min-width:0;min-height:72px;margin:0;padding:12px 10px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  font-family:var(--serif);font-size:clamp(24px,2.8vw,34px);letter-spacing:.01em;text-transform:none;font-weight:300;line-height:1;
+  border:1px solid var(--rule-2);border-radius:2px;background:transparent;color:var(--fg);cursor:pointer;
+  transition:background var(--t-base),color var(--t-base),border-color var(--t-base),transform var(--t-base) var(--ease-out)}
+.gg-tab::after{content:"apri il programma";font-family:var(--sans);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;font-style:normal;color:var(--accent-2)}
+.gg-tab:hover{border-color:var(--accent);color:var(--fg);transform:translateY(-2px)}
+.gg-tab[aria-selected="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg);font-style:italic;transform:none}
+.gg-tab[aria-selected="true"]::after{content:"programma aperto";color:var(--bg);opacity:.75}
+.gg-tab.is-passato:not([aria-selected="true"]){color:var(--mute)}
+@media (max-width:640px){.gg-tab::after{content:"apri";font-size:9px}.gg-tab[aria-selected="true"]::after{content:"aperto"}}
+@media (prefers-reduced-motion:reduce){html.motion .gg-hint-freccia{animation:none}.gg-tab{transition:none}.gg-tab:hover{transform:none}}
 
 /* solo lana: niente filo che lega i ritratti (le sezioni le cuce la lana) */
 body.carta #artisti .thread > svg{display:none}
