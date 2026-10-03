@@ -869,7 +869,8 @@
     {s:"massimo-marchioro",n:"Massimo Marchioro",r:"Pittura",t:"Cerca nelle stanze più profonde, e le scale che portano in alto.",i:"massimo-marchioro.webp",ss:"massimo-marchioro_sm.webp 800w, massimo-marchioro.webp 1280w",a:"Ritratto di Massimo Marchioro, di profilo",w:1280,h:1600},
     {s:"salvatore-passalacqua",n:"Salvatore Passalacqua",r:"Musica e arti visive · ETHA",t:"Strumenti acustici ed elettronica, tra il reale e il surreale.",i:"salvatore-passalacqua.webp",ss:"salvatore-passalacqua_sm.webp 800w, salvatore-passalacqua.webp 1280w",a:"Ritratto di Salvatore Passalacqua, di profilo",w:1280,h:1600},
     {s:"salsa-wasabbee",n:"salsa_wasabbee",r:"Fumetto e illustrazione",t:"Tavole in bianco e nero: sperimenta, si spaventa, si addormenta.",i:"salsa-wasabbee.webp",ss:"salsa-wasabbee_sm.webp 800w, salsa-wasabbee.webp 1280w",a:"Ritratto di salsa_wasabbee, di profilo",w:1280,h:1600},
-    {s:"francesca-de-simone",n:"Francesca De Simone",r:"Poesia",t:"Fissa in pochi versi un sentire sconosciuto.",i:"francesca-de-simone.webp",ss:"francesca-de-simone_sm.webp 800w, francesca-de-simone.webp 1280w",a:"Ritratto di Francesca De Simone, di profilo, in bianco e nero",w:1280,h:1600}
+    {s:"francesca-de-simone",n:"Francesca De Simone",r:"Poesia",t:"Fissa in pochi versi un sentire sconosciuto.",i:"francesca-de-simone.webp",ss:"francesca-de-simone_sm.webp 800w, francesca-de-simone.webp 1280w",a:"Ritratto di Francesca De Simone, di profilo, in bianco e nero",w:1280,h:1600},
+    {s:"elia-pellegrini",n:"Elia Pellegrini",r:"Arti visive e 3D",t:"Luce, architettura e tempo, tra i rosoni gotici e il mondo onirico.",i:"elia-pellegrini.webp",ss:"elia-pellegrini_sm.webp 800w, elia-pellegrini.webp 1280w",a:"Ritratto di Elia Pellegrini, con il volto attraversato dalle nuvole",w:1280,h:1600}
   ];
 
   (function () {
