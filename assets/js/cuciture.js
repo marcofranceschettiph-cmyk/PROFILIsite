@@ -4,7 +4,7 @@
    da sinistra a destra e la volta dopo da destra a sinistra: si srotola mentre la
    cucitura sale nello schermo. La prima parte da sinistra, dove esce il filo della matassa.
    Il filo e' disegnato su un canvas con la lana vera della foto (assets/img/matassa/lana.webp:
-   una striscia di filo dritto, lungo il filo in orizzontale, 2 righe per pixel di
+   una striscia di filo dritto che si ripete senza giunture, lungo il filo in orizzontale, 2 righe per pixel di
    traverso), stesa a fettine lungo un'onda diversa per ogni cucitura; il capo e' tondo.
    Con prefers-reduced-motion il filo e' gia' tutto. */
 (function () {
@@ -14,7 +14,6 @@
   var ridotto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ALTO = 100;         // altezza del canvas (px CSS): il filo ondeggia qui dentro
   var PIENO = 19;         // righe della striscia occupate dal filo (sotto c'e' la sua ombra)
-  var GIUNTA = 24, MARGINE = 3;   // le tegole della striscia si sfumano l'una nell'altra
   var lana = new Image();
 
   // numeri casuali ripetibili: ogni cucitura ha sempre la sua onda
@@ -48,7 +47,7 @@
     var spesso = (w < 640 ? 10 : 13) * dpr;            // spessore del filo sullo schermo
     var kr = spesso / PIENO;                          // una riga della striscia, in px
     var passo = 1 / (2 * kr);                         // colonne della striscia per px di filo
-    var L = lana.naturalWidth, Hs = lana.naturalHeight, P = L - GIUNTA - 2 * MARGINE;
+    var L = lana.naturalWidth, Hs = lana.naturalHeight;   // la striscia si ripete senza giunture
     var lambda = s.onda * Math.max(w, 700) * dpr, A = s.ampiezza * dpr, mezzo = ALTO * dpr / 2;
     function y(x) { return mezzo + A * Math.sin(2 * Math.PI * x / lambda + s.fase) + s.pendenza * dpr * (x / (w * dpr) - 0.5); }
     s.y = y; s.raggio = spesso / 2 + dpr;
@@ -60,16 +59,10 @@
       nx = px + dx; ny = y(nx);
       var ang = Math.atan2(ny - py, nx - px), co = Math.cos(ang), si = Math.sin(ang);
       ctx.setTransform(co, si, -si, co, px, py);
-      var t = Math.floor(u / P), v = u - t * P + MARGINE;
-      if (t > 0 && v - MARGINE < GIUNTA) {
-        ctx.globalAlpha = 1;
-        ctx.drawImage(lana, Math.min(L - 1, v + P), 0, passo, Hs, -0.2, -Hs * kr / 2, 1.6, Hs * kr);
-        ctx.globalAlpha = (v - MARGINE) / GIUNTA;
-      } else ctx.globalAlpha = 1;
-      ctx.drawImage(lana, Math.min(L - 1, v), 0, passo, Hs, -0.2, -Hs * kr / 2, 1.6, Hs * kr);
+      var v = u % L;
+      ctx.drawImage(lana, Math.min(L - passo, v), 0, passo, Hs, -0.3, -Hs * kr / 2, 1.6, Hs * kr);
       u += passo; px = nx; py = ny; x = nx;
     }
-    ctx.globalAlpha = 1;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
@@ -125,5 +118,7 @@
     window.addEventListener('resize', chiedi);
     chiedi();
   };
-  lana.src = 'assets/img/matassa/lana.webp';
+  // la striscia sta accanto allo script: vale dalla home e dalle pagine interne
+  var qui = (document.currentScript && document.currentScript.src) || '';
+  lana.src = qui ? qui.replace(/js\/cuciture\.js.*$/, 'img/matassa/lana.webp') : 'assets/img/matassa/lana.webp';
 })();
