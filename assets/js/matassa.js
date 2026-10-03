@@ -49,7 +49,7 @@
   function prepara() {
     var nome = verticale && verticale.matches ? 'stretto' : 'largo', T = TAGLI[nome];
     if (scena && scena.nome === nome) return;
-    Promise.all([carica(DIR + nome + '-base.webp?v=11'), carica(DIR + nome + '-filo.webp?v=11'), carica(DIR + nome + '-tempo.png?v=11'),
+    Promise.all([carica(DIR + nome + '-base.webp?v=12'), carica(DIR + nome + '-filo.webp?v=12'), carica(DIR + nome + '-tempo.png?v=12'),
                  carica(DIR + nome + '-palla.png?v=3')]).then(function (r) {
       var fp = pixel(r[1], T.W, T.H), tp = pixel(r[2], T.W, T.H);
       cBase.width = cFilo.width = T.W; cBase.height = cFilo.height = T.H;
