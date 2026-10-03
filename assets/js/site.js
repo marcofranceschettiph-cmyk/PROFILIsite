@@ -574,9 +574,12 @@
       }
       return out;
     }
-    var prevEnd = null, prevDir = 0;
+    var prevEnd = null, prevDir = 0, prevBot = 0;
+    // da che parte entra il filo: di solito da sinistra; data-giri-inizio="destra-telefono"
+    // lo fa entrare da destra sugli schermi stretti (sotto i 640 px)
+    var inizio = th.getAttribute('data-giri-inizio') === 'destra-telefono' && vw < 640 ? -1 : 1;
     rows.forEach(function (row, k) {
-      var d = k % 2 ? -1 : 1;
+      var d = (k % 2 ? -1 : 1) * inizio;
       if (d < 0) row.reverse();
       row.forEach(function (p) {
         loops(p, d).forEach(function (L, q) {
@@ -589,15 +592,32 @@
             var kx = Math.abs(S[0] - prevEnd[0]) * 0.45;
             bez(prevEnd, [prevEnd[0] + d * kx, prevEnd[1]], [S[0] - d * kx, S[1]], S);
           } else if (carta) {
-            // cambio di riga: dritto fino al margine all'altezza del giro, curva di 24 px nel
-            // margine, discesa, curva, di nuovo dritto nella foto. Non attraversa né volti né nomi.
-            var ln = prevDir > 0 ? laneR : laneL, E0 = prevEnd, rr = Math.min(24, (S[1] - E0[1]) / 2), kk = rr * 0.5523;
-            var E1 = [ln - prevDir * rr, E0[1]], A0 = [ln, E0[1] + rr], B0 = [ln, S[1] - rr], S1 = [ln + d * rr, S[1]];
-            bez(E0, [E0[0] + (E1[0] - E0[0]) / 3, E0[1]], [E0[0] + (E1[0] - E0[0]) * 2 / 3, E0[1]], E1);
-            bez(E1, [E1[0] + prevDir * kk, E1[1]], [ln, A0[1] - kk], A0);
-            bez(A0, [ln, A0[1] + (B0[1] - A0[1]) / 3], [ln, B0[1] - (B0[1] - A0[1]) / 3], B0);
-            bez(B0, [ln, B0[1] + kk], [S1[0] - d * kk, S1[1]], S1);
-            bez(S1, [S1[0] + (S[0] - S1[0]) / 3, S[1]], [S1[0] + (S[0] - S1[0]) * 2 / 3, S[1]], S);
+            // cambio di riga: due archi di cerchio larghi quanto si puo', uniti da una discesa
+            // nel margine. Lo spazio verso fuori arriva fino a 6 px dal bordo dello schermo;
+            // l'arco puo' cominciare gia' sotto la foto, purche' scenda solo di qualche pixel
+            // e resti sopra il nome (che sta 12 px sotto la foto). Non attraversa ne' volti ne' nomi.
+            var ln = prevDir > 0 ? laneR : laneL, E0 = prevEnd, dyr = S[1] - E0[1];
+            var bordo = ln - prevDir * 12;
+            var fuori = prevDir > 0 ? vw - box.left - ln - 6 : ln + box.left - 6;
+            var X = ln + prevDir * clamp(fuori, 0, 64) * (0.85 + rnd(k * 7 + 5) * 0.15);
+            var lato = Math.abs(X - bordo);
+            // il raggio piu' grande per cui, sul bordo della foto, l'arco scende al massimo di 'giu' px
+            function raggio(giu) {
+              for (var rg = Math.min(80, dyr / 2 - 4); rg > lato; rg -= 2) {
+                var u = rg - lato; if (rg - Math.sqrt(rg * rg - u * u) <= giu) return rg;
+              }
+              return Math.max(8, Math.min(lato, dyr / 2 - 4));
+            }
+            var r1 = raggio(Math.max(0, prevBot + 9 - E0[1])), r2 = raggio(Math.max(0, S[1] - (p.t + p.h * 0.8)));
+            var C1 = X - prevDir * r1, C2 = X - prevDir * r2, kq = 0.5523;
+            var E1 = [C1, E0[1]], M1 = [X, E0[1] + r1], M2 = [X, S[1] - r2], S1 = [C2, S[1]];
+            if (prevDir * (E1[0] - E0[0]) > 1) bez(E0, [E0[0] + (E1[0] - E0[0]) / 3, E0[1]], [E0[0] + (E1[0] - E0[0]) * 2 / 3, E0[1]], E1);
+            else E1 = E0;
+            bez(E1, [E1[0] + prevDir * r1 * kq, E1[1]], [X, M1[1] - r1 * kq], M1);
+            if (M2[1] - M1[1] > 1) bez(M1, [X, M1[1] + (M2[1] - M1[1]) / 3], [X, M2[1] - (M2[1] - M1[1]) / 3], M2);
+            var S1v = prevDir * (S1[0] - S[0]) > 1 ? S1 : S;
+            bez(M2, [X, M2[1] + r2 * kq], [S1v[0] + prevDir * r2 * kq, S1v[1]], S1v);
+            if (S1v !== S) bez(S1, [S1[0] + (S[0] - S1[0]) / 3, S[1]], [S1[0] + (S[0] - S1[0]) * 2 / 3, S[1]], S);
           } else {
             // cambio di riga: curva larga verso il margine, discesa diritta, curva larga verso la foto
             var lane = prevDir > 0 ? laneR : laneL, E = prevEnd, dy = S[1] - E[1];
@@ -612,7 +632,7 @@
             poly.push([L.cx + L.d * (L.a * u - L.r * Math.sin(u)), L.cy - L.s * L.r * Math.cos(u)]);
           }
           if (q === 0) anchors[p.i] = [L.cx, L.cy - L.s * L.r];
-          prevEnd = L.end; prevDir = d;
+          prevEnd = L.end; prevDir = d; prevBot = p.t + p.h;
         });
       });
     });

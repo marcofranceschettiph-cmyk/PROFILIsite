@@ -1198,13 +1198,13 @@ body.carta:not(.menu-open) .nav.solid:not(.on-paper){border-color:var(--line)}
 body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper-line)}
 
 /* ===== PRO-FILI: la matassa dell'apertura (2/10) =====
-   Un palco fisso prima dell'apertura: la foto resta ferma in fondo allo schermo mentre
+   Un palco fisso prima dell'apertura: la foto resta ferma sotto la barra mentre
    la pagina scorre e il filo di lana si srotola, poi esce di scena a sinistra.
    I bordi della foto sfumano appena nella carta. */
 .matassa{position:relative;height:260vh;background:var(--paper)}
-.matassa-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
-  display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
-.matassa-tela{position:relative;width:min(100%, calc((100svh - 64px) * 1344 / 776));aspect-ratio:1344/776;
+.matassa-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;padding-top:64px;
+  display:flex;flex-direction:column;justify-content:flex-start;align-items:center}
+.matassa-tela{position:relative;width:min(100%, calc((100svh - 64px) * 1344 / 714));aspect-ratio:1344/714;
   -webkit-mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
   -webkit-mask-composite:source-in;
   mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
@@ -1221,7 +1221,7 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
 @media (max-aspect-ratio:1/1){
   .matassa-palco{justify-content:flex-start;padding-top:68px}
   .matassa-scorri{top:auto;bottom:calc(22px + env(safe-area-inset-bottom))}
-  .matassa-tela{width:min(100%, calc((100svh - 68px) * 450 / 776));aspect-ratio:450/776;
+  .matassa-tela{width:min(100%, calc((100svh - 68px) * 450 / 714));aspect-ratio:450/714;
     -webkit-mask-image:linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
     mask-image:linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent)}
 }
@@ -1229,9 +1229,9 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
    sopra (la barra non la copre: sopra c'e' la matassa; il filo colorato qui non c'e').
    L'apertura sale sulla carta in fondo alla foto, sotto il filo che esce; in verticale
    sale anche sopra l'avanzo di schermo che resta sotto la foto. */
-.matassa + .page-hero{border-top:0;padding-top:clamp(8px,1vw,16px);margin-top:-24px}
+.matassa + .page-hero{border-top:0;padding-top:clamp(8px,1vw,16px);margin-top:calc(-1 * max(0px, 100svh - 64px - 100vw * 714 / 1344) - 24px)}
 @media (max-aspect-ratio:1/1){
-  .matassa + .page-hero{margin-top:calc(-1 * max(0px, 100svh - 68px - 100vw * 776 / 450) - 6px)}
+  .matassa + .page-hero{margin-top:calc(-1 * max(0px, 100svh - 68px - 100vw * 714 / 450) - 6px)}
 }
 
 /* ===== PRO-FILI: le cuciture (assets/js/cuciture.js) =====

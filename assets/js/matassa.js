@@ -4,7 +4,7 @@
    ricompare pezzo per pezzo nell'ordine in cui si srotola: parte dalla matassa (che
    gira), lega il primo profilo, passa dietro la nuca, lega il secondo e il terzo,
    scende e scorre via fuori scena a sinistra, mentre la pagina prosegue con l'apertura.
-   Due tagli della foto (assets/img/matassa/): «largo» per gli schermi orizzontali,
+   Due tagli della foto, a doppia risoluzione (assets/img/matassa/): «largo» per gli schermi orizzontali,
    «stretto» per quelli verticali, piu' vicino, con la matassa spostata in alto a sinistra.
    Per ogni taglio tre immagini:
    - base.webp: la foto senza filo;
@@ -24,8 +24,8 @@
 
   // per ogni taglio: misure, la matassa (centro e raggio) e il capo (3 px su tutto il percorso)
   var TAGLI = {
-    largo:   { W: 1344, H: 776, palla: { x: 133, y: 92, r: 73 }, punta: 3 / 3285 },
-    stretto: { W: 450,  H: 776, palla: { x: 87, y: 80, r: 73 }, punta: 3 / 3000 }
+    largo:   { W: 2688, H: 1428, palla: { x: 266, y: 184, r: 146 }, punta: 3 / 3285 },
+    stretto: { W: 900,  H: 1428, palla: { x: 174, y: 160, r: 146 }, punta: 3 / 3000 }
   };
   var DIR = 'assets/img/matassa/';
   var scena = null;   // il taglio caricato: immagine di base, pixel del filo, tempi
@@ -57,6 +57,9 @@
         idx.push(k + 3); a0.push(a); tt.push((tp[k] * 256 + tp[k + 1]) / 65535);
       }
       scena = { nome: nome, T: T, base: r[0], out: out, idx: idx, a0: a0, tt: tt };
+      cBase.getContext('2d').drawImage(r[0], 0, 0);
+      cFilo.getContext('2d').clearRect(0, 0, T.W, T.H);
+      for (var z = 0; z < idx.length; z++) od[idx[z]] = 0;
       palco.setAttribute('data-taglio', nome);
       palco.classList.add('pronta');
       ultimo = -1;
@@ -75,8 +78,7 @@
     if (Math.abs(p - ultimo) < 0.0004) return;
     ultimo = p;
     var T = scena.T, P = T.palla, cb = cBase.getContext('2d');
-    // la matassa gira mentre si srotola
-    cb.drawImage(scena.base, 0, 0);
+    // la matassa gira mentre si srotola (la foto intera e' gia' sotto: si ridisegna solo la palla)
     cb.save();
     cb.beginPath(); cb.arc(P.x, P.y, P.r, 0, Math.PI * 2); cb.clip();
     cb.translate(P.x, P.y); cb.rotate(-p * Math.PI * 1.6); cb.translate(-P.x, -P.y);
@@ -85,11 +87,17 @@
     // il filo: tutto quello che e' gia' uscito, con un capo netto
     var od = scena.out.data, idx = scena.idx, a0 = scena.a0, tt = scena.tt, N = idx.length;
     var punta = T.punta, fine = p * (1 + punta);
+    // si ridisegna solo il riquadro dei pixel che cambiano: la foto e' grande
+    var x0 = T.W, y0 = T.H, x1 = -1, y1 = -1;
     for (var j = 0; j < N; j++) {
       var f = (fine - tt[j]) / punta;
-      od[idx[j]] = f >= 1 ? a0[j] : f <= 0 ? 0 : a0[j] * f;
+      var a = f >= 1 ? a0[j] : f <= 0 ? 0 : a0[j] * f;
+      if (od[idx[j]] === (a | 0)) continue;
+      od[idx[j]] = a;
+      var q = (idx[j] - 3) >> 2, x = q % T.W, y = (q - x) / T.W;
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
     }
-    cFilo.getContext('2d').putImageData(scena.out, 0, 0);
+    if (x1 >= 0) cFilo.getContext('2d').putImageData(scena.out, 0, 0, x0, y0, x1 - x0 + 1, y1 - y0 + 1);
     palco.style.setProperty('--scorri', p < 0.04 ? 1 : 0);
   }
   function suScroll() {

@@ -13,7 +13,7 @@
   if (!cuciture.length || !document.createElement('canvas').getContext) return;
   var ridotto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ALTO = 100;         // altezza del canvas (px CSS): il filo ondeggia qui dentro
-  var PIENO = 30;         // righe della striscia occupate dal filo
+  var PIENO = 19;         // righe della striscia occupate dal filo (sotto c'e' la sua ombra)
   var GIUNTA = 24, MARGINE = 3;   // le tegole della striscia si sfumano l'una nell'altra
   var lana = new Image();
 
