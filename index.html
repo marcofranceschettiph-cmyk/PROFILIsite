@@ -20,7 +20,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-italic-latin.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261003a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261003c">
 <!-- senza JavaScript il calendario e il menu non funzionano: meglio non mostrarli -->
 <noscript><style>[data-ics],.burger{display:none!important}</style></noscript>
 </head>
@@ -101,6 +101,7 @@
 </header>
 
 <section class="block dark notte" id="festival" data-world="dark">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap article" style="grid-template-columns:1fr">
     <div>
       <div class="chapter rv">
@@ -128,6 +129,7 @@
 </section>
 
 <section class="block festival-artists paper" id="artisti" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Chi c'è</p><h2>Gli <em>artisti</em></h2></div><div style="justify-self:end"><p class="lede">Segui il filo, scopri ogni artista entrando nella sua scheda.</p><a class="submit call-btn" href="https://forms.gle/szaX93WAEcqnX4er6" target="_blank" rel="noopener" aria-label="Candidati come artista: il modulo si apre in una nuova scheda">Candidati come artista <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a></div></div>
     <div class="thread" data-giri><svg aria-hidden="true"><path class="ghost" d=""/><path class="line" d=""/><path class="flow" d=""/><circle class="bead" r="4"/></svg>
@@ -183,6 +185,7 @@
         <p>Dà colore e voce alle storie, soprattutto per i bambini.</p>
       </figure></a>
     </div>
+    <div class="cucitura cucitura--dentro" aria-hidden="true"></div>
     <div class="head rv head-ospiti"><div><p class="eyebrow">Chi arriva</p><h2>Gli <em>ospiti</em></h2></div><p class="lede">Tre presenze invitate accanto agli artisti del territorio.</p></div>
     <div class="people people-compact">
       <a class="person rv" data-tinta="oro" href="artisti/caino.html"><figure>
@@ -201,6 +204,7 @@
         <p>Cerca nelle stanze più profonde, e le scale che portano in alto.</p>
       </figure></a>
     </div>
+    <div class="cucitura cucitura--dentro" aria-hidden="true"></div>
     <div class="head rv head-ospiti"><div><p class="eyebrow">Chi lo organizza</p><h2>Gli <em>organizzatori</em></h2></div><p class="lede">Il festival è ideato e curato dal collettivo IANUA. <a class="more" href="https://collettivoianua.it/">Il sito del collettivo</a></p></div>
     <div class="people people-compact">
       <a class="person rv" data-tinta="rosso" href="artisti/nicola-elias-rigato.html"><figure>
@@ -229,6 +233,7 @@
 </section>
 
 <section class="block dark notte" id="programma" data-world="dark">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Programma</p><h2>Tre <em>giorni</em></h2></div><p class="lede">Tre giorni alla Pescheria Nuova, a ingresso libero. Alcune cose restano aperte per tutta la durata del festival, le altre hanno il loro orario.</p></div>
     <p class="loc" id="locandina" data-loc-base="assets/locandina/" hidden>
@@ -328,6 +333,7 @@
 </section>
 
 <section class="block paper" id="laboratori" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Laboratori</p><h2>I <em>laboratori</em></h2></div><p class="lede">Laboratori immersivi per tutte le età, aperti alla cittadinanza.</p></div>
     <ul class="tech pf-info rv">
@@ -339,6 +345,7 @@
 </section>
 
 <section class="block dark notte" id="info" data-world="dark">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Info</p><h2>Informazioni <em>pratiche</em></h2></div></div>
     <ul class="tech pf-info rv">
@@ -355,6 +362,7 @@
 </section>
 
 <section class="block paper" id="partner" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Chi ci sostiene</p><h2>Partner e <em>sponsor</em></h2></div><p class="lede">Le realtà che rendono possibile PRO-FILI, con i loro indirizzi e i loro canali.</p></div>
     <div class="pt-coppia rv">
@@ -487,6 +495,7 @@
 </section>
 
 <section class="block dark notte call-band" id="sostieni" data-world="dark">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="call rv">
       <div>
@@ -502,6 +511,7 @@
 </section>
 
 <section class="block paper" id="contatti" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="contact">
       <div class="rv">
@@ -561,7 +571,8 @@
 </footer>
 
 <!-- prima la matassa: se c'e', site.js non disegna il filo colorato dell'apertura -->
-<script src="assets/js/matassa.js?v=20261003a" defer></script>
-<script src="assets/js/site.js?v=20261003a" defer></script>
+<script src="assets/js/matassa.js?v=20261003c" defer></script>
+<script src="assets/js/site.js?v=20261003c" defer></script>
+<script src="assets/js/cuciture.js?v=20261003c" defer></script>
 </body>
 </html>

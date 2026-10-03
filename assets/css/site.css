@@ -1226,5 +1226,19 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
     mask-image:linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent)}
 }
 /* l'apertura subito sotto: la carta continua, niente riga di separazione e poco spazio
-   sopra (la barra non la copre: sopra c'e' la matassa; il filo colorato qui non c'e') */
-.matassa + .page-hero{border-top:0;padding-top:clamp(12px,2vw,32px)}
+   sopra (la barra non la copre: sopra c'e' la matassa; il filo colorato qui non c'e').
+   In verticale sotto la foto resta un avanzo di schermo: l'apertura ci sale sopra per tre quarti */
+.matassa + .page-hero{border-top:0;padding-top:clamp(8px,1vw,16px)}
+@media (max-aspect-ratio:1/1){
+  .matassa + .page-hero{margin-top:calc(-0.75 * max(0px, 100svh - 68px - 100vw * 776 / 450))}
+}
+
+/* ===== PRO-FILI: le cuciture (assets/js/cuciture.js) =====
+   Il filo di lana attraversa la pagina a cavallo fra due sezioni, da un bordo all'altro;
+   dentro gli artisti sta nello spazio sopra ospiti e organizzatori, largo quanto lo schermo. */
+.cucitura{position:absolute;left:0;right:0;top:0;height:0;z-index:4;pointer-events:none}
+.cucitura canvas{position:absolute;left:0;top:-50px;width:100%;height:100px;display:block}
+.cucitura--dentro{position:relative;left:auto;right:auto;width:100vw;height:clamp(120px,13vw,180px);margin:0 0 0 calc(50% - 50vw)}
+.cucitura--dentro canvas{top:calc(50% - 50px)}
+.cucitura--dentro + .head-ospiti{margin-top:0}
+.block + .block:has(> .cucitura){border-top:0}
