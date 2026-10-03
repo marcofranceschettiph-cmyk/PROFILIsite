@@ -855,7 +855,7 @@
      sicurezza: senza JavaScript si vedono quelli. */
   var ALTRI = [
     {s:"mattia-signorini",n:"Mattia Signorini",r:"Scrittura",t:"Romanziere, tradotto in mezzo mondo.",i:"mattia-signorini.webp",ss:"mattia-signorini_sm.webp 800w, mattia-signorini.webp 1280w",a:"Ritratto di Mattia Signorini",w:1280,h:1600},
-    {s:"giorgia-roversi",n:"Giorgia Roversi",r:"Pittura",t:"Pittura dell'anatomia invisibile delle emozioni.",i:"giorgia-roversi.webp",ss:"giorgia-roversi_sm.webp 800w, giorgia-roversi.webp 1280w",a:"Ritratto di Giorgia Roversi",w:1280,h:1600},
+    {s:"giorgia-roversi",n:"Giorgia Roversi",r:"Pittura",t:"Pittura dell'anatomia invisibile delle emozioni.",i:"giorgia-roversi.webp",ss:"giorgia-roversi_sm.webp 800w, giorgia-roversi.webp 906w",a:"Ritratto di Giorgia Roversi",w:906,h:1133},
     {s:"zentequerente",n:"Zentequerente",r:"Arti visive",t:"Disegno e segni raccolti: l'invisibile dentro il visibile.",i:"zentequerente.webp",ss:"zentequerente_sm.webp 800w, zentequerente.webp 1280w",a:"Ritratto di Zentequerente, di profilo",w:1280,h:1600},
     {s:"marcello-ubertone",n:"Marcello Ubertone",r:"Cantautorato",t:"Canzoni che raccontano storie, tra immaginazione e vita vera.",i:"marcello-ubertone.webp",ss:"marcello-ubertone_sm.webp 800w, marcello-ubertone.webp 1280w",a:"Ritratto di Ubertone, di profilo",w:1280,h:1600},
     {s:"anna-spazio-marangon",n:"Anna Spazio Marangon",r:"Arti visive · installazione",t:"Installazioni di fili e nodi, tra spazio e materia.",i:"anna-spazio-marangon.webp",ss:"anna-spazio-marangon_sm.webp 800w, anna-spazio-marangon.webp 1280w",a:"Ritratto di Anna Spazio Marangon, di profilo",w:1280,h:1600},
