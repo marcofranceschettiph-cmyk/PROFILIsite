@@ -10,7 +10,11 @@
    - base.webp: la foto senza filo;
    - filo.webp: solo il filo, con la trasparenza;
    - tempo.png: per ogni pixel del filo, quando ricompare (0 = alla matassa, 1 = in
-     fondo), in 16 bit: rosso = byte alto, verde = byte basso.
+     fondo), in 16 bit: rosso = byte alto, verde = byte basso;
+   - palla.webp: la matassa intera raddrizzata a cerchio pieno di lana (354x354, centro 177),
+     e palla-maschera.png: la sua sagoma vera, con il bordo morbido. Mentre si scorre la
+     texture gira sotto la maschera ferma: cosi' gira tutta la lana fino al bordo, mentre
+     il contorno e l'ombra proiettata sulla carta restano al loro posto.
    Con prefers-reduced-motion il palco e' alto uno schermo e il filo e' gia' tutto. */
 (function () {
   'use strict';
@@ -22,10 +26,11 @@
   var ridotto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var verticale = window.matchMedia ? matchMedia('(max-aspect-ratio: 1/1)') : null;
 
-  // per ogni taglio: misure, la matassa (centro e raggio) e il capo (3 px su tutto il percorso)
+  // per ogni taglio: misure, dove sta il quadro della palla (354x354, centro a 177) e il capo (3 px su tutto il percorso)
+  var PALLA = 354, CP = 177;
   var TAGLI = {
-    largo:   { W: 2688, H: 1428, palla: { x: 266, y: 184, r: 146 }, punta: 3 / 3285 },
-    stretto: { W: 900,  H: 1428, palla: { x: 174, y: 160, r: 146 }, punta: 3 / 3000 }
+    largo:   { W: 2688, H: 1428, palla: { x: 90, y: 5 },   punta: 3 / 3285 },
+    stretto: { W: 900,  H: 1428, palla: { x: -2, y: -19 }, punta: 3 / 3000 }
   };
   var DIR = 'assets/img/matassa/';
   var scena = null;   // il taglio caricato: immagine di base, pixel del filo, tempi
@@ -44,7 +49,8 @@
   function prepara() {
     var nome = verticale && verticale.matches ? 'stretto' : 'largo', T = TAGLI[nome];
     if (scena && scena.nome === nome) return;
-    Promise.all([carica(DIR + nome + '-base.webp?v=6'), carica(DIR + nome + '-filo.webp?v=6'), carica(DIR + nome + '-tempo.png?v=6')]).then(function (r) {
+    Promise.all([carica(DIR + nome + '-base.webp?v=7'), carica(DIR + nome + '-filo.webp?v=7'), carica(DIR + nome + '-tempo.png?v=7'),
+                 carica(DIR + nome + '-palla.webp?v=1'), carica(DIR + nome + '-palla-maschera.png?v=2')]).then(function (r) {
       var fp = pixel(r[1], T.W, T.H), tp = pixel(r[2], T.W, T.H);
       cBase.width = cFilo.width = T.W; cBase.height = cFilo.height = T.H;
       var out = cFilo.getContext('2d').createImageData(T.W, T.H), od = out.data;
@@ -56,7 +62,7 @@
         od[k] = fp[k]; od[k + 1] = fp[k + 1]; od[k + 2] = fp[k + 2];
         idx.push(k + 3); a0.push(a); tt.push((tp[k] * 256 + tp[k + 1]) / 65535);
       }
-      scena = { nome: nome, T: T, base: r[0], out: out, idx: idx, a0: a0, tt: tt };
+      scena = { nome: nome, T: T, base: r[0], palla: r[3], maschera: r[4], out: out, idx: idx, a0: a0, tt: tt };
       cBase.getContext('2d').drawImage(r[0], 0, 0);
       cFilo.getContext('2d').clearRect(0, 0, T.W, T.H);
       for (var z = 0; z < idx.length; z++) od[idx[z]] = 0;
@@ -78,23 +84,22 @@
     if (Math.abs(p - ultimo) < 0.0004) return;
     ultimo = p;
     var T = scena.T, P = T.palla, cb = cBase.getContext('2d');
-    // la matassa gira mentre si srotola. Si ridisegna solo il riquadro della palla: prima la
-    // foto ferma, poi la palla girata, che sfuma verso il bordo cosi' il cerchio non si vede
-    var lato = Math.ceil(P.r * 2 + 4), x0 = Math.round(P.x - lato / 2), y0 = Math.round(P.y - lato / 2);
-    var sx = Math.max(0, x0), sy = Math.max(0, y0);
-    cb.drawImage(scena.base, sx, sy, lato - (sx - x0), lato - (sy - y0), sx, sy, lato - (sx - x0), lato - (sy - y0));
+    // la matassa gira mentre si srotola: si ridisegna il quadro della palla con la foto ferma,
+    // poi sopra la texture della palla girata, ritagliata dalla sagoma ferma
+    var sx = Math.max(0, P.x), sy = Math.max(0, P.y), ex = Math.min(T.W, P.x + PALLA), ey = Math.min(T.H, P.y + PALLA);
+    cb.drawImage(scena.base, sx, sy, ex - sx, ey - sy, sx, sy, ex - sx, ey - sy);
     var g = scena.giro || (scena.giro = document.createElement('canvas'));
-    g.width = g.height = lato;
+    if (g.width !== PALLA) { g.width = g.height = PALLA; }
     var gc = g.getContext('2d');
-    gc.translate(P.x - x0, P.y - y0); gc.rotate(-p * Math.PI * 1.6); gc.translate(-P.x, -P.y);
-    gc.drawImage(scena.base, 0, 0);
+    gc.setTransform(1, 0, 0, 1, 0, 0);
+    gc.clearRect(0, 0, PALLA, PALLA);
+    gc.translate(CP, CP); gc.rotate(-p * Math.PI * 1.6);
+    gc.drawImage(scena.palla, -CP, -CP);
     gc.setTransform(1, 0, 0, 1, 0, 0);
     gc.globalCompositeOperation = 'destination-in';
-    var sf = gc.createRadialGradient(P.x - x0, P.y - y0, P.r * 0.8, P.x - x0, P.y - y0, P.r);
-    sf.addColorStop(0, 'rgba(0,0,0,1)'); sf.addColorStop(1, 'rgba(0,0,0,0)');
-    gc.fillStyle = sf; gc.fillRect(0, 0, lato, lato);
+    gc.drawImage(scena.maschera, 0, 0);
     gc.globalCompositeOperation = 'source-over';
-    cb.drawImage(g, x0, y0);
+    cb.drawImage(g, P.x, P.y);
     // il filo: tutto quello che e' gia' uscito, con un capo netto
     var od = scena.out.data, idx = scena.idx, a0 = scena.a0, tt = scena.tt, N = idx.length;
     var punta = T.punta, fine = p * (1 + punta);
