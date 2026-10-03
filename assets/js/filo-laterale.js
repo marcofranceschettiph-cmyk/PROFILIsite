@@ -105,6 +105,7 @@
     var rami = cuciture.map(function (el, i) {
       var b = el.getBoundingClientRect();
       var yc = (el.classList.contains('cucitura--dentro') ? b.top + b.height / 2 : b.top) + sy;
+      if (i === 0) yc += 14;                              // il primo divisorio sta un po' piu' giu'
       var r = caso(7919 * (i + 3));
       var A = 9 + r() * 10, lam = (0.5 + r() * 0.5) * Math.max(m.vw, 700), fase = r() * Math.PI * 2, pend = (r() - 0.5) * 20;
       function yw(x) { return yc + A * Math.sin(2 * Math.PI * x / lam + fase) + pend * (x / m.vw - 0.5); }

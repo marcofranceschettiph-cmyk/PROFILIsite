@@ -11,10 +11,9 @@
    - filo.webp: solo il filo, con la trasparenza;
    - tempo.png: per ogni pixel del filo, quando ricompare (0 = alla matassa, 1 = in
      fondo), in 16 bit: rosso = byte alto, verde = byte basso;
-   - palla.webp: la matassa pari pari dalla foto, a doppia risoluzione (708x708, si disegna a 354),
-     con la lana specchiata oltre il bordo; palla-maschera.png: la sua sagoma vera con la peluria. Mentre si scorre la
-     texture gira sotto la maschera ferma: cosi' gira tutta la lana fino al bordo, mentre
-     il contorno e l'ombra proiettata sulla carta restano al loro posto.
+   - palla.png: la matassa ritagliata con la sua peluria su sfondo trasparente, a doppia
+     risoluzione (708x708, si disegna a 354 nel quadro {x,y}); nella base al suo posto c'e' la carta
+     con l'ombra proiettata, ferma. Girando il png la lana gira tutta e il bordo resta peloso.
    Con prefers-reduced-motion il palco e' alto uno schermo e il filo e' gia' tutto. */
 (function () {
   'use strict';
@@ -49,8 +48,8 @@
   function prepara() {
     var nome = verticale && verticale.matches ? 'stretto' : 'largo', T = TAGLI[nome];
     if (scena && scena.nome === nome) return;
-    Promise.all([carica(DIR + nome + '-base.webp?v=8'), carica(DIR + nome + '-filo.webp?v=8'), carica(DIR + nome + '-tempo.png?v=8'),
-                 carica(DIR + nome + '-palla.webp?v=3'), carica(DIR + nome + '-palla-maschera.png?v=4')]).then(function (r) {
+    Promise.all([carica(DIR + nome + '-base.webp?v=9'), carica(DIR + nome + '-filo.webp?v=9'), carica(DIR + nome + '-tempo.png?v=9'),
+                 carica(DIR + nome + '-palla.png?v=1')]).then(function (r) {
       var fp = pixel(r[1], T.W, T.H), tp = pixel(r[2], T.W, T.H);
       cBase.width = cFilo.width = T.W; cBase.height = cFilo.height = T.H;
       var out = cFilo.getContext('2d').createImageData(T.W, T.H), od = out.data;
@@ -62,7 +61,7 @@
         od[k] = fp[k]; od[k + 1] = fp[k + 1]; od[k + 2] = fp[k + 2];
         idx.push(k + 3); a0.push(a); tt.push((tp[k] * 256 + tp[k + 1]) / 65535);
       }
-      scena = { nome: nome, T: T, base: r[0], palla: r[3], maschera: r[4], out: out, idx: idx, a0: a0, tt: tt };
+      scena = { nome: nome, T: T, base: r[0], palla: r[3], out: out, idx: idx, a0: a0, tt: tt };
       cBase.getContext('2d').drawImage(r[0], 0, 0);
       cFilo.getContext('2d').clearRect(0, 0, T.W, T.H);
       for (var z = 0; z < idx.length; z++) od[idx[z]] = 0;
@@ -84,8 +83,8 @@
     if (Math.abs(p - ultimo) < 0.0004) return;
     ultimo = p;
     var T = scena.T, P = T.palla, cb = cBase.getContext('2d');
-    // la matassa gira mentre si srotola: si ridisegna il quadro della palla con la foto ferma,
-    // poi sopra la texture della palla girata, ritagliata dalla sagoma ferma
+    // la matassa gira mentre si srotola: si ridisegna il quadro con la base ferma (carta e ombra),
+    // poi sopra il png della palla, girato
     var sx = Math.max(0, P.x), sy = Math.max(0, P.y), ex = Math.min(T.W, P.x + PALLA), ey = Math.min(T.H, P.y + PALLA);
     cb.drawImage(scena.base, sx, sy, ex - sx, ey - sy, sx, sy, ex - sx, ey - sy);
     var g = scena.giro || (scena.giro = document.createElement('canvas'));
@@ -96,9 +95,6 @@
     gc.translate(CP, CP); gc.rotate(-p * Math.PI * 1.6);
     gc.drawImage(scena.palla, -CP, -CP, PALLA, PALLA);
     gc.setTransform(1, 0, 0, 1, 0, 0);
-    gc.globalCompositeOperation = 'destination-in';
-    gc.drawImage(scena.maschera, 0, 0);
-    gc.globalCompositeOperation = 'source-over';
     cb.drawImage(g, P.x, P.y);
     // il filo: tutto quello che e' gia' uscito, con un capo netto
     var od = scena.out.data, idx = scena.idx, a0 = scena.a0, tt = scena.tt, N = idx.length;
