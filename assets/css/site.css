@@ -1300,3 +1300,6 @@ body.carta #artisti .thread > svg{display:none}
 /* il numero per prenotare: con la piccola icona di WhatsApp */
 .app-chi .wa{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 .wa-ico{width:14px;height:14px;fill:currentColor;flex:none}
+
+/* numeri «moderni» dentro i testi in Cormorant: lo 0 non deve sembrare una o */
+.num{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
