@@ -1244,10 +1244,16 @@ body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper
 .block + .block:has(> .cucitura){border-top:0}
 
 /* ===== PRO-FILI: tutto chiaro e monocromatico (3/10) =====
-   Niente fasce scure ne' filo a colori fra gli artisti: l'unico colore della pagina,
-   oltre al logo, e' la lana delle cuciture. Le schede degli artisti accese restano oro. */
-body.carta #artisti .thread > svg{display:none}
+   Niente fasce scure; il filo che lega gli artisti e' rosso come la lana delle cuciture
+   (sopra le tinte che site.js gli da' tratto per tratto). Le schede accese restano oro. */
+body.carta{--lana:#9C3E34}
+body.carta #artisti .thread svg .filo-tratto{stroke:var(--lana)!important}
+body.carta #artisti .thread svg .bead{fill:var(--lana)!important}
 /* le sezioni le divide la lana: niente riga sotto l'apertura */
 body.carta .matassa ~ .page-hero{border-bottom:0}
 body.carta .person[data-tinta].is-lit,body.carta .person[data-tinta]:focus-visible{--accent:var(--gold-d);--accent-2:var(--gold-d2)}
 @media (hover:none){body.carta .person[data-tinta] .role{color:var(--accent)}}
+
+/* i giorni del programma: grandi, nel carattere dei titoli */
+.gg-tab{min-height:64px;padding:14px 22px;font-family:var(--serif);font-size:clamp(24px,2.8vw,34px);letter-spacing:.01em;text-transform:none;font-weight:300}
+.gg-tab[aria-selected="true"]{font-style:italic}
