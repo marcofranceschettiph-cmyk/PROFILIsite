@@ -20,7 +20,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-italic-latin.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261002a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261003m">
 <!-- senza JavaScript il calendario e il menu non funzionano: meglio non mostrarli -->
 <noscript><style>[data-ics],.burger{display:none!important}</style></noscript>
 </head>
@@ -58,6 +58,18 @@
   <p class="foot">PRO-FILI Festival · Rovigo</p>
 </div>
 
+<!-- La matassa: un palco fisso prima dell'apertura. Scorrendo il filo di lana si srotola,
+     lega tre profili di carta ed esce di scena dal fondo (assets/js/matassa.js). -->
+<section class="matassa" id="matassa" data-world="paper" aria-label="Una matassa di lana rossa il cui filo lega tre profili di carta">
+  <div class="matassa-palco">
+    <p class="matassa-scorri" aria-hidden="true">Scorri</p>
+    <div class="matassa-tela">
+      <canvas id="matassa-base" width="2688" height="1428" aria-hidden="true"></canvas>
+      <canvas id="matassa-filo" width="2688" height="1428" aria-hidden="true"></canvas>
+    </div>
+  </div>
+</section>
+
 <header class="page-hero paper" id="soglia" data-world="paper">
   <div class="wrap">
     <!-- Qui andrà il video di apertura: il filo che collega i profili degli artisti
@@ -88,7 +100,8 @@
   </div>
 </header>
 
-<section class="block paper tono-2" id="festival" data-sez="rosa" data-world="paper">
+<section class="block paper" id="festival" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap article" style="grid-template-columns:1fr">
     <div>
       <div class="chapter rv">
@@ -116,6 +129,7 @@
 </section>
 
 <section class="block festival-artists paper" id="artisti" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Chi c'è</p><h2>Gli <em>artisti</em></h2></div><div style="justify-self:end"><p class="lede">Segui il filo, scopri ogni artista entrando nella sua scheda.</p><a class="submit call-btn" href="https://forms.gle/szaX93WAEcqnX4er6" target="_blank" rel="noopener" aria-label="Candidati come artista: il modulo si apre in una nuova scheda">Candidati come artista <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a></div></div>
     <div class="thread" data-giri><svg aria-hidden="true"><path class="ghost" d=""/><path class="line" d=""/><path class="flow" d=""/><circle class="bead" r="4"/></svg>
@@ -171,7 +185,10 @@
         <p>Dà colore e voce alle storie, soprattutto per i bambini.</p>
       </figure></a>
     </div>
+    </div>
+    <div class="cucitura cucitura--dentro" aria-hidden="true"></div>
     <div class="head rv head-ospiti"><div><p class="eyebrow">Chi arriva</p><h2>Gli <em>ospiti</em></h2></div><p class="lede">Tre presenze invitate accanto agli artisti del territorio.</p></div>
+    <div class="thread" data-giri data-giri-inizio="destra-telefono"><svg aria-hidden="true"><path class="ghost" d=""/><path class="line" d=""/><path class="flow" d=""/><circle class="bead" r="4"/></svg>
     <div class="people people-compact">
       <a class="person rv" data-tinta="oro" href="artisti/caino.html"><figure>
         <div class="ph" data-knot="low"><img src="assets/img/caino.webp" srcset="assets/img/caino_sm.webp 640w, assets/img/caino.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Logo di CAINO, bianco su fondo nero" width="1280" height="1600" loading="lazy"></div>
@@ -189,7 +206,10 @@
         <p>Cerca nelle stanze più profonde, e le scale che portano in alto.</p>
       </figure></a>
     </div>
+    </div>
+    <div class="cucitura cucitura--dentro" aria-hidden="true"></div>
     <div class="head rv head-ospiti"><div><p class="eyebrow">Chi lo organizza</p><h2>Gli <em>organizzatori</em></h2></div><p class="lede">Il festival è ideato e curato dal collettivo IANUA. <a class="more" href="https://collettivoianua.it/">Il sito del collettivo</a></p></div>
+    <div class="thread" data-giri><svg aria-hidden="true"><path class="ghost" d=""/><path class="line" d=""/><path class="flow" d=""/><circle class="bead" r="4"/></svg>
     <div class="people people-compact">
       <a class="person rv" data-tinta="rosso" href="artisti/nicola-elias-rigato.html"><figure>
         <div class="ph" data-knot="low"><img src="assets/img/nicola.webp" srcset="assets/img/nicola_sm.webp 800w, assets/img/nicola.webp 1600w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Nicola Elias Rigato al pianoforte" width="1600" height="1066" loading="lazy"></div>
@@ -216,7 +236,8 @@
   </div>
 </section>
 
-<section class="block paper tono-2" id="programma" data-sez="menta" data-world="paper">
+<section class="block paper" id="programma" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Programma</p><h2>Tre <em>giorni</em></h2></div><p class="lede">Tre giorni alla Pescheria Nuova, a ingresso libero. Alcune cose restano aperte per tutta la durata del festival, le altre hanno il loro orario.</p></div>
     <p class="loc" id="locandina" data-loc-base="assets/locandina/" hidden>
@@ -316,6 +337,7 @@
 </section>
 
 <section class="block paper" id="laboratori" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Laboratori</p><h2>I <em>laboratori</em></h2></div><p class="lede">Laboratori immersivi per tutte le età, aperti alla cittadinanza.</p></div>
     <ul class="tech pf-info rv">
@@ -326,7 +348,8 @@
   </div>
 </section>
 
-<section class="block paper tono-2" id="info" data-sez="azzurro" data-world="paper">
+<section class="block paper" id="info" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Info</p><h2>Informazioni <em>pratiche</em></h2></div></div>
     <ul class="tech pf-info rv">
@@ -343,6 +366,7 @@
 </section>
 
 <section class="block paper" id="partner" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="head rv"><div><p class="eyebrow">Chi ci sostiene</p><h2>Partner e <em>sponsor</em></h2></div><p class="lede">Le realtà che rendono possibile PRO-FILI, con i loro indirizzi e i loro canali.</p></div>
     <div class="pt-coppia rv">
@@ -350,7 +374,7 @@
       <h3>Con il patrocinio di</h3>
       <ul class="pt-list">
           <li class="pt">
-            <div class="pt-logo" aria-hidden="true"></div>
+            <div class="pt-logo pt-logo--colore pt-logo--verticale"><img src="assets/img/partner/comune-rovigo.png" alt="Stemma del Comune di Rovigo" width="157" height="200" loading="lazy"></div>
             <h4>Comune di Rovigo</h4>
             <p class="pt-type">Patrocinio · Ottobre Rodigino 2026</p>
             <p class="pt-does">PRO-FILI ha il patrocinio del Comune ed è nel cartellone di Ottobre Rodigino. Il Comune mette a disposizione la Pescheria Nuova.</p>
@@ -474,7 +498,8 @@
   </div>
 </section>
 
-<section class="block paper tono-2 call-band" id="sostieni" data-sez="lilla" data-world="paper">
+<section class="block paper call-band" id="sostieni" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="call rv">
       <div>
@@ -490,6 +515,7 @@
 </section>
 
 <section class="block paper" id="contatti" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
     <div class="contact">
       <div class="rv">
@@ -548,6 +574,9 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=20261002a" defer></script>
+<!-- prima la matassa: se c'e', site.js non disegna il filo colorato dell'apertura -->
+<script src="assets/js/matassa.js?v=20261003m" defer></script>
+<script src="assets/js/site.js?v=20261003m" defer></script>
+<script src="assets/js/cuciture.js?v=20261003m" defer></script>
 </body>
 </html>

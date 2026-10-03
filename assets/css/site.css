@@ -1028,13 +1028,7 @@ body.carta .thread.is-lit svg .filo-tratto{stroke-width:3.2}
    che cambia colore, non una scheda appoggiata sopra. Linee, testi secondari e accenti
    prendono la tinta del blocco, come vuole il colore su superficie colorata: niente grigi.
    Calcolati in OKLCH, tutti verificati: accento ≥ 4.6:1, smorzato ≥ 4.6:1, testo ≥ 12.7:1. */
-body.carta [data-sez="rosa"]{--bg:#FEDED8;--bg-2:#FFD0C7;--rule:#EFBDB4;--rule-2:#E1A79E;--fg-2:#543F3C;--mute:#745752;--accent:#A04035;--accent-2:#A04035}
-body.carta [data-sez="menta"]{--bg:#CDF1D3;--bg-2:#BFE9C6;--rule:#B0D6B6;--rule-2:#98C5A0;--fg-2:#3A4A3D;--mute:#4F6653;--accent:#026F31;--accent-2:#026F31}
-body.carta [data-sez="azzurro"]{--bg:#D4E9FF;--bg-2:#C3E0FF;--rule:#AECEF1;--rule-2:#96BBE3;--fg-2:#394655;--mute:#4F6277;--accent:#0F61A5;--accent-2:#0F61A5}
-body.carta [data-sez="lilla"]{--bg:#F6DBFF;--bg-2:#EFCFF9;--rule:#DBBFE4;--rule-2:#CBAAD5;--fg-2:#4B3F4E;--mute:#69586E;--accent:#804691;--accent-2:#804691}
-body.carta [data-sez]::selection,body.carta [data-sez] ::selection{background:var(--rule-2);color:var(--fg)}
-/* la fascia della call ha il fondo scritto a mano (.call-band, #ECE3D3): col blocco vince il blocco */
-body.carta .call-band[data-sez]{background:var(--bg)}
+/* (2/10) le quattro fasce pastello sono diventate fasce notte: vedi «fasce notte» in fondo */
 
 /* la barra fissa prende il colore della sezione che ha sotto (site.js la legge e mette
    --nav-bg): una barra color carta sopra un blocco rosa sembrava una striscia sbagliata.
@@ -1096,6 +1090,7 @@ body.carta #soglia>.wrap{position:relative;z-index:1}
 .soglia-tratto{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .soglia-maschera{fill:none;stroke:#fff;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
 .soglia-capo{transition:opacity .2s linear}
+.soglia-torsione{fill:none;stroke:#7E2F26;stroke-linecap:butt;stroke-linejoin:round}
 @media (prefers-reduced-motion:reduce){.soglia-capo{transition:none}}
 /* i titoli salgono da sotto una maschera (.ln, overflow hidden) che lasciava sotto 0.08em:
    col Cormorant corsivo a corpo grande le code di g, f e p restavano tagliate
@@ -1186,3 +1181,80 @@ body.carta .ln{padding-bottom:.26em;margin-bottom:-.26em}
 footer .f-brand .f-ianua{display:inline-flex;min-height:44px;align-items:center}
 footer .f-brand .f-ianua img{height:28px;opacity:.8;transition:opacity var(--t-fast)}
 footer .f-brand .f-ianua:hover img{opacity:1}
+
+/* ===== PRO-FILI: fasce notte (2/10) =====
+   Concept, programma, informazioni e «sostienici» erano quattro fasce pastello, ognuna
+   col suo accento: la pagina sembrava fatta di siti diversi. Ora alternano avorio e
+   nero con l'oro, come il sito di IANUA. Il colore resta al filo, che è l'unico
+   elemento multicolore, e al rosso del marchio (logo e conto alla rovescia).
+   Le sezioni sono .block.dark.notte con data-world="dark": le variabili le dà .dark. */
+body.carta .notte.call-band{background:var(--bg)}
+
+/* barra: sopra una fascia notte il testo diventa chiaro e la riga sotto scura.
+   site.js toglie .on-paper quando sotto c'è un mondo dark, e anche col menu aperto:
+   col menu aperto la barra resta inchiostro su carta, perché il menu è color carta. */
+body.carta:not(.menu-open) .nav:not(.on-paper){color:var(--ink)}
+body.carta:not(.menu-open) .nav.solid:not(.on-paper){border-color:var(--line)}
+body.carta.menu-open .nav.solid{background:var(--paper);border-color:var(--paper-line)}
+
+/* ===== PRO-FILI: la matassa dell'apertura (2/10) =====
+   Un palco fisso prima dell'apertura: la foto resta ferma sotto la barra mentre
+   la pagina scorre e il filo di lana si srotola, poi esce di scena a sinistra.
+   I bordi della foto sfumano appena nella carta. */
+.matassa{position:relative;height:260vh;background:var(--paper)}
+.matassa-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;padding-top:64px;
+  display:flex;flex-direction:column;justify-content:flex-start;align-items:center}
+.matassa-tela{position:relative;width:min(100%, calc((100svh - 64px) * 1344 / 714));aspect-ratio:1344/714;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
+  mask-composite:intersect}
+.matassa-tela canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.matassa-scorri{position:absolute;left:0;right:0;top:18%;margin:0;text-align:center;pointer-events:none;
+  font-family:var(--sans);font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;color:var(--ink-d2);
+  opacity:var(--scorri,1);transition:opacity .4s}
+.matassa:not(.pronta) .matassa-scorri{opacity:0}
+@media (min-aspect-ratio:4/3){.matassa-scorri{top:auto;bottom:calc(22px + env(safe-area-inset-bottom));left:auto;right:28px}}
+.matassa.senza-3d{display:none}
+@media (prefers-reduced-motion:reduce){.matassa{height:100vh;height:100svh}}
+/* schermo in verticale: il taglio «stretto» della foto (matassa.js), largo quanto lo schermo */
+@media (max-aspect-ratio:1/1){
+  .matassa-palco{justify-content:flex-start;padding-top:68px}
+  .matassa-scorri{top:auto;bottom:calc(22px + env(safe-area-inset-bottom))}
+  .matassa-tela{width:min(100%, calc((100svh - 68px) * 450 / 714));aspect-ratio:450/714;
+    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent);
+    mask-image:linear-gradient(to bottom,transparent,#000 1.5%,#000 98.5%,transparent)}
+}
+/* l'apertura subito sotto: la carta continua, niente riga di separazione e poco spazio
+   sopra (la barra non la copre: sopra c'e' la matassa; il filo colorato qui non c'e').
+   L'apertura sale sulla carta in fondo alla foto, sotto il filo che esce; in verticale
+   sale anche sopra l'avanzo di schermo che resta sotto la foto. */
+.matassa + .page-hero{border-top:0;padding-top:clamp(8px,1vw,16px);margin-top:calc(-1 * max(0px, 100svh - 64px - 100vw * 714 / 1344) - 24px)}
+@media (max-aspect-ratio:1/1){
+  .matassa + .page-hero{margin-top:calc(-1 * max(0px, 100svh - 68px - 100vw * 714 / 450) - 6px)}
+}
+
+/* ===== PRO-FILI: le cuciture (assets/js/cuciture.js) =====
+   Il filo di lana attraversa la pagina a cavallo fra due sezioni, da un bordo all'altro;
+   dentro gli artisti sta nello spazio sopra ospiti e organizzatori, largo quanto lo schermo. */
+.cucitura{position:absolute;left:0;right:0;top:0;height:0;z-index:4;pointer-events:none}
+.cucitura canvas{position:absolute;left:0;top:-50px;width:100%;height:100px;display:block}
+.cucitura--dentro{position:relative;left:auto;right:auto;width:100vw;height:clamp(120px,13vw,180px);margin:0 0 0 calc(50% - 50vw)}
+.cucitura--dentro canvas{top:calc(50% - 50px)}
+.cucitura--dentro + .head-ospiti{margin-top:0}
+.block + .block:has(> .cucitura){border-top:0}
+
+/* ===== PRO-FILI: tutto chiaro e monocromatico (3/10) =====
+   Niente fasce scure; il filo che lega gli artisti e' rosso come la lana delle cuciture
+   (sopra le tinte che site.js gli da' tratto per tratto). Le schede accese restano oro. */
+body.carta{--lana:#9C3E34}
+body.carta #artisti .thread svg .filo-tratto{stroke:var(--lana)!important}
+body.carta #artisti .thread svg .bead{fill:var(--lana)!important}
+/* le sezioni le divide la lana: niente riga sotto l'apertura */
+body.carta .matassa ~ .page-hero{border-bottom:0}
+body.carta .person[data-tinta].is-lit,body.carta .person[data-tinta]:focus-visible{--accent:var(--gold-d);--accent-2:var(--gold-d2)}
+@media (hover:none){body.carta .person[data-tinta] .role{color:var(--accent)}}
+
+/* i giorni del programma: grandi, nel carattere dei titoli */
+.gg-tab{min-height:64px;padding:14px 22px;font-family:var(--serif);font-size:clamp(24px,2.8vw,34px);letter-spacing:.01em;text-transform:none;font-weight:300}
+.gg-tab[aria-selected="true"]{font-style:italic}
