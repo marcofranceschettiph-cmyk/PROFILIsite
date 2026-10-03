@@ -1,4 +1,4 @@
-/* ---------- PRO-FILI: il filo sul bordo sinistro (bozza) ----------
+/* ---------- PRO-FILI: il filo sul bordo sinistro ----------
    Il filo della matassa non sparisce: esce dal fondo del palco, entra da sinistra e scende
    lungo il bordo sinistro per tutto il sito mentre la pagina scorre (il capo, tondo, sta
    poco sotto la meta' dello schermo). A ogni cucitura il filo si dirama: un ramo si stacca,
@@ -60,7 +60,7 @@
   }
 
   // stende la lana lungo i punti (coordinate gia' nel canvas, px CSS * dpr): u e' la colonna della striscia
-  function stendi(c, pts, m, u0, scala, sfuma) {
+  function stendi(c, pts, m, u0, scala) {
     var spesso = m.spesso * m.dpr, kr = spesso / PIENO, passo = 1 / (2 * kr);
     var L = lana.naturalWidth, Hs = lana.naturalHeight, u = u0 || 0;
     for (var i = 1; i < pts.length; i++) {
@@ -69,13 +69,11 @@
       if (!d) continue;
       var co = (nx - px) / d, si = (ny - py) / d;
       c.setTransform(co, si, -si, co, px, py);
-      if (sfuma) c.globalAlpha = Math.min(1, i / sfuma);
       var v = u % L;
       c.drawImage(lana, Math.min(L - passo * d, v), 0, passo * d, Hs, -0.3, -Hs * kr / 2, d + 0.6, Hs * kr);
       u += passo * d;
     }
     c.setTransform(1, 0, 0, 1, 0, 0);
-    c.globalAlpha = 1;
     return u;
   }
 
@@ -149,7 +147,7 @@
     var m = G.m, c = document.createElement('canvas');
     c.width = Math.ceil((m.vw + 40) * m.dpr); c.height = Math.ceil(r.h * m.dpr);
     var pts = r.pts.map(function (p) { return [p[0], p[1] - r.top]; });
-    stendi(c.getContext('2d'), pts, m, 37, m.dpr, 28);   // il ramo nasce sfumato dal filo verticale
+    stendi(c.getContext('2d'), pts, m, 37, m.dpr);
     r.c = c;
     return c;
   }
@@ -175,6 +173,25 @@
     var capo = ridotto ? Infinity : sy + m.vh * (0.62 + 0.38 * coda * coda) + coda * 10;
     var R = m.spesso / 2 + 1;
 
+    // prima i rami: il filo verticale ci passa sopra, cosi' ogni ramo nasce da sotto il filo
+    G.rami.forEach(function (r) {
+      if (r.top > sy + m.vh || r.top + r.h < sy) return;
+      var p = ridotto ? 1 : Math.min(1, Math.max(0, (capo - r.yf) / (m.vh * 0.45)));
+      if (p <= 0) return;
+      var c = ramo(r), y = (r.top - sy) * dpr;
+      if (p >= 1) { ctx.drawImage(c, 0, y); return; }
+      var x0 = r.pts[0][0], xc = x0 + p * (m.vw + 30 - x0);
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, y, xc * dpr, r.h * dpr);
+      var yc = (yRamo(r, xc) - sy) * dpr;
+      ctx.moveTo((xc + R) * dpr, yc);
+      ctx.arc(xc * dpr, yc, R * dpr, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(c, 0, y);
+      ctx.restore();
+    });
+
     // il filo verticale, fino al capo (tondo)
     var a = Math.max(G.y0 - 100, sy - 20), b = Math.min(capo, sy + m.vh + 20, m.fine);
     if (b > a) {
@@ -194,25 +211,6 @@
       }
       ctx.restore();
     }
-
-    // i rami: si srotolano verso destra quando il capo passa dal punto in cui si staccano
-    G.rami.forEach(function (r) {
-      if (r.top > sy + m.vh || r.top + r.h < sy) return;
-      var p = ridotto ? 1 : Math.min(1, Math.max(0, (capo - r.yf) / (m.vh * 0.45)));
-      if (p <= 0) return;
-      var c = ramo(r), y = (r.top - sy) * dpr;
-      if (p >= 1) { ctx.drawImage(c, 0, y); return; }
-      var x0 = r.pts[0][0], xc = x0 + p * (m.vw + 30 - x0);
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(0, y, xc * dpr, r.h * dpr);
-      var yc = (yRamo(r, xc) - sy) * dpr;
-      ctx.moveTo((xc + R) * dpr, yc);
-      ctx.arc(xc * dpr, yc, R * dpr, 0, Math.PI * 2);
-      ctx.clip();
-      ctx.drawImage(c, 0, y);
-      ctx.restore();
-    });
   }
   function chiedi() { if (!attesa) { attesa = true; requestAnimationFrame(disegna); } }
 
