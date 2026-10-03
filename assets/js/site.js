@@ -866,7 +866,10 @@
     {s:"anna-randolo",n:"Anna Randolo",r:"Illustrazione · Unnyverso",t:"Dà colore e voce alle storie, soprattutto per i bambini.",i:"anna-randolo.webp",ss:"anna-randolo_sm.webp 800w, anna-randolo.webp 1280w",a:"Ritratto di Anna Randolo",w:1280,h:1600},
     {s:"caino",n:"CAINO",r:"Fotografia",t:"Fotografie che strappano e ricompongono le icone della pittura.",i:"caino.webp",ss:"caino_sm.webp 640w, caino.webp 1280w",a:"Logo di CAINO, bianco su fondo nero",w:1280,h:1600},
     {s:"filo",n:"FILO",r:"Cantautorato",t:"Cantautore, autore del disco «In cerca di un filo».",i:"filo.webp",ss:"filo_sm.webp 316w, filo.webp 396w",a:"Ritratto di FILO, di profilo",w:396,h:495},
-    {s:"massimo-marchioro",n:"Massimo Marchioro",r:"Pittura",t:"Cerca nelle stanze più profonde, e le scale che portano in alto.",i:"massimo-marchioro.webp",ss:"massimo-marchioro_sm.webp 800w, massimo-marchioro.webp 1280w",a:"Ritratto di Massimo Marchioro, di profilo",w:1280,h:1600}
+    {s:"massimo-marchioro",n:"Massimo Marchioro",r:"Pittura",t:"Cerca nelle stanze più profonde, e le scale che portano in alto.",i:"massimo-marchioro.webp",ss:"massimo-marchioro_sm.webp 800w, massimo-marchioro.webp 1280w",a:"Ritratto di Massimo Marchioro, di profilo",w:1280,h:1600},
+    {s:"salvatore-passalacqua",n:"Salvatore Passalacqua",r:"Musica e arti visive · ETHA",t:"Strumenti acustici ed elettronica, tra il reale e il surreale.",i:"salvatore-passalacqua.webp",ss:"salvatore-passalacqua_sm.webp 800w, salvatore-passalacqua.webp 1280w",a:"Ritratto di Salvatore Passalacqua, di profilo",w:1280,h:1600},
+    {s:"salsa-wasabbee",n:"salsa_wasabbee",r:"Fumetto e illustrazione",t:"Tavole in bianco e nero: sperimenta, si spaventa, si addormenta.",i:"salsa-wasabbee.webp",ss:"salsa-wasabbee_sm.webp 800w, salsa-wasabbee.webp 1280w",a:"Ritratto di salsa_wasabbee, di profilo",w:1280,h:1600},
+    {s:"francesca-de-simone",n:"Francesca De Simone",r:"Poesia",t:"Fissa in pochi versi un sentire sconosciuto.",i:"francesca-de-simone.webp",ss:"francesca-de-simone_sm.webp 800w, francesca-de-simone.webp 1280w",a:"Ritratto di Francesca De Simone, di profilo, in bianco e nero",w:1280,h:1600}
   ];
 
   (function () {
