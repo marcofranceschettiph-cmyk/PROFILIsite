@@ -78,12 +78,23 @@
     if (Math.abs(p - ultimo) < 0.0004) return;
     ultimo = p;
     var T = scena.T, P = T.palla, cb = cBase.getContext('2d');
-    // la matassa gira mentre si srotola (la foto intera e' gia' sotto: si ridisegna solo la palla)
-    cb.save();
-    cb.beginPath(); cb.arc(P.x, P.y, P.r, 0, Math.PI * 2); cb.clip();
-    cb.translate(P.x, P.y); cb.rotate(-p * Math.PI * 1.6); cb.translate(-P.x, -P.y);
-    cb.drawImage(scena.base, 0, 0);
-    cb.restore();
+    // la matassa gira mentre si srotola. Si ridisegna solo il riquadro della palla: prima la
+    // foto ferma, poi la palla girata, che sfuma verso il bordo cosi' il cerchio non si vede
+    var lato = Math.ceil(P.r * 2 + 4), x0 = Math.round(P.x - lato / 2), y0 = Math.round(P.y - lato / 2);
+    var sx = Math.max(0, x0), sy = Math.max(0, y0);
+    cb.drawImage(scena.base, sx, sy, lato - (sx - x0), lato - (sy - y0), sx, sy, lato - (sx - x0), lato - (sy - y0));
+    var g = scena.giro || (scena.giro = document.createElement('canvas'));
+    g.width = g.height = lato;
+    var gc = g.getContext('2d');
+    gc.translate(P.x - x0, P.y - y0); gc.rotate(-p * Math.PI * 1.6); gc.translate(-P.x, -P.y);
+    gc.drawImage(scena.base, 0, 0);
+    gc.setTransform(1, 0, 0, 1, 0, 0);
+    gc.globalCompositeOperation = 'destination-in';
+    var sf = gc.createRadialGradient(P.x - x0, P.y - y0, P.r * 0.8, P.x - x0, P.y - y0, P.r);
+    sf.addColorStop(0, 'rgba(0,0,0,1)'); sf.addColorStop(1, 'rgba(0,0,0,0)');
+    gc.fillStyle = sf; gc.fillRect(0, 0, lato, lato);
+    gc.globalCompositeOperation = 'source-over';
+    cb.drawImage(g, x0, y0);
     // il filo: tutto quello che e' gia' uscito, con un capo netto
     var od = scena.out.data, idx = scena.idx, a0 = scena.a0, tt = scena.tt, N = idx.length;
     var punta = T.punta, fine = p * (1 + punta);
