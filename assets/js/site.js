@@ -871,7 +871,8 @@
     {s:"salsa-wasabbee",n:"salsa_wasabbee",r:"Fumetto e illustrazione",t:"Tavole in bianco e nero: sperimenta, si spaventa, si addormenta.",i:"salsa-wasabbee.webp",ss:"salsa-wasabbee_sm.webp 800w, salsa-wasabbee.webp 1280w",a:"Ritratto di salsa_wasabbee, di profilo",w:1280,h:1600},
     {s:"francesca-de-simone",n:"Francesca De Simone",r:"Poesia",t:"Fissa in pochi versi un sentire sconosciuto.",i:"francesca-de-simone.webp",ss:"francesca-de-simone_sm.webp 800w, francesca-de-simone.webp 1280w",a:"Ritratto di Francesca De Simone, di profilo, in bianco e nero",w:1280,h:1600},
     {s:"elia-pellegrini",n:"Elia Pellegrini",r:"Arti visive e 3D",t:"Luce, architettura e tempo, tra i rosoni gotici e il mondo onirico.",i:"elia-pellegrini.webp",ss:"elia-pellegrini_sm.webp 800w, elia-pellegrini.webp 1280w",a:"Ritratto di Elia Pellegrini, con il volto attraversato dalle nuvole",w:1280,h:1600},
-    {s:"alessandro-alfonsi",n:"Alessandro Alfonsi",r:"Musica e teatro",t:"Musica e parola, memoria e ascolto.",i:"alessandro-alfonsi.webp",ss:"alessandro-alfonsi_sm.webp 800w, alessandro-alfonsi.webp 1280w",a:"Ritratto di Alessandro Alfonsi, di profilo",w:1280,h:1600}
+    {s:"alessandro-alfonsi",n:"Alessandro Alfonsi",r:"Musica e teatro",t:"Musica e parola, memoria e ascolto.",i:"alessandro-alfonsi.webp",ss:"alessandro-alfonsi_sm.webp 800w, alessandro-alfonsi.webp 1280w",a:"Ritratto di Alessandro Alfonsi, di profilo",w:1280,h:1600},
+    {s:"irma-paulon",n:"Irma Paulon",r:"Arti visive e scultura",t:"Resina, legno, vetro e metallo: la dignità estetica della materia.",i:"irma-paulon.webp",ss:"irma-paulon_sm.webp 800w, irma-paulon.webp 1280w",a:"Ritratto di Irma Paulon al lavoro",w:1280,h:1600}
   ];
 
   (function () {
