@@ -1310,3 +1310,10 @@ body.carta #artisti .thread > svg{display:none}
 .filo-strato canvas{position:absolute;display:block}
 .filo-ramo{z-index:1}
 .filo-tegola{z-index:2}
+
+/* Organizzatori in due gruppi: i tessitori (il board) e i tenditori (allestimenti e laboratori) */
+.gruppo{font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.24em;text-transform:uppercase;line-height:1.4;color:var(--mute);margin:0 0 clamp(16px,2vw,24px)}
+.gruppo em{font-style:normal;color:var(--accent)}
+.gruppo small{font-size:inherit}
+.gruppo small::before{content:" · "}
+.gruppo-tenditori{margin-top:clamp(48px,6vw,72px)}
