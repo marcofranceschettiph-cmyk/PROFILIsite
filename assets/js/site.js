@@ -872,7 +872,9 @@
     {s:"francesca-de-simone",n:"Francesca De Simone",r:"Poesia",t:"Fissa in pochi versi un sentire sconosciuto.",i:"francesca-de-simone.webp",ss:"francesca-de-simone_sm.webp 800w, francesca-de-simone.webp 1280w",a:"Ritratto di Francesca De Simone, di profilo, in bianco e nero",w:1280,h:1600},
     {s:"elia-pellegrini",n:"Elia Pellegrini",r:"Arti visive e 3D",t:"Luce, architettura e tempo, tra i rosoni gotici e il mondo onirico.",i:"elia-pellegrini.webp",ss:"elia-pellegrini_sm.webp 800w, elia-pellegrini.webp 1280w",a:"Ritratto di Elia Pellegrini, con il volto attraversato dalle nuvole",w:1280,h:1600},
     {s:"alessandro-alfonsi",n:"Alessandro Alfonsi",r:"Musica e teatro",t:"Musica e parola, memoria e ascolto.",i:"alessandro-alfonsi.webp",ss:"alessandro-alfonsi_sm.webp 800w, alessandro-alfonsi.webp 1280w",a:"Ritratto di Alessandro Alfonsi, di profilo",w:1280,h:1600},
-    {s:"irma-paulon",n:"Irma Paulon",r:"Arti visive e scultura",t:"Resina, legno, vetro e metallo: la dignità estetica della materia.",i:"irma-paulon.webp",ss:"irma-paulon_sm.webp 800w, irma-paulon.webp 1280w",a:"Ritratto di Irma Paulon al lavoro",w:1280,h:1600}
+    {s:"irma-paulon",n:"Irma Paulon",r:"Arti visive e scultura",t:"Resina, legno, vetro e metallo: la dignità estetica della materia.",i:"irma-paulon.webp",ss:"irma-paulon_sm.webp 800w, irma-paulon.webp 1280w",a:"Ritratto di Irma Paulon al lavoro",w:1280,h:1600},
+    {s:"nihil",n:"NIHIL",r:"Musica e cantautorato",t:"Erede al trono di un regno senza terra, in viaggio con la musica.",i:"nihil.webp",ss:"nihil_sm.webp 800w, nihil.webp 1280w",a:"Ritratto di NIHIL di profilo, con il volto blu e la maschera di cristalli",w:1280,h:1600},
+    {s:"andrea-fabbri",n:"Andrea Fabbri",r:"Pittura e tatuaggio",t:"Tatuaggio e pittura: trasformare l'ombra in emozione.",i:"andrea-fabbri.webp",ss:"andrea-fabbri_sm.webp 800w, andrea-fabbri.webp 1280w",a:"Ritratto di Andrea Fabbri, con gli occhiali, in una piazza",w:1280,h:1600}
   ];
 
   (function () {
