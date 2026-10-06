@@ -874,7 +874,8 @@
     {s:"alessandro-alfonsi",n:"Alessandro Alfonsi",r:"Musica e teatro",t:"Musica e parola, memoria e ascolto.",i:"alessandro-alfonsi-2.webp",ss:"alessandro-alfonsi-2_sm.webp 800w, alessandro-alfonsi-2.webp 1280w",a:"Ritratto di Alessandro Alfonsi, di profilo",w:1280,h:1600},
     {s:"irma-paulon",n:"Irma Paulon",r:"Arti visive e scultura",t:"Resina, legno, vetro e metallo: la dignità estetica della materia.",i:"irma-paulon-3.webp",ss:"irma-paulon-3_sm.webp 800w, irma-paulon-3.webp 1280w",a:"Irma Paulon di profilo, con le mani sulle radici di un albero sradicato",w:1280,h:1600},
     {s:"nihil",n:"NIHIL",r:"Musica e cantautorato",t:"Erede al trono di un regno senza terra, in viaggio con la musica.",i:"nihil-2.webp",ss:"nihil-2_sm.webp 800w, nihil-2.webp 1280w",a:"Ritratto di NIHIL di profilo, con il volto blu e la maschera di cristalli",w:1280,h:1600},
-    {s:"andrea-fabbri",n:"Andrea Fabbri",r:"Pittura e tatuaggio",t:"Tatuaggio e pittura: trasformare l'ombra in emozione.",i:"andrea-fabbri-2.webp",ss:"andrea-fabbri-2_sm.webp 800w, andrea-fabbri-2.webp 1280w",a:"Andrea Fabbri di profilo mentre dipinge, con la tavolozza in mano",w:1280,h:1600}
+    {s:"andrea-fabbri",n:"Andrea Fabbri",r:"Pittura e tatuaggio",t:"Tatuaggio e pittura: trasformare l'ombra in emozione.",i:"andrea-fabbri-2.webp",ss:"andrea-fabbri-2_sm.webp 800w, andrea-fabbri-2.webp 1280w",a:"Andrea Fabbri di profilo mentre dipinge, con la tavolozza in mano",w:1280,h:1600},
+    {s:"maryam-amirfarshi",n:"Maryam Amirfarshi",r:"Pittura e tecnica mista",t:"Segni, codici e fili che legano lingue, memorie e geografie.",i:"maryam-amirfarshi.webp",ss:"maryam-amirfarshi_sm.webp 800w, maryam-amirfarshi.webp 1280w",a:"Ritratto di Maryam Amirfarshi, di profilo",w:1280,h:1600}
   ];
 
   (function () {
