@@ -8,7 +8,7 @@
    «stretto» per quelli verticali, piu' vicino, con la matassa spostata in alto a sinistra.
    Per ogni taglio tre immagini:
    - base.webp: la foto senza filo;
-   - filo.webp: solo il filo, con la trasparenza;
+   - filo-2.webp: solo il filo, con la trasparenza;
    - tempo.png: per ogni pixel del filo, quando ricompare (0 = alla matassa, 1 = in
      fondo), in 16 bit: rosso = byte alto, verde = byte basso;
    - palla.png: la matassa ritagliata con la sua peluria su sfondo trasparente, a doppia
