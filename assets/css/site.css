@@ -1359,3 +1359,4 @@ body.carta #artisti .thread > svg{display:none}
   .pt-duo .pt-does,.pt-duo .pt-addr{font-size:13px;line-height:1.5}
   .pt-duo .pt-type{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;letter-spacing:.10em}
 }
+.nobr{white-space:nowrap}
