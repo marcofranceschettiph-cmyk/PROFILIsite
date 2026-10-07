@@ -1318,3 +1318,4 @@ body.carta #artisti .thread > svg{display:none}
 .gruppo small::before{content:" · "}
 .gruppo-tenditori{margin-top:clamp(48px,6vw,72px)}
 .pt-logo--largo img{max-width:100%;max-height:30px}
+.app--tutto .app-ora{font-size:clamp(20px,2vw,24px)}
