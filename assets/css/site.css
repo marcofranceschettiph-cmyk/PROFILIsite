@@ -1318,4 +1318,7 @@ body.carta #artisti .thread > svg{display:none}
 .gruppo small::before{content:" · "}
 .gruppo-tenditori{margin-top:clamp(48px,6vw,72px)}
 .pt-logo--largo img{max-width:100%;max-height:30px}
-.app--tutto .app-ora{font-size:clamp(20px,2vw,24px)}
+.gg-gruppo{font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:var(--accent-2);margin:clamp(22px,3vw,34px) 0 10px}
+.gg-head + .gg-gruppo{margin-top:clamp(10px,1.5vw,18px)}
+.app--tutto{padding:14px 0 16px}
+.app--tutto + .gg-gruppo{border-top:1px solid var(--rule);padding-top:clamp(22px,3vw,34px);margin-top:0}
