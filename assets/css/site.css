@@ -1340,3 +1340,5 @@ body.carta #artisti .thread > svg{display:none}
 .call-btn--pieno{background:var(--fg);color:var(--bg)}
 .call-btn--pieno:hover{background:transparent;color:var(--fg)}
 @media (max-width:640px){.call-coppia{gap:8px}.call-coppia .call-btn{flex:1 1 0;min-width:0;min-height:52px;padding:8px 10px;gap:8px;font-size:10.5px;letter-spacing:.14em;text-align:center;line-height:1.3}.call-coppia .call-btn svg{width:16px;height:16px;flex:0 0 auto}}
+.call-coppia--collettivo{margin-top:clamp(36px,5vw,56px)}
+@media (max-width:640px){.call-coppia--collettivo .call-btn{flex:0 1 auto;padding:8px 18px}}
