@@ -1197,7 +1197,16 @@
       pann[k].classList.remove('gg-in');
     });
     if (!reduce) { void pann[i].offsetWidth; pann[i].classList.add('gg-in'); }
+    // rete di sicurezza: se per qualche motivo il pannello scelto resta vuoto a schermo
+    // (visto su alcuni browser), si torna alla vista senza tab, con tutti i giorni aperti
+    if (!pann[i].offsetHeight) senzaTab();
     if (fuoco) tabs[i].focus();
+  }
+
+  function senzaTab() {
+    lista.hidden = true;
+    if (pann[0].parentNode) pann[0].parentNode.classList.remove('gg-box--tabs');
+    pann.forEach(function (p) { p.hidden = false; p.classList.remove('gg-in'); });
   }
 
   var primo = 0;
