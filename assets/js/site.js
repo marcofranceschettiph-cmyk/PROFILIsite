@@ -956,7 +956,7 @@
     }
     function monta() {
       el.textContent = ''; el.classList.add('is-live');
-      if (lab) lab.textContent = 'Mancano';
+      if (lab) lab.textContent = 'Manca';
       gruppi = [['giorno', 'giorni'], ['ora', 'ore'], ['minuto', 'minuti'], ['secondo', 'secondi']].map(function (w) {
         var u = document.createElement('span'); u.className = 'pf-cd-u';
         var n = document.createElement('span'); n.className = 'pf-cd-n';
@@ -1143,7 +1143,7 @@
     }
     function monta() {
       el.textContent = ''; el.classList.add('is-live');
-      if (lab) lab.textContent = 'Mancano';
+      if (lab) lab.textContent = 'Manca';
       gruppi = [['giorno', 'giorni'], ['ora', 'ore'], ['minuto', 'minuti'], ['secondo', 'secondi']].map(function (w) {
         var u = document.createElement('span'); u.className = 'pf-cd-u';
         var n = document.createElement('span'); n.className = 'pf-cd-n';

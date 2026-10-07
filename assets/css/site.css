@@ -1327,11 +1327,11 @@ body.carta #artisti .thread > svg{display:none}
 /* conto alla rovescia: etichetta e cifre su una riga sola, su ogni schermo */
 .conto{margin-top:clamp(22px,3vw,36px)}
 .pf-cd{display:flex;align-items:baseline;flex-wrap:nowrap;gap:clamp(10px,1.6vw,22px);white-space:nowrap}
-.pf-cd-val{margin-top:0;font-size:clamp(26px,4.2vw,52px);text-wrap:nowrap;white-space:nowrap}
+.pf-cd-val{margin-top:0;font-size:clamp(28px,4.8vw,60px);text-wrap:nowrap;white-space:nowrap}
 @media (max-width:640px){
   .pf-cd{gap:2vw}
   .pf-cd-lab{font-size:2.3vw;letter-spacing:.12em}
-  .pf-cd-val{font-size:6vw}
+  .pf-cd-val{font-size:7vw}
   .pf-cd-u{margin-right:.2em}
   .pf-cd-w{margin-left:.15em;font-size:2.2vw;letter-spacing:.08em}
 }
