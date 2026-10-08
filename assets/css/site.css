@@ -1360,3 +1360,7 @@ body.carta #artisti .thread > svg{display:none}
   .pt-duo .pt-type{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;letter-spacing:.10em}
 }
 .nobr{white-space:nowrap}
+/* sconto «profili»: pin per la mappa accanto a ogni negozio */
+.pin{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;margin:-6px 2px -6px -6px;vertical-align:middle;color:var(--accent-2);border-radius:50%;transition:color var(--t-fast),background var(--t-fast)}
+.pin:hover{color:var(--accent);background:var(--rule)}
+.pin .pin-ico{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
