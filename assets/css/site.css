@@ -1364,3 +1364,7 @@ body.carta #artisti .thread > svg{display:none}
 .pin{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;margin:-6px 2px -6px -6px;vertical-align:middle;color:var(--accent-2);border-radius:50%;transition:color var(--t-fast),background var(--t-fast)}
 .pin:hover{color:var(--accent);background:var(--rule)}
 .pin .pin-ico{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* ingresso libero sotto il titolo del programma */
+.pf-libero{margin-top:14px;font-family:var(--sans);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:var(--accent-2)}
+/* con i tasti dei giorni il nome del giorno sta già sul tasto */
+.gg-box--tabs .gg-w{display:none}
