@@ -1212,8 +1212,13 @@
     pann.forEach(function (p) { p.hidden = false; p.classList.remove('gg-in'); });
   }
 
+  // Tab aperto all'arrivo: fuori dal festival venerdi'; durante il festival il giorno di
+  // oggi, ma dalle 21 in poi gia' il giorno dopo. Domenica dalle 21 si torna a venerdi'.
   var primo = 0;
-  if (da && a && oggi >= da && oggi <= a) primo = Math.min(Math.round((oggi - da) / 86400000), tabs.length - 1);
+  if (da && a && oggi >= da && oggi <= a) {
+    primo = Math.round((oggi - da) / 86400000) + (new Date().getHours() >= 21 ? 1 : 0);
+    if (primo > tabs.length - 1) primo = 0;
+  }
   pann.forEach(function (p) { p.tabIndex = 0; });
   lista.hidden = false;
   if (pann[0].parentNode) pann[0].parentNode.classList.add('gg-box--tabs');
