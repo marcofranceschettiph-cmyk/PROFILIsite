@@ -967,10 +967,11 @@
       });
     }
     function finito(ora) {
-      if (lab) lab.hidden = true;
-      if (box) box.removeAttribute('aria-hidden');
+      var aperto = !!(fine && ora < fine);          // durante il festival: invito, non conto
+      if (lab) { lab.hidden = !aperto; if (aperto) lab.textContent = 'Fino all\'11 ottobre'; }
+      if (box) { box.removeAttribute('aria-hidden'); box.classList.toggle('pf-cd--aperto', aperto); }
       el.classList.remove('is-live'); gruppi = null;
-      var t = (fine && ora < fine) ? 'Il festival è in corso' : 'Edizione 0 conclusa';
+      var t = aperto ? 'Vieni a trovarci, la porta è aperta' : 'Edizione 0 conclusa';
       if (el.textContent !== t) el.textContent = t;
       return !(fine && ora < fine);                 // true: non c'e' piu' niente da aggiornare
     }
@@ -1154,10 +1155,11 @@
       });
     }
     function finito(ora) {
-      if (lab) lab.hidden = true;
-      if (box) box.removeAttribute('aria-hidden');
+      var aperto = !!(fine && ora < fine);          // durante il festival: invito, non conto
+      if (lab) { lab.hidden = !aperto; if (aperto) lab.textContent = 'Fino all\'11 ottobre'; }
+      if (box) { box.removeAttribute('aria-hidden'); box.classList.toggle('pf-cd--aperto', aperto); }
       el.classList.remove('is-live'); gruppi = null;
-      var t = (fine && ora < fine) ? 'Il festival è in corso' : 'Edizione 0 conclusa';
+      var t = aperto ? 'Vieni a trovarci, la porta è aperta' : 'Edizione 0 conclusa';
       if (el.textContent !== t) el.textContent = t;
       return !(fine && ora < fine);                 // true: non c'e' piu' niente da aggiornare
     }
