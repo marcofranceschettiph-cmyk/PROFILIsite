@@ -1371,3 +1371,6 @@ body.carta #artisti .thread > svg{display:none}
 .pin-link:hover,.pin-link:focus-visible{color:var(--accent)}
 .pin-link:hover .pin-ico,.pin-link:focus-visible .pin-ico{stroke:var(--accent)}
 .pin-link:hover strong,.pin-link:focus-visible strong{text-decoration-color:currentColor}
+
+.pf-cd--aperto{flex-wrap:wrap;white-space:normal}
+.pf-cd--aperto .pf-cd-val{white-space:normal;text-wrap:balance}
