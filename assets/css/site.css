@@ -1396,3 +1396,7 @@ body.carta #artisti .thread > svg{display:none}
 .arch-n em{font-style:italic}
 .arch-c{display:block;margin-top:4px;color:var(--fg-2);font-size:14.5px;line-height:1.55}
 @media (max-width:640px){.arch-list li{grid-template-columns:1fr;gap:6px}}
+
+/* sconto «profili»: sezione a sé tra programma e partner */
+.sconto-testo{max-width:720px;font-size:17px;line-height:1.7;color:var(--fg-2)}
+.sconto-testo strong{color:var(--fg)}
