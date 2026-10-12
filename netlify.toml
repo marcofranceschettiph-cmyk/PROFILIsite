@@ -13,6 +13,13 @@
 # radice e che la regola generica sotto non copre perche' il file esiste.
 # Le regole si leggono dall'alto e vince la prima che corrisponde: queste
 # stanno prima della pagina di errore generica.
+# scheda tolta dal sito: chi ha il vecchio link arriva comunque da qualche parte
+[[redirects]]
+  from = "/artisti/marco-martino-scarteddu.html"
+  to = "/#artisti"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/tools/*"
   to = "/404.html"
