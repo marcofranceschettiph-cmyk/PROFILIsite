@@ -1377,3 +1377,11 @@ body.carta #artisti .thread > svg{display:none}
 /* festival concluso: rimando al programma dell'edizione appena passata */
 .pf-rivivi{margin-top:22px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 22px}
 .pf-rivivi span{font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-2)}
+
+/* festival concluso: blocco dell'edizione nel hero, staccato dal resto */
+.conto.edizione{margin-top:clamp(56px,9vw,104px);padding-top:clamp(26px,3.5vw,38px);border-top:1px solid var(--rule);max-width:760px}
+.ed-quando{display:flex;flex-wrap:wrap;gap:6px 22px;margin:0;font-family:var(--sans);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--fg-2)}
+.ed-quando b{font-weight:500;color:var(--accent-2)}
+.ed-grazie{margin:18px 0 0;font-family:var(--serif);font-weight:300;font-size:clamp(32px,4.6vw,58px);line-height:1.08;color:var(--pf-rosso,#A54236);text-wrap:balance}
+.ed-azioni{margin-top:clamp(28px,4vw,40px);display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px}
+.ed-presto{font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-2)}
