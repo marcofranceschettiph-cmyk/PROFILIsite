@@ -1400,3 +1400,7 @@ body.carta #artisti .thread > svg{display:none}
 /* sconto «profili»: sezione a sé tra programma e partner */
 .sconto-testo{max-width:720px;font-size:17px;line-height:1.7;color:var(--fg-2)}
 .sconto-testo strong{color:var(--fg)}
+
+/* grazie prima, date e luogo sotto */
+.conto.edizione .ed-grazie{margin-top:0}
+.conto.edizione .ed-quando{margin-top:20px}
