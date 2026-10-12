@@ -1374,3 +1374,6 @@ body.carta #artisti .thread > svg{display:none}
 
 .pf-cd--aperto{flex-wrap:wrap;white-space:normal}
 .pf-cd--aperto .pf-cd-val{white-space:normal;text-wrap:balance}
+/* festival concluso: rimando al programma dell'edizione appena passata */
+.pf-rivivi{margin-top:22px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 22px}
+.pf-rivivi span{font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-2)}
