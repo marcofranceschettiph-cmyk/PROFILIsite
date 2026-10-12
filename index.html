@@ -20,7 +20,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-300-italic-latin.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261012b">
+<link rel="stylesheet" href="assets/css/site.css?v=20261012c">
 <!-- senza JavaScript il calendario e il menu non funzionano: meglio non mostrarli -->
 <noscript><style>[data-ics],.burger{display:none!important}</style></noscript>
 </head>
@@ -36,7 +36,6 @@
     <li><a href="#artisti">Artisti</a></li>
     <li><a href="#programma">Programma</a></li>
     <li><a href="#laboratori">Laboratori</a></li>
-    <li><a href="#info">Info</a></li>
     <li><a href="#partner">Partner</a></li>
     <li><a href="#contatti">Contatti</a></li>
   </ul>
@@ -51,7 +50,6 @@
     <li><a href="#artisti">Artisti<small>protagonisti</small></a></li>
     <li><a href="#programma">Programma<small>agenda</small></a></li>
     <li><a href="#laboratori">Laboratori<small>esperienze</small></a></li>
-    <li><a href="#info">Info<small>dettagli</small></a></li>
     <li><a href="#partner">Partner<small>sostenitori</small></a></li>
     <li><a href="#contatti">Contatti<small>scrivici</small></a></li>
   </ol>
@@ -287,155 +285,44 @@
 <section class="block paper" id="programma" data-world="paper">
   <div class="cucitura" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="head rv"><div><p class="eyebrow">Il programma dell'edizione 0</p><h2>Tre <em>giorni</em></h2><p class="pf-libero">9 – 11 ottobre 2026 · a ingresso libero</p></div></div>
-    <p class="loc" id="locandina" data-loc-base="assets/locandina/" hidden>
-      <a class="more" id="loc-apri" href="#" target="_blank" rel="noopener" aria-label="Il programma nel dettaglio: si apre in una nuova scheda">Il programma nel dettaglio</a>
-    </p>
-    <p class="gg-hint" aria-hidden="true">Tocca un giorno per aprire il suo programma</p>
-    <div class="gg-tabs" role="tablist" aria-label="I giorni del festival" hidden>
-      <button class="gg-tab" role="tab" id="t-g9" data-giorno="2026-10-09" aria-controls="g9" aria-selected="true" type="button">ven 9</button>
-      <button class="gg-tab" role="tab" id="t-g10" data-giorno="2026-10-10" aria-controls="g10" aria-selected="false" type="button">sab 10</button>
-      <button class="gg-tab" role="tab" id="t-g11" data-giorno="2026-10-11" aria-controls="g11" aria-selected="false" type="button">dom 11</button>
-    </div>
-    <div class="gg-box">
-      <div class="gg" id="g9" role="tabpanel" aria-labelledby="t-g9">
-        <div class="gg-head"><p class="gg-w">Venerdì 9 ottobre</p><h3 class="gg-t">Si apre</h3><p class="gg-p">Dalle 10 del mattino la Pescheria Nuova si è aperta: spazi, opere ed esposizione da vivere tutto il giorno. La sera il festival si è presentato, si sono intrecciati i primi fili e si è chiuso creando tutti insieme.</p></div>
-        <h5 class="gg-gruppo">Spazi ed eventi tutto il giorno</h5>
-        <article class="app app--tutto">
-          <h4 class="app-t"><em>Il filo del discorso</em></h4>
-          <p class="app-chi">Luogo di riflessione e scrittura</p>
-        </article>
-        <article class="app app--tutto">
-          <h4 class="app-t">Opere collettive e interattive</h4>
-          <p class="app-chi">Ognuno ha lasciato il suo segno</p>
-        </article>
-        <article class="app app--tutto">
-          <h4 class="app-t">Esposizione</h4>
-          <p class="app-chi">Opere e profili artistici</p>
-        </article>
-        <h5 class="gg-gruppo">Appuntamenti</h5>
-        <article class="app" id="g09-inaugurazione" data-inizio="2026-10-09T18:30">
-          <p class="app-ora"><span class="app-da">ore</span><time datetime="2026-10-09T18:30">18.30</time></p>
-          <h4 class="app-t">Inaugurazione</h4>
-          <p class="app-chi">Con brindisi e saluti istituzionali</p>
-        </article>
-        <article class="app" id="g09-intrecci-e-presentazione" data-inizio="2026-10-09T19:00" data-durata="120">
-          <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-09T19:00">19.00</time></p>
-          <h4 class="app-t">Intrecci e presentazione</h4>
-        </article>
-        <article class="app" id="g09-laboratorio-creativo-aperto-" data-inizio="2026-10-09T21:00">
-          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-09T21:00">21.00</time></p>
-          <h4 class="app-t">Laboratorio creativo aperto a tutti</h4>
-        </article>
+    <div class="head rv"><div><p class="eyebrow">Il programma dell'edizione 0</p><h2>Com'è <em>andata</em></h2><p class="pf-libero">9 – 11 ottobre 2026 · Pescheria Nuova · a ingresso libero</p></div></div>
+    <div class="arch">
+      <div class="arch-g rv">
+        <h3 class="arch-t">Tutto il giorno, <em>tutti i giorni</em></h3>
+        <p class="arch-sub">Dalle 10 del mattino, per tutte e tre le giornate.</p>
+        <ul class="tech arch-list">
+          <li><b>9 – 11 ottobre</b><span><strong class="arch-n"><em>Il filo del discorso</em></strong><span class="arch-c">Luogo di riflessione e scrittura</span></span></li>
+          <li><b>9 – 11 ottobre</b><span><strong class="arch-n">Opere collettive e interattive</strong><span class="arch-c">Dove ognuno ha lasciato il suo segno</span></span></li>
+          <li><b>9 – 11 ottobre</b><span><strong class="arch-n">Esposizione</strong><span class="arch-c">Opere e profili artistici degli artisti del festival</span></span></li>
+        </ul>
       </div>
-      <div class="gg" id="g10" role="tabpanel" aria-labelledby="t-g10">
-        <div class="gg-head"><p class="gg-w">Sabato 10 ottobre</p><h3 class="gg-t">La giornata piena</h3><p class="gg-p">Si è cominciato la mattina con la scrittura collettiva e si è finito a tarda notte allo Spazio-T, con l'intervista a FILO.</p></div>
-        <h5 class="gg-gruppo">Spazi ed eventi tutto il giorno</h5>
-        <article class="app app--tutto">
-          <h4 class="app-t"><em>Il filo del discorso</em></h4>
-          <p class="app-chi">Luogo di riflessione e scrittura</p>
-        </article>
-        <article class="app app--tutto">
-          <h4 class="app-t">Opere collettive e interattive</h4>
-          <p class="app-chi">Ognuno ha lasciato il suo segno</p>
-        </article>
-        <article class="app app--tutto">
-          <h4 class="app-t">Esposizione</h4>
-          <p class="app-chi">Opere e profili artistici</p>
-        </article>
-        <h5 class="gg-gruppo">Appuntamenti</h5>
-        <article class="app" id="g10-poesia-aperta" data-inizio="2026-10-10T10:00" data-durata="240">
-          <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-10T10:00">10.00</time></p>
-          <h4 class="app-t">Poesia Aperta</h4>
-          <p class="app-chi">scrittura collettiva</p>
-        </article>
-        <article class="app" id="g10-incontri" data-inizio="2026-10-10T14:00" data-durata="240">
-          <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-10T14:00">14.00</time></p>
-          <h4 class="app-t">Incontri</h4>
-          <p class="app-chi">Una clessidra, due sedie, tu e l'artista</p>
-        </article>
-        <article class="app" id="g10-gruppo-di-dialogo" data-inizio="2026-10-10T18:00">
-          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-10T18:00">18.00</time></p>
-          <h4 class="app-t">Gruppo di Dialogo</h4>
-          <p class="app-chi">ARTE e MONDO</p>
-        </article>
-        <article class="app" id="g10-in-cerca-di-un-filo" data-inizio="2026-10-10T21:00">
-          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-10T21:00">21.00</time></p>
-          <h4 class="app-t">In Cerca Di Un Filo</h4>
-          <p class="app-chi">Concerto live del cantautore Filippo Monti, in arte FILO. Anteprima del disco in prima assoluta. Seconde voci Annalisa Palmieri, pianoforte Nicola Elias Rigato</p>
-        </article>
-        <article class="app" id="g10-intervista-live-di-filo" data-inizio="2026-10-10T23:30">
-          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-10T23:30">23.30</time></p>
-          <h4 class="app-t">Intervista live di FILO</h4>
-          <p class="app-chi">A cura di LA PALUDE, presso Spazio-T</p>
-        </article>
+      <div class="arch-g rv">
+        <h3 class="arch-t">Gli <em>eventi</em></h3>
+        <p class="arch-sub">In ordine, dall'inaugurazione al disallestimento.</p>
+        <ul class="tech arch-list">
+          <li><b>Ven 9 · 18.30</b><span><strong class="arch-n">Inaugurazione</strong><span class="arch-c">Con brindisi e saluti istituzionali</span></span></li>
+          <li><b>Ven 9 · 19.00</b><span><strong class="arch-n">Intrecci e presentazione</strong></span></li>
+          <li><b>Sab 10 · 14.00</b><span><strong class="arch-n">Incontri</strong><span class="arch-c">Una clessidra, due sedie, tu e l'artista</span></span></li>
+          <li><b>Sab 10 · 18.00</b><span><strong class="arch-n">Gruppo di Dialogo</strong><span class="arch-c">Arte e mondo</span></span></li>
+          <li><b>Sab 10 · 21.00</b><span><strong class="arch-n">In cerca di un filo</strong><span class="arch-c">Concerto live del cantautore Filippo Monti, in arte FILO, con l'anteprima del disco in prima assoluta. Seconde voci Annalisa Palmieri, pianoforte Nicola Elias Rigato</span></span></li>
+          <li><b>Sab 10 · 23.30</b><span><strong class="arch-n">Intervista live di FILO</strong><span class="arch-c">A cura di La Palude, allo Spazio-T</span></span></li>
+          <li><b>Dom 11 · 11.30</b><span><strong class="arch-n">Tavola rotonda tra artisti</strong><span class="arch-c">La poetica nascosta dietro le forme d'arte</span></span></li>
+          <li><b>Dom 11 · 15.00</b><span><strong class="arch-n">Improvvisazione collettiva</strong><span class="arch-c">Per smartphone e pianoforte</span></span></li>
+          <li><b>Dom 11 · 18.00</b><span><strong class="arch-n">Disallestimento e rilancio alla prossima edizione</strong></span></li>
+        </ul>
       </div>
-      <div class="gg" id="g11" role="tabpanel" aria-labelledby="t-g11">
-        <div class="gg-head"><p class="gg-w">Domenica 11 ottobre</p><h3 class="gg-t">Si chiude</h3><p class="gg-p">Si sono ritirati i ritratti, gli artisti hanno raccontato la loro poetica, si è improvvisato in tanti. Alle 18 si è smontato, con lo sguardo già alla prossima edizione.</p></div>
-        <h5 class="gg-gruppo">Spazi ed eventi tutto il giorno</h5>
-        <article class="app app--tutto">
-          <h4 class="app-t"><em>Il filo del discorso</em></h4>
-          <p class="app-chi">Luogo di riflessione e scrittura</p>
-        </article>
-        <article class="app app--tutto">
-          <h4 class="app-t">Opere collettive e interattive</h4>
-          <p class="app-chi">Ognuno ha lasciato il suo segno</p>
-        </article>
-        <article class="app app--tutto">
-          <h4 class="app-t">Esposizione</h4>
-          <p class="app-chi">Opere e profili artistici</p>
-        </article>
-        <h5 class="gg-gruppo">Appuntamenti</h5>
-        <article class="app" id="g11-raccogli-il-tuo-ritratto" data-inizio="2026-10-11T10:00" data-durata="90">
-          <p class="app-ora"><span class="app-da">dalle</span><time datetime="2026-10-11T10:00">10.00</time></p>
-          <h4 class="app-t">Raccogli il tuo ritratto</h4>
-          <p class="app-chi">Il tuo ritratto poetico, disegnato, musicale.</p>
-        </article>
-        <article class="app" id="g11-tavola-rotonda-tra-artisti" data-inizio="2026-10-11T11:30">
-          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-11T11:30">11.30</time></p>
-          <h4 class="app-t">Tavola rotonda tra artisti</h4>
-          <p class="app-chi">Scopri la poetica nascosta dietro le forme d'arte</p>
-        </article>
-        <article class="app" id="g11-improvvisazione-collettiva" data-inizio="2026-10-11T15:00">
-          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-11T15:00">15.00</time></p>
-          <h4 class="app-t">Improvvisazione collettiva</h4>
-          <p class="app-chi">Per smartphone e pianoforte</p>
-        </article>
-        <article class="app" id="g11-disallestimento-e-rilancio-a" data-inizio="2026-10-11T18:00">
-          <p class="app-ora"><span class="app-da">alle</span><time datetime="2026-10-11T18:00">18.00</time></p>
-          <h4 class="app-t">Disallestimento e rilancio alla prossima edizione</h4>
-        </article>
+      <div class="arch-g rv" id="laboratori">
+        <h3 class="arch-t">I <em>laboratori</em></h3>
+        <p class="arch-sub">Laboratori immersivi per tutte le età, aperti alla cittadinanza.</p>
+        <ul class="tech arch-list">
+          <li><b>Ven 9 · 21.00</b><span><strong class="arch-n">Laboratorio creativo aperto a tutti</strong></span></li>
+          <li><b>Sab 10 · 10.00</b><span><strong class="arch-n">Poesia Aperta</strong><span class="arch-c">Scrittura collettiva</span></span></li>
+          <li><b>Dom 11 · 10.00</b><span><strong class="arch-n">Raccogli il tuo ritratto</strong><span class="arch-c">Il tuo ritratto poetico, disegnato, musicale</span></span></li>
+        </ul>
       </div>
     </div>
     <ul class="tech sempre sempre--sotto rv">
       <li><b>Sconto «profili»</b><span>Nei giorni del festival, chi ha visitato la Pescheria Nuova ha avuto lo sconto «profili» in questi negozi partner:<span style="display:block;margin-top:8px"><a class="pin-link" href="https://www.google.com/maps/search/?api=1&amp;query=Antico+Coghetto+Via+Cavour+4+45100+Rovigo" target="_blank" rel="noopener" aria-label="Antico Coghetto su Google Maps, si apre in una nuova scheda"><svg class="pin-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><strong>Antico Coghetto</strong></a>, caffetteria e cocktail bar, per dare un gusto al tempo</span><span style="display:block;margin-top:4px"><a class="pin-link" href="https://www.google.com/maps/search/?api=1&amp;query=Gelateria+Godot+Via+Generale+Domenico+Piva+13%2F3+45100+Rovigo" target="_blank" rel="noopener" aria-label="Gelateria Godot su Google Maps, si apre in una nuova scheda"><svg class="pin-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><strong>Gelateria Godot</strong></a>, dove trovi l'autentico gusto PROFILI</span><span style="display:block;margin-top:4px"><a class="pin-link" href="https://www.google.com/maps/search/?api=1&amp;query=Non+Solo+Arte+Rovigo" target="_blank" rel="noopener" aria-label="Non Solo Arte su Google Maps, si apre in una nuova scheda"><svg class="pin-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><strong>Non Solo Arte</strong></a>, articoli d'arte e cancelleria</span></span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="block paper" id="laboratori" data-world="paper">
-  <div class="cucitura" aria-hidden="true"></div>
-  <div class="wrap">
-    <div class="head rv"><div><p class="eyebrow">Laboratori</p><h2>I <em>laboratori</em></h2></div><p class="lede">Laboratori immersivi per tutte le età, aperti alla cittadinanza, nella prima edizione.</p></div>
-    <ul class="tech pf-info rv">
-      <li><b>Ogni giorno</b><span>Opere collettive e interattive, dove ognuno ha lasciato il suo segno.</span></li>
-      <li><b>Venerdì 9</b><span>Alle 21.00, laboratorio creativo aperto a tutti.</span></li>
-      <li><b>Sabato 10</b><span>Alle 10.00, <em>Poesia Aperta</em>: scrittura collettiva.</span></li>
-      <li><b>Domenica 11</b><span>Dalle 10.00, <em>Raccogli il tuo ritratto</em>: il tuo ritratto poetico, disegnato, musicale.</span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="block paper" id="info" data-world="paper">
-  <div class="cucitura" aria-hidden="true"></div>
-  <div class="wrap">
-    <div class="head rv"><div><p class="eyebrow">Info</p><h2>L'edizione <em>in breve</em></h2></div></div>
-    <ul class="tech pf-info rv">
-      <li><b>Dove</b><span>Pescheria Nuova, Corso del Popolo 140, Rovigo</span></li>
-      <li><b>Quando</b><span>Edizione 0, 9 – 11 ottobre 2026</span></li>
-      <li><b>Ingresso</b><span>Libero, per tutte le giornate</span></li>
-      <li><b>Patrocinio</b><span><span class="nobr">PRO-FILI</span> ha avuto il patrocinio del Comune ed è stato nel cartellone di Ottobre Rodigino. Il Comune ha messo a disposizione la Pescheria Nuova.</span></li>
-      <li><b>Radio ufficiale</b><span>Radio Kappa · La Palude</span></li>
     </ul>
   </div>
 </section>
