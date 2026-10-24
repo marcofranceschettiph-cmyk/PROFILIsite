@@ -1410,7 +1410,8 @@ body.carta #artisti .thread > svg{display:none}
 .press-g .arch-t{font-size:clamp(22px,2.4vw,28px)}
 .press-list{list-style:none;margin:14px 0 0;padding:0;border-top:1px solid var(--rule-2,#C4B69E)}
 .press-list li{border-bottom:1px solid var(--rule,#D8CCB8)}
-.press-list a{display:block;padding:14px 0;text-decoration:none;color:inherit}
+.press-list a{display:block;padding:14px 0;text-decoration:none;color:inherit;cursor:pointer;-webkit-tap-highlight-color:rgba(125,96,42,.15);position:relative;z-index:1}
+.press-title{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em;text-decoration-color:var(--rule-2,#C4B69E)}
 .press-txt{display:flex;flex-direction:column;gap:4px;min-width:0}
 .press-meta{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent,#7D602A)}
 .press-meta b{font-weight:500}
