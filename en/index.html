@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PRO-FILI Festival — segui il filo dell'arte</title>
+<meta name="description" content="PRO-FILI Festival, segui il filo dell'arte: il festival annuale del collettivo IANUA a Rovigo. La prima edizione, l'Edizione 0, si è svolta in Pescheria Nuova dal 9 all'11 ottobre 2026 con laboratori, ritratti, dialogo e concerti, nel cartellone dell'Ottobre Rodigino.">
+<meta property="og:title" content="PRO-FILI Festival — segui il filo dell'arte">
+<meta property="og:description" content="Il festival annuale di incontro e scambio tra arti ed artisti del territorio. Edizione 0: Rovigo, 9–11 ottobre 2026.">
+<meta property="og:image" content="https://profilifestival.it/assets/img/og/festival.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PRO-FILI Festival, 9-11 ottobre 2026, Pescheria Nuova, Rovigo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://profilifestival.it/assets/img/og/festival.jpg">
+<link rel="canonical" href="https://profilifestival.it/en/">
+<meta property="og:url" content="https://profilifestival.it/en/">
+<link rel="alternate" hreflang="it" href="https://profilifestival.it/">
+<link rel="alternate" hreflang="en" href="https://profilifestival.it/en/">
+<link rel="alternate" hreflang="x-default" href="https://profilifestival.it/">
+<meta name="theme-color" content="#F4EDE1">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/jost-300-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/cormorant-garamond-300-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/cormorant-garamond-300-italic-latin.woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/site.css?v=20261026a">
+<!-- senza JavaScript il calendario e il menu non funzionano: meglio non mostrarli -->
+<noscript><style>[data-ics],.burger{display:none!important}</style></noscript>
+</head>
+<body class="carta">
+
+<nav class="nav" id="nav" aria-label="Principale">
+  <a href="index.html" class="brand" aria-label="PRO-FILI Festival, home">
+    <img class="pf-logo--nav" src="../assets/img/profili-logo-rosso.svg" alt="" width="1144" height="454">
+    <span class="sr-only"><span class="nobr">PRO-FILI</span> Festival</span>
+  </a>
+  <ul>
+    <li><a href="#festival">Il festival</a></li>
+    <li><a href="#artisti">Artisti</a></li>
+    <li><a href="#programma">Programma</a></li>
+    <li><a href="#laboratori">Laboratori</a></li>
+    <li><a href="#partner">Partner</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+  <div class="tools">
+    <a class="lang-sw" href="../index.html" hreflang="it" lang="it" aria-label="Versione italiana">IT</a>
+    <button class="iconbtn burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="menu" id="menu" aria-hidden="true">
+  <ol>
+    <li><a href="index.html">Home<small>portale</small></a></li>
+    <li><a href="#festival">Il festival<small>l'idea</small></a></li>
+    <li><a href="#artisti">Artisti<small>protagonisti</small></a></li>
+    <li><a href="#programma">Programma<small>agenda</small></a></li>
+    <li><a href="#laboratori">Laboratori<small>esperienze</small></a></li>
+    <li><a href="#partner">Partner<small>sostenitori</small></a></li>
+    <li><a href="#contatti">Contatti<small>scrivici</small></a></li>
+  </ol>
+  <p class="foot"><span class="nobr">PRO-FILI</span> Festival · Rovigo</p>
+</div>
+
+<!-- La matassa: un palco fisso prima dell'apertura. Scorrendo il filo di lana si srotola,
+     lega tre profili di carta ed esce di scena dal fondo (../assets/js/matassa.js). -->
+<section class="matassa" id="matassa" data-world="paper" aria-label="Una matassa di lana rossa il cui filo lega tre profili di carta">
+  <div class="matassa-palco">
+    <p class="matassa-scorri" aria-hidden="true">Scorri</p>
+    <div class="matassa-tela">
+      <canvas id="matassa-base" width="2688" height="1428" aria-hidden="true"></canvas>
+      <canvas id="matassa-filo" width="2688" height="1428" aria-hidden="true"></canvas>
+    </div>
+  </div>
+</section>
+
+<header class="page-hero paper" id="soglia" data-world="paper">
+  <div class="wrap">
+    <!-- Qui andrà il video di apertura: il filo che collega i profili degli artisti
+         e finisce nello skyline di Rovigo (../assets/video/soglia.mp4). Finché il file
+         non esiste il blocco resta hidden e l'apertura funziona comunque senza. -->
+    <div class="soglia-film" id="soglia-film" data-film="../assets/video/soglia.mp4" hidden></div>
+    <img class="pf-logo pf-logo--hero rv" src="../assets/img/profili-logo-rosso.svg" alt="" width="1144" height="454">
+    <h1 class="rv"><span class="sr-only"><span class="nobr">PRO-FILI</span> Festival</span><em>segui il filo dell'arte</em></h1>
+    <p class="sub rv">Un festival annuale: un luogo di incontro e scambio tra arti ed artisti del territorio.</p>
+    <p class="pf-cura pf-cura--meta rv">Ideato e curato dal collettivo <a href="https://collettivoianua.it/en/">IANUA</a></p>
+    <div class="conto edizione rv" id="conto" data-da="2026-10-09" data-a="2026-10-11">
+      <p class="ed-grazie">Grazie a tutti, ci vediamo alla prossima edizione</p>
+      <p class="ed-quando"><b>Edizione 0</b><span>9 – 11 ottobre 2026</span><span>Pescheria Nuova, Rovigo</span></p>
+      <div class="ed-azioni">
+        <a class="submit call-btn" href="#programma">Rivivi il programma <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v13M6 12l6 6 6-6"/></svg></a>
+        <span class="ed-presto">Foto e video in arrivo</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="block paper" id="festival" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
+  <div class="wrap article" style="grid-template-columns:1fr">
+    <div>
+      <div class="chapter rv">
+        <h2 class="sec">L'<em>idea</em></h2>
+        <div class="prose">
+          <p>Il collettivo artistico IANUA ha proposto <b><span class="nobr">PRO-FILI</span>, Edizione <span class="num">0</span></b>, inserito nel cartellone comunale di Ottobre Rodigino e pensato come un breve percorso corale in cui il pubblico non assiste soltanto agli eventi ma entra in relazione diretta con gli artisti del territorio.</p>
+          <p>Il filo diventa un motore concettuale e un moto di avvicinamento tra gli artisti emergenti ed il loro possibile pubblico di domani ma anche tra il pubblico e diversi tipi di arte che potrebbero essergli ancora sconosciuti.</p>
+        </div>
+        <div class="call-coppia">
+          <a class="submit call-btn call-btn--pieno" href="#programma">Scopri il programma <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v13M6 12l6 6 6-6"/></svg></a>
+          <a class="submit call-btn" href="#artisti">Scopri gli artisti <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v13M6 12l6 6 6-6"/></svg></a>
+        </div>
+      </div>
+
+      <div class="chapter rv">
+        <h2 class="sec">L'anima di <em><span class="nobr">PRO-FILI</span></em></h2>
+        <ul class="tech">
+          <li><b>Laboratori</b><span>Laboratori immersivi per tutte le età, aperti alla cittadinanza.</span></li>
+          <li><b>Artisti del territorio</b><span>Valorizzazione degli artisti del territorio rodigino e della loro produzione attuale.</span></li>
+          <li><b>Ospiti</b><span>Quattro presenze speciali accanto agli artisti del territorio: il pittore Massimo Marchioro, il cantautore FILO, l'artista visivo CAINO e il musicista NIHIL.</span></li>
+          <li><b>Il filo come rete</b><span>Un momento di incontro diretto e informale tra cittadinanza e artisti, che rafforza la rete tra realtà culturali locali, media e pubblico.</span></li>
+          <li><b>Programma</b><span>Un programma diversificato: laboratori, musica, fotografia, installazione, dialogo.</span></li>
+          <li><b>Arte e responsabilità</b><span>Relazione reale tra le persone, in cui l'arte è legame e responsabilità.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block festival-artists paper" id="artisti" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="head rv"><div><p class="eyebrow">Chi c'è</p><h2>Gli <em>artisti</em></h2></div><div style="justify-self:end"><p class="lede">Segui il filo, scopri ogni artista entrando nella sua scheda.</p></div></div>
+    <div class="thread" data-giri><svg aria-hidden="true"><path class="ghost" d=""/><path class="line" d=""/><path class="flow" d=""/><circle class="bead" r="4"/></svg>
+    <div class="people people-compact">
+      <a class="person rv" data-tinta="blu" href="artisti/mattia-signorini.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/mattia-signorini-3-bn.webp" srcset="../assets/img/mattia-signorini-3-bn_sm.webp 800w, ../assets/img/mattia-signorini-3-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Mattia Signorini" width="1280" height="1600" loading="lazy"></div>
+        <h3>Mattia Signorini</h3><p class="role">Scrittura</p>
+        <p>Romanziere, tradotto in mezzo mondo.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="viola" href="artisti/giorgia-roversi.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/giorgia-roversi-2-bn.webp" srcset="../assets/img/giorgia-roversi-2-bn_sm.webp 800w, ../assets/img/giorgia-roversi-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Giorgia Roversi, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Giorgia Roversi</h3><p class="role">Pittura</p>
+        <p>Pittura dell'anatomia invisibile delle emozioni.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="rosso" href="artisti/zentequerente.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/zentequerente-2-bn.webp" srcset="../assets/img/zentequerente-2-bn_sm.webp 800w, ../assets/img/zentequerente-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Zentequerente, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Zentequerente</h3><p class="role">Arti visive</p>
+        <p>Disegno e segni raccolti: l'invisibile dentro il visibile.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="arancio" href="artisti/marcello-ubertone.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/marcello-ubertone-2-bn.webp" srcset="../assets/img/marcello-ubertone-2-bn_sm.webp 800w, ../assets/img/marcello-ubertone-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Marcello Ubertone, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Marcello Ubertone</h3><p class="role">Cantautorato</p>
+        <p>Canzoni che raccontano storie, tra immaginazione e vita vera.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="oro" href="artisti/anna-spazio-marangon.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/anna-spazio-marangon-2-bn.webp" srcset="../assets/img/anna-spazio-marangon-2-bn_sm.webp 800w, ../assets/img/anna-spazio-marangon-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Anna Spazio Marangon, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Anna Spazio Marangon</h3><p class="role">Arti visive · installazione</p>
+        <p>Installazioni di fili e nodi, tra spazio e materia.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="verde" href="artisti/enrico-buoso.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/enrico-buoso-2-bn.webp" srcset="../assets/img/enrico-buoso-2-bn_sm.webp 800w, ../assets/img/enrico-buoso-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Enrico Buoso" width="1280" height="1600" loading="lazy"></div>
+        <h3>Enrico Buoso</h3><p class="role">Musica e composizione</p>
+        <p>Intrecci di note e reti di persone.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="blu" href="artisti/martino-prendini.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/martino-prendini-2-bn.webp" srcset="../assets/img/martino-prendini-2-bn_sm.webp 800w, ../assets/img/martino-prendini-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Martino Prendini" width="1280" height="1600" loading="lazy"></div>
+        <h3>Martino Prendini</h3><p class="role">Arti visive</p>
+        <p>Esplora con i sensi quello che non si scopre in altro modo.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="viola" href="artisti/daniele-corrain.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/daniele-corrain-2-bn.webp" srcset="../assets/img/daniele-corrain-2-bn_sm.webp 800w, ../assets/img/daniele-corrain-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Daniele Corrain, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Daniele Corrain</h3><p class="role">Pittura e illustrazione</p>
+        <p>Dipinge quello che gli passa per la testa, sporcandosi le mani.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="rosso" href="artisti/giulia-dal-pra.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/giulia-dal-pra-2-bn.webp" srcset="../assets/img/giulia-dal-pra-2-bn_sm.webp 800w, ../assets/img/giulia-dal-pra-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Giulia Dal Prà, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Giulia Dal Prà</h3><p class="role">Collage</p>
+        <p>Ritaglia, accosta e ricompone quello che gli altri hanno smesso di guardare.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="arancio" href="artisti/anna-randolo.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/anna-randolo-2-bn.webp" srcset="../assets/img/anna-randolo-2-bn_sm.webp 800w, ../assets/img/anna-randolo-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Anna Randolo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Anna Randolo</h3><p class="role">Illustrazione · Unnyverso</p>
+        <p>Dà colore e voce alle storie, soprattutto per i bambini.</p>
+      </figure></a>
+      <a class="person rv" href="artisti/salvatore-passalacqua.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/salvatore-passalacqua-2-bn.webp" srcset="../assets/img/salvatore-passalacqua-2-bn_sm.webp 800w, ../assets/img/salvatore-passalacqua-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Salvatore Passalacqua, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Salvatore Passalacqua</h3><p class="role">Musica e arti visive · ETHA</p>
+        <p>Strumenti acustici ed elettronica, tra il reale e il surreale.</p>
+      </figure></a>
+      <a class="person rv" href="artisti/salsa-wasabbee.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/salsa-wasabbee-2-bn.webp" srcset="../assets/img/salsa-wasabbee-2-bn_sm.webp 800w, ../assets/img/salsa-wasabbee-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di salsa_wasabbee, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>salsa_wasabbee</h3><p class="role">Fumetto e illustrazione</p>
+        <p>Tavole in bianco e nero: sperimenta, si spaventa, si addormenta.</p>
+      </figure></a>
+      <a class="person rv" href="artisti/francesca-de-simone.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/francesca-de-simone-2-bn.webp" srcset="../assets/img/francesca-de-simone-2-bn_sm.webp 800w, ../assets/img/francesca-de-simone-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Francesca De Simone, di profilo, in bianco e nero" width="1280" height="1600" loading="lazy"></div>
+        <h3>Francesca De Simone</h3><p class="role">Poesia</p>
+        <p>Fissa in pochi versi un sentire sconosciuto.</p>
+      </figure></a>
+      <a class="person rv" href="artisti/elia-pellegrini.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/elia-pellegrini-2-bn.webp" srcset="../assets/img/elia-pellegrini-2-bn_sm.webp 800w, ../assets/img/elia-pellegrini-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Elia Pellegrini, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Elia Pellegrini</h3><p class="role">Arti visive e 3D</p>
+        <p>Luce, architettura e tempo, tra i rosoni gotici e il mondo onirico.</p>
+      </figure></a>
+      <a class="person rv" href="artisti/alessandro-alfonsi.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/alessandro-alfonsi-2-bn.webp" srcset="../assets/img/alessandro-alfonsi-2-bn_sm.webp 800w, ../assets/img/alessandro-alfonsi-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Alessandro Alfonsi, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Alessandro Alfonsi</h3><p class="role">Musica e teatro</p>
+        <p>Musica e parola, memoria e ascolto.</p>
+      </figure></a>
+      <a class="person rv" href="artisti/irma-paulon.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/irma-paulon-3-bn.webp" srcset="../assets/img/irma-paulon-3-bn_sm.webp 800w, ../assets/img/irma-paulon-3-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Irma Paulon di profilo, con le mani sulle radici di un albero sradicato" width="1280" height="1600" loading="lazy"></div>
+        <h3>Irma Paulon</h3><p class="role">Arti visive e scultura</p>
+        <p>Resina, legno, vetro e metallo: la dignità estetica della materia.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="rosso" href="artisti/andrea-fabbri.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/andrea-fabbri-2-bn.webp" srcset="../assets/img/andrea-fabbri-2-bn_sm.webp 800w, ../assets/img/andrea-fabbri-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Andrea Fabbri di profilo mentre dipinge, con la tavolozza in mano" width="1280" height="1600" loading="lazy"></div>
+        <h3>Andrea Fabbri</h3><p class="role">Pittura e tatuaggio</p>
+        <p>Tatuaggio e pittura: trasformare l'ombra in emozione.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="verde" href="artisti/maryam-amirfarshi.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/maryam-amirfarshi-bn.webp" srcset="../assets/img/maryam-amirfarshi-bn_sm.webp 800w, ../assets/img/maryam-amirfarshi-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Maryam Amirfarshi, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Maryam Amirfarshi</h3><p class="role">Pittura e tecnica mista</p>
+        <p>Segni, codici e fili che legano lingue, memorie e geografie.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="arancio" href="artisti/martina-barison.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/martina-barison-bn.webp" srcset="../assets/img/martina-barison-bn_sm.webp 800w, ../assets/img/martina-barison-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Martina Barison, di profilo e sorridente" width="1280" height="1600" loading="lazy"></div>
+        <h3>Martina Barison</h3><p class="role">Collezione di copricapi</p>
+        <p>Cosa racconta un copricapo? Viaggi e popoli, da ogni capo del mondo.</p>
+      </figure></a>
+    </div>
+    </div>
+    <div class="cucitura cucitura--dentro" aria-hidden="true"></div>
+    <div class="head rv head-ospiti"><div><p class="eyebrow">Chi arriva</p><h2>Gli <em>ospiti</em></h2></div><p class="lede">Quattro presenze invitate accanto agli artisti del territorio.</p></div>
+    <div class="thread" data-giri data-giri-inizio="destra-telefono"><svg aria-hidden="true"><path class="ghost" d=""/><path class="line" d=""/><path class="flow" d=""/><circle class="bead" r="4"/></svg>
+    <div class="people people-compact">
+      <a class="person rv" data-tinta="oro" href="artisti/caino.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/caino.webp" srcset="../assets/img/caino_sm.webp 640w, ../assets/img/caino.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Logo di CAINO, bianco su fondo nero" width="1280" height="1600" loading="lazy"></div>
+        <h3>CAINO</h3><p class="role">Fotografia</p>
+        <p>Fotografie che strappano e ricompongono le icone della pittura.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="verde" href="artisti/filo.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/filo-2-bn.webp" srcset="../assets/img/filo-2-bn_sm.webp 800w, ../assets/img/filo-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di FILO, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>FILO</h3><p class="role">Cantautorato</p>
+        <p>Cantautore, autore del disco «In cerca di un filo».</p>
+      </figure></a>
+      <a class="person rv" data-tinta="blu" href="artisti/massimo-marchioro.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/massimo-marchioro-2-bn.webp" srcset="../assets/img/massimo-marchioro-2-bn_sm.webp 800w, ../assets/img/massimo-marchioro-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Massimo Marchioro, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Massimo Marchioro</h3><p class="role">Pittura</p>
+        <p>Cerca nelle stanze più profonde e le scale che portano in alto.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="viola" href="artisti/nihil.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/nihil-2-bn.webp" srcset="../assets/img/nihil-2-bn_sm.webp 800w, ../assets/img/nihil-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di NIHIL di profilo, con il volto blu e la maschera di cristalli" width="1280" height="1600" loading="lazy"></div>
+        <h3>NIHIL</h3><p class="role">Musica e cantautorato</p>
+        <p>Erede al trono di un regno senza terra, in viaggio con la musica.</p>
+      </figure></a>
+    </div>
+    </div>
+    <div class="cucitura cucitura--dentro" aria-hidden="true"></div>
+    <div class="head rv head-ospiti"><div><p class="eyebrow">Chi lo organizza</p><h2>Gli <em>organizzatori</em></h2></div><p class="lede">Il festival è ideato e curato dal collettivo IANUA.</p></div>
+    <h3 class="gruppo rv">I <em>tessitori</em><small>chi disegna la trama</small></h3>
+    <div class="thread" data-giri><svg aria-hidden="true"><path class="ghost" d=""/><path class="line" d=""/><path class="flow" d=""/><circle class="bead" r="4"/></svg>
+    <div class="people people-compact">
+      <a class="person rv" data-tinta="rosso" href="artisti/nicola-elias-rigato.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/nicola-profili-bn.webp" srcset="../assets/img/nicola-profili-bn_sm.webp 800w, ../assets/img/nicola-profili-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Nicola Elias Rigato, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Nicola Elias Rigato</h3><p class="role">Musica, composizione</p>
+        <p>Cerca cosa c'è dietro alla bellezza. In IANUA cura la direzione artistica.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="arancio" href="artisti/chiara-tosti.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/chiara-profili-2-bn.webp" srcset="../assets/img/chiara-profili-2-bn_sm.webp 800w, ../assets/img/chiara-profili-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Chiara Tosti, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Chiara Tosti</h3><p class="role">Danza e teatro</p>
+        <p>Danza perché è il modo in cui pensa. In IANUA cura la produzione.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="oro" href="artisti/greta-rigato.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/greta-profili-2-bn.webp" srcset="../assets/img/greta-profili-2-bn_sm.webp 800w, ../assets/img/greta-profili-2-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Greta Rigato, di profilo con lo sguardo verso l'alto" width="1280" height="1600" loading="lazy"></div>
+        <h3>Greta Rigato</h3><p class="role">Arti visive e installazione</p>
+        <p>Crea connessioni tra linguaggi e persone. In IANUA cura la comunicazione.</p>
+      </figure></a>
+      <a class="person rv" data-tinta="verde" href="artisti/marco-franceschetti.html"><figure>
+        <div class="ph" data-knot="low"><img src="../assets/img/marco-profili-3-bn.webp" srcset="../assets/img/marco-profili-3-bn_sm.webp 800w, ../assets/img/marco-profili-3-bn.webp 1280w" sizes="(max-width:640px) 46vw, (max-width:1000px) 30vw, 220px" alt="Ritratto di Marco Franceschetti, di profilo" width="1280" height="1600" loading="lazy"></div>
+        <h3>Marco Franceschetti</h3><p class="role">Fotografia e cantautorato</p>
+        <p>Colora schemi complessi, li sorvola con la musica, ne esce con la fotografia. In IANUA cura la direzione operativa.</p>
+      </figure></a>
+    </div>
+    </div>
+    <div class="call-coppia call-coppia--collettivo rv">
+      <a class="submit call-btn call-btn--pieno" href="https://collettivoianua.it/en/" target="_blank" rel="noopener" aria-label="Scopri il collettivo IANUA: il sito si apre in una nuova scheda">Scopri il collettivo IANUA <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="block paper" id="programma" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="head rv"><div><p class="eyebrow">Il programma dell'edizione 0</p><h2>Com'è <em>andata</em></h2><p class="pf-libero">9 – 11 ottobre 2026 · Pescheria Nuova · a ingresso libero</p></div></div>
+    <div class="arch">
+      <div class="arch-g rv">
+        <h3 class="arch-t">Tutto il giorno, <em>tutti i giorni</em></h3>
+        <p class="arch-sub">Dalle 10 del mattino, per tutte e tre le giornate.</p>
+        <ul class="tech arch-list">
+          <li><b>9 – 11 ottobre</b><span><strong class="arch-n"><em>Il filo del discorso</em></strong><span class="arch-c">Luogo di riflessione e scrittura</span></span></li>
+          <li><b>9 – 11 ottobre</b><span><strong class="arch-n">Opere collettive e interattive</strong><span class="arch-c">Dove ognuno ha lasciato il suo segno</span></span></li>
+          <li><b>9 – 11 ottobre</b><span><strong class="arch-n">Esposizione</strong><span class="arch-c">Opere e profili artistici degli artisti del festival</span></span></li>
+        </ul>
+      </div>
+      <div class="arch-g rv">
+        <h3 class="arch-t">Gli <em>eventi</em></h3>
+        <p class="arch-sub">In ordine, dall'inaugurazione al disallestimento.</p>
+        <ul class="tech arch-list">
+          <li><b>Ven 9 · 18.30</b><span><strong class="arch-n">Inaugurazione</strong><span class="arch-c">Con brindisi e saluti istituzionali</span></span></li>
+          <li><b>Ven 9 · 19.00</b><span><strong class="arch-n">Intrecci e presentazione</strong></span></li>
+          <li><b>Sab 10 · 14.00</b><span><strong class="arch-n">Incontri</strong><span class="arch-c">Una clessidra, due sedie, tu e l'artista</span></span></li>
+          <li><b>Sab 10 · 18.00</b><span><strong class="arch-n">Gruppo di Dialogo</strong><span class="arch-c">Arte e mondo</span></span></li>
+          <li><b>Sab 10 · 21.00</b><span><strong class="arch-n">In cerca di un filo</strong><span class="arch-c">Concerto live del cantautore Filippo Monti, in arte FILO, con l'anteprima del disco in prima assoluta. Seconde voci Annalisa Palmieri, pianoforte Nicola Elias Rigato</span></span></li>
+          <li><b>Sab 10 · 23.30</b><span><strong class="arch-n">Intervista live di FILO</strong><span class="arch-c">A cura di La Palude, allo Spazio-T</span></span></li>
+          <li><b>Dom 11 · 11.30</b><span><strong class="arch-n">Tavola rotonda tra artisti</strong><span class="arch-c">La poetica nascosta dietro le forme d'arte</span></span></li>
+          <li><b>Dom 11 · 15.00</b><span><strong class="arch-n">Improvvisazione collettiva</strong><span class="arch-c">Per smartphone e pianoforte</span></span></li>
+          <li><b>Dom 11 · 18.00</b><span><strong class="arch-n">Disallestimento e rilancio alla prossima edizione</strong></span></li>
+        </ul>
+      </div>
+      <div class="arch-g rv" id="laboratori">
+        <h3 class="arch-t">I <em>laboratori</em></h3>
+        <p class="arch-sub">Laboratori immersivi per tutte le età, aperti alla cittadinanza.</p>
+        <ul class="tech arch-list">
+          <li><b>Ven 9 · 21.00</b><span><strong class="arch-n">Laboratorio creativo aperto a tutti</strong></span></li>
+          <li><b>Sab 10 · 10.00</b><span><strong class="arch-n">Poesia Aperta</strong><span class="arch-c">Scrittura collettiva</span></span></li>
+          <li><b>Dom 11 · 10.00</b><span><strong class="arch-n">Raccogli il tuo ritratto</strong><span class="arch-c">Il tuo ritratto poetico, disegnato, musicale</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block paper" id="stampa" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="head rv"><div><p class="eyebrow">Rassegna stampa</p><h2>Dicono <em>di noi</em></h2></div><p class="lede">Gli articoli che hanno raccontato <span class="nobr">PRO-FILI</span>, con il passaggio che ci riguarda. Ogni titolo apre l'articolo sul sito della testata.</p></div>
+    <div class="press">
+      <div class="press-g">
+        <h3 class="arch-t">Il <em>festival</em></h3>
+        <ul class="press-list rv">
+        <li><a href="https://www.rovigo.news/pro-fili-festival-a-rovigo-larte-diventa-incontro-tre-giorni-alla-pescheria-nuova/" rel="noopener" aria-label="Pro-fili Festival, a Rovigo l&#x27;arte diventa incontro: tre giorni alla Pescheria Nuova, Rovigo.News"><span class="press-txt"><span class="press-meta"><b>Rovigo.News</b> · <time datetime="2026-10-07">7 ottobre 2026</time></span><span class="press-title">Pro-fili Festival, a Rovigo l'arte diventa incontro: tre giorni alla Pescheria Nuova</span><span class="press-ex">La prima edizione è ideata dal collettivo artistico ianua, nato con l'obiettivo di promuovere eventi, spettacoli e laboratori artistici aperti alla partecipazione.</span></span></a></li>
+        <li><a href="https://www.polesine24.it/cronaca/2026/10/01/news/i-lions-al-fianco-della-comunita-404926/" rel="noopener" aria-label="I Lions al fianco della comunità, La Voce di Rovigo"><span class="press-txt"><span class="press-meta"><b>La Voce di Rovigo</b> · <time datetime="2026-10-01">1 ottobre 2026</time></span><span class="press-title">I Lions al fianco della comunità</span><span class="press-ex">Il Lions Club Rosa Parks affianca il Collettivo IANUA nell'organizzazione della prima edizione del PRO-FILI Festival, in Pescheria Nuova.</span></span></a></li>
+        <li><a href="https://www.rovigo.news/lions-club-rosa-parks-quattro-progetti-per-il-territorio-tra-solidarieta-cultura-e-prevenzione/" rel="noopener" aria-label="Lions Club Rosa Parks, quattro progetti per il territorio tra solidarietà, cultura e prevenzione, Rovigo.News"><span class="press-txt"><span class="press-meta"><b>Rovigo.News</b> · <time datetime="2026-10">Ottobre 2026</time></span><span class="press-title">Lions Club Rosa Parks, quattro progetti per il territorio tra solidarietà, cultura e prevenzione</span><span class="press-ex">Tra i quattro progetti, il sostegno al Collettivo IANUA per la prima edizione del PRO-FILI Festival, nel calendario dell'Ottobre Rodigino.</span></span></a></li>
+        <li><a href="https://www.rovigoinfocitta.it/lions-club-rosa-parks-we-serve/" rel="noopener" aria-label="Lions Club Rosa Parks a fianco di iniziative locali, Rovigoinfocitta"><span class="press-txt"><span class="press-meta"><b>Rovigoinfocitta</b> · <time datetime="2026-10">Ottobre 2026</time></span><span class="press-title">Lions Club Rosa Parks a fianco di iniziative locali</span><span class="press-ex">Il Collettivo IANUA, giovani artisti del territorio, e un festival che il club si augura diventi un appuntamento annuale.</span></span></a></li>
+        <li><a href="https://www.rovigoinfocitta.it/il-programma-ottobre-rodigino-2026/" rel="noopener" aria-label="Ottobre Rodigino 2026. Al via il programma degli eventi, Rovigoinfocitta"><span class="press-txt"><span class="press-meta"><b>Rovigoinfocitta</b> · <time datetime="2026-10">Ottobre 2026</time></span><span class="press-title">Ottobre Rodigino 2026. Al via il programma degli eventi</span><span class="press-ex">Il Collettivo Ianua propone PRO-FILI Festival, dedicato ad arte, artisti locali e tavole rotonde.</span></span></a></li>
+        <li><a href="https://www.rovigo.news/ottobre-rodigino-rovigo-si-accende-con-un-mese-di-eventi/" rel="noopener" aria-label="Ottobre Rodigino, Rovigo si accende con un mese di eventi, Rovigo.News"><span class="press-txt"><span class="press-meta"><b>Rovigo.News</b> · <time datetime="2026-10">Ottobre 2026</time></span><span class="press-title">Ottobre Rodigino, Rovigo si accende con un mese di eventi</span><span class="press-ex">Nel calendario del mese, il PRO-FILI Festival del Collettivo Ianua in Pescheria Nuova.</span></span></a></li>
+        <li><a href="https://www.nordest24.it/ottobre-rodigino-2026-guida-eventi-rovigo-date-orari" rel="noopener" aria-label="Ottobre Rodigino 2026: guida a eventi, date e orari a Rovigo, Nordest24"><span class="press-txt"><span class="press-meta"><b>Nordest24</b> · <time datetime="2026-10">Ottobre 2026</time></span><span class="press-title">Ottobre Rodigino 2026: guida a eventi, date e orari a Rovigo</span><span class="press-ex">PRO-FILI Festival del Collettivo Ianua: arte, artisti locali e tavole rotonde, dalle 10 alle 20.</span></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block paper" id="partner" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="head rv"><div><p class="eyebrow">Chi ci sostiene</p><h2>Partner e <em>sponsor</em></h2></div><p class="lede">Le realtà che rendono possibile <span class="nobr">PRO-FILI</span>, con i loro indirizzi e i loro canali.</p></div>
+    <div class="pt-coppia rv">
+    <div class="pt-gruppo">
+      <h3>Con il patrocinio di</h3>
+      <ul class="pt-list">
+          <li class="pt">
+            <div class="pt-logo pt-logo--colore pt-logo--verticale"><img src="../assets/img/partner/comune-rovigo.png" alt="Stemma del Comune di Rovigo" width="157" height="200" loading="lazy"></div>
+            <h4>Comune di Rovigo</h4>
+            <p class="pt-type">Patrocinio · Ottobre Rodigino 2026</p>
+            <p class="pt-does"><span class="nobr">PRO-FILI</span> ha avuto il patrocinio del Comune ed è stato nel cartellone di Ottobre Rodigino. Il Comune ha messo a disposizione la Pescheria Nuova.</p>
+            <p class="pt-addr">Pescheria Nuova, Corso del Popolo 140, Rovigo</p>
+            <p class="pt-links"><a href="https://www.comune.rovigo.it" target="_blank" rel="noopener" aria-label="Sito di Comune di Rovigo, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a></p>
+          </li>
+      </ul>
+    </div>
+    <div class="pt-gruppo">
+      <h3>In collaborazione con</h3>
+      <ul class="pt-list">
+          <li class="pt">
+            <div class="pt-logo pt-logo--colore"><img src="../assets/img/partner/studio-panta-rei.png" alt="Studio Panta Rei" width="600" height="176" loading="lazy"></div>
+            <h4>Studio Panta Rei</h4>
+            <p class="pt-type">Studio multidisciplinare e formazione</p>
+            <p class="pt-does">Supporto organizzativo e sostegno economico.</p>
+            <p class="pt-addr">Via Cavour 24, Rovigo</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Studio+Panta+Rei+Via+Cavour+24+45100+Rovigo" target="_blank" rel="noopener" aria-label="Come arrivare: Studio Panta Rei su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a></p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo pt-logo--verticale"><img src="../assets/img/partner/briciole.png" alt="Briciole" width="489" height="600" loading="lazy"></div>
+            <h4>Briciole</h4>
+            <p class="pt-type">Associazione culturale, Modena</p>
+            <p class="pt-does">Associazione guidata da Filippo Monti, con cui IANUA lavora dal 2025: è stata Briciole a portare FILO al festival.</p>
+            <p class="pt-addr">Via Ganaceto 96, Modena</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Briciole+Via+Ganaceto+96+41121+Modena" target="_blank" rel="noopener" aria-label="Come arrivare: Briciole su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a><a href="https://www.instagram.com/briciole/" target="_blank" rel="noopener" aria-label="Instagram di Briciole, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+      </ul>
+    </div>
+    </div>
+    <div class="pt-gruppo rv">
+      <h3>Partner e sponsor</h3>
+      <ul class="pt-list">
+          <li class="pt">
+            <div class="pt-logo pt-logo--colore pt-logo--largo"><a href="https://www.franceschettigroup.it" target="_blank" rel="noopener" aria-label="Sito di Franceschetti Group, si apre in una nuova scheda" style="display:flex;align-items:center;align-self:stretch"><img src="../assets/img/partner/franceschetti-group.png" alt="Franceschetti Group" width="768" height="120" loading="lazy"></a></div>
+            <h4>Franceschetti Group</h4>
+            <p class="pt-type">Distribuzione alimentare Ho.Re.Ca.</p>
+            <p class="pt-does">Azienda leader storica del territorio, ha offerto i prodotti per il buffet di inaugurazione.</p>
+            <p class="pt-addr">Viale della Cooperazione 32, Rovigo</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Franceschetti+Group+Viale+della+Cooperazione+32+45100+Rovigo" target="_blank" rel="noopener" aria-label="Come arrivare: Franceschetti Group su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a><a href="https://www.franceschettigroup.it" target="_blank" rel="noopener" aria-label="Sito di Franceschetti Group, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a><a href="tel:+390425474816" aria-label="Chiama Franceschetti Group allo 0425 474 816"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.2 6.2l1.3-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/></svg><span>Chiama</span></a></p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo"><a href="https://instagram.com/antico_coghetto" target="_blank" rel="noopener" aria-label="Instagram di Antico Coghetto, si apre in una nuova scheda" style="display:flex;align-items:center;align-self:stretch"><img src="../assets/img/partner/antico-coghetto.png" alt="Antico Coghetto" width="118" height="106" loading="lazy"></a></div>
+            <h4>Antico Coghetto</h4>
+            <p class="pt-type">Caffetteria e cocktail bar</p>
+            <p class="pt-does">Ha aperto il suo nuovo spazio per degustazioni e aperitivi, con un angolo riservato dove continuare la conversazione. Nei giorni del festival ha applicato lo sconto «profili» a chi ha visitato la Pescheria Nuova.</p>
+            <p class="pt-addr">Via Cavour 4, Rovigo</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Antico+Coghetto+Via+Cavour+4+45100+Rovigo" target="_blank" rel="noopener" aria-label="Come arrivare: Antico Coghetto su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a><a href="https://instagram.com/antico_coghetto" target="_blank" rel="noopener" aria-label="Instagram di Antico Coghetto, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo"><a href="https://www.gelateriagodot.it" target="_blank" rel="noopener" aria-label="Sito di Gelateria Godot, si apre in una nuova scheda" style="display:flex;align-items:center;align-self:stretch"><img src="../assets/img/partner/gelateria-godot.png" alt="Gelateria Godot" width="479" height="160" loading="lazy"></a></div>
+            <h4>Gelateria Godot</h4>
+            <p class="pt-type">Gelateria artigianale</p>
+            <p class="pt-does">Nei giorni del festival, il gusto PROFILI e lo sconto «profili» a chi ha visitato la Pescheria Nuova.</p>
+            <p class="pt-addr">Via Generale Domenico Piva 13/3, Rovigo</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Gelateria+Godot+Via+Generale+Domenico+Piva+13%2F3+45100+Rovigo" target="_blank" rel="noopener" aria-label="Come arrivare: Gelateria Godot su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a><a href="https://www.gelateriagodot.it" target="_blank" rel="noopener" aria-label="Sito di Gelateria Godot, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a><a href="https://instagram.com/gelateriagodot" target="_blank" rel="noopener" aria-label="Instagram di Gelateria Godot, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo"><a href="https://www.bolzoniarredamenti.it" target="_blank" rel="noopener" aria-label="Sito di Bolzoni Arredamenti, si apre in una nuova scheda" style="display:flex;align-items:center;align-self:stretch"><img src="../assets/img/partner/bolzoni-arredamenti.png" alt="Bolzoni Arredamenti" width="440" height="178" loading="lazy"></a></div>
+            <h4>Bolzoni Arredamenti</h4>
+            <p class="pt-type">Arredamenti e galleria</p>
+            <p class="pt-does">Ha sostenuto il festival fornendo illuminazione di design.</p>
+            <p class="pt-links"><a href="https://www.bolzoniarredamenti.it" target="_blank" rel="noopener" aria-label="Sito di Bolzoni Arredamenti, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a><a href="https://www.instagram.com/bolzoni_arredamenti" target="_blank" rel="noopener" aria-label="Instagram di Bolzoni Arredamenti, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a><a href="https://www.instagram.com/bolzoni_galleria" target="_blank" rel="noopener" aria-label="Instagram della galleria Bolzoni, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Galleria</span></a></p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo pt-logo--verticale pt-logo--colore"><img src="../assets/img/partner/non-solo-arte.png" alt="Non Solo Arte" width="178" height="240" loading="lazy"></div>
+            <h4>Non Solo Arte</h4>
+            <p class="pt-type">Articoli d&#x27;arte e cancelleria</p>
+            <p class="pt-does">Durante il festival ha applicato lo sconto «profili» a chi ha visitato la Pescheria Nuova.</p>
+            <p class="pt-links"><a href="https://www.instagram.com/nonsoloartedifederica/" target="_blank" rel="noopener" aria-label="Instagram di Non Solo Arte, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo"><a href="https://pianofortiplaypiano.it" target="_blank" rel="noopener" aria-label="Sito di PlayPiano Pianoforti, si apre in una nuova scheda" style="display:flex;align-items:center;align-self:stretch"><img src="../assets/img/partner/playpiano.png" alt="PlayPiano Pianoforti" width="560" height="160" loading="lazy"></a></div>
+            <h4>PlayPiano Pianoforti</h4>
+            <p class="pt-type">Pianoforti</p>
+            <p class="pt-does">Il pianoforte a mezza coda del festival.</p>
+            <p class="pt-addr">Via Luigi Einaudi 34, Rovigo</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=PlayPiano+Pianoforti+Via+Luigi+Einaudi+34+45100+Rovigo" target="_blank" rel="noopener" aria-label="Come arrivare: PlayPiano Pianoforti su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a><a href="https://pianofortiplaypiano.it" target="_blank" rel="noopener" aria-label="Sito di PlayPiano Pianoforti, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a><a href="https://instagram.com/playpiano_pianoforti" target="_blank" rel="noopener" aria-label="Instagram di PlayPiano Pianoforti, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo pt-logo--colore"><img src="../assets/img/partner/eliocopy.png" alt="Eliocopy c&#x27;Arte" width="600" height="282" loading="lazy"></div>
+            <h4>Eliocopy c&#x27;Arte</h4>
+            <p class="pt-type">Cartolibreria e stampe</p>
+            <p class="pt-does">Ha stampato i materiali del festival.</p>
+            <p class="pt-addr">Corso del Popolo 150, Rovigo</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Corso+del+Popolo+150+45100+Rovigo+RO" target="_blank" rel="noopener" aria-label="Come arrivare: Eliocopy c&#x27;Arte su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a><a href="https://www.instagram.com/eliocopy.rovigo/" target="_blank" rel="noopener" aria-label="Instagram di Eliocopy c&#x27;Arte, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo pt-logo--colore pt-logo--tondo"><img src="../assets/img/partner/loc-lions-club.png" alt="Lions Club Rosa Parks" width="300" height="315" loading="lazy"></div>
+            <h4>Lions Club Rosa Parks</h4>
+            <p class="pt-type">Associazione di servizio, Rovigo</p>
+            <p class="pt-does">Il club Lions di Rovigo intitolato a Rosa Parks, «We Serve»: ha sostenuto il festival.</p>
+          </li>
+          <li class="pt">
+            <div class="pt-logo"><img src="../assets/img/partner/neven-records.png" alt="Neven Recording Studio" width="252" height="160" loading="lazy"></div>
+            <h4>Neven Recording Studio</h4>
+            <p class="pt-type">Studio di registrazione ed etichetta</p>
+            <p class="pt-does">Lo studio dove registrano i musicisti di IANUA.</p>
+            <p class="pt-addr">Via Luigi Einaudi 99, Rovigo</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Neven+Records+Via+Luigi+Einaudi+99+45100+Rovigo" target="_blank" rel="noopener" aria-label="Come arrivare: Neven Records su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a><a href="https://www.nevenrecords.com" target="_blank" rel="noopener" aria-label="Sito di Neven Records, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a><a href="https://www.instagram.com/neven.records/" target="_blank" rel="noopener" aria-label="Instagram di Neven Records, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+      </ul>
+    </div>
+    <div class="pt-duo rv">
+    <div class="pt-gruppo">
+      <h3>Radio ufficiale</h3>
+      <ul class="pt-list">
+          <li class="pt">
+            <div class="pt-logo"><a href="https://www.radiokappa.it" target="_blank" rel="noopener" aria-label="Sito di Radio Kappa, si apre in una nuova scheda" style="display:flex;align-items:center;align-self:stretch"><img src="../assets/img/partner/radio-kappa.png" alt="Radio Kappa" width="239" height="160" loading="lazy"></a></div>
+            <h4>Radio Kappa</h4>
+            <p class="pt-type">Radio, FM e streaming</p>
+            <p class="pt-does">Ha seguito il festival e gli ha dedicato una puntata speciale de La Palude, sabato 10 alle 23.30 dallo Spazio-T.</p>
+            <p class="pt-addr">Via Sichirollo 74, Rovigo</p>
+            <p class="pt-links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Radio+Kappa+Via+Sichirollo+74+45100+Rovigo" target="_blank" rel="noopener" aria-label="Come arrivare: Radio Kappa su Google Maps, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>Mappa</span></a><a href="https://www.radiokappa.it" target="_blank" rel="noopener" aria-label="Sito di Radio Kappa, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a><a href="https://instagram.com/radio_kappa" target="_blank" rel="noopener" aria-label="Instagram di Radio Kappa, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+      </ul>
+    </div>
+    <div class="pt-gruppo">
+      <h3>Media partner</h3>
+      <ul class="pt-list">
+          <li class="pt">
+            <div class="pt-logo pt-logo--colore"><a href="https://www.rovigoinfocitta.it" target="_blank" rel="noopener" aria-label="Sito di Rovigoinfocitta.it, si apre in una nuova scheda" style="display:flex;align-items:center;align-self:stretch"><img src="../assets/img/partner/rovigoinfocitta.png" alt="Rovigoinfocitta.it" width="600" height="114" loading="lazy"></a></div>
+            <h4>Rovigoinfocitta.it</h4>
+            <p class="pt-type">Portale della provincia di Rovigo</p>
+            <p class="pt-does">Il portale della cultura e dell'ospitalità della provincia di Rovigo.</p>
+            <p class="pt-links"><a href="https://www.rovigoinfocitta.it" target="_blank" rel="noopener" aria-label="Sito di Rovigoinfocitta.it, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.7 8.4 12s1.2 6.2 3.6 8.5"/></svg><span>Sito</span></a><a href="https://www.instagram.com/rovigoinfocitta/" target="_blank" rel="noopener" aria-label="Instagram di Rovigoinfocitta.it, si apre in una nuova scheda"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".7"/></svg><span>Instagram</span></a></p>
+          </li>
+      </ul>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="block paper call-band" id="sostieni" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="call rv">
+      <div>
+        <p class="eyebrow">Partner e sponsor</p>
+        <h2>Sostienici <em>anche tu</em></h2>
+      </div>
+      <div class="call-body">
+        <p class="lede">Un contributo, uno spazio, un servizio o un'idea: il festival si regge su chi ci mette del suo. Scrivici e ne parliamo.</p>
+        <a class="submit call-btn" href="mailto:ianuaeventi@gmail.com?subject=Partner%20e%20sponsor%20PRO-FILI" aria-label="Sostienici anche tu: scrivi a ianuaeventi@gmail.com">Sostienici anche tu <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block paper" id="contatti" data-world="paper">
+  <div class="cucitura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="contact">
+      <div class="rv">
+        <p class="eyebrow">Contatti</p>
+        <h2>Apriamo <em>una porta</em> insieme.</h2>
+        <p class="muted" style="margin-top:22px;max-width:44ch">Produzioni, laboratori, eventi e progetti territoriali. Scrivici per portare uno spettacolo nel tuo spazio o costruire qualcosa di nuovo.</p>
+        <div class="contact-list">
+          <a href="mailto:ianuaeventi@gmail.com">ianuaeventi@gmail.com<small>email</small></a>
+          <a href="https://wa.me/393460315409" target="_blank" rel="noopener" aria-label="Scrivi su WhatsApp al +39 346 031 5409, si apre in una nuova scheda">+39 346 031 5409<small>segreteria</small></a>
+          <a href="https://instagram.com/___ianua___" target="_blank" rel="noopener">@___ianua___<small>instagram</small></a>
+        </div>
+      </div>
+      <div class="form-col rv">
+        <div class="form-head">
+          <p class="eyebrow">Scrivici</p>
+          <h3>Raccontaci <em>in poche righe</em></h3>
+          <p>Uno spazio, una data, un'idea ancora informe: rispondiamo a tutti.</p>
+        </div>
+      <form class="form" id="contactForm" name="contatti" method="POST" action="/" data-mailto="ianuaeventi@gmail.com" novalidate>
+                <p class="hp"><label>Non compilare: <input name="sito" tabindex="-1" autocomplete="off"></label></p>
+        <div class="fields">
+          <div class="field"><label for="f-nome">Nome</label><input id="f-nome" name="nome" type="text" required autocomplete="name"><span class="err">Inserisci il tuo nome.</span></div>
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email"><span class="err">Inserisci un indirizzo email valido.</span></div>
+          <div class="field"><label for="f-msg">Messaggio</label><textarea id="f-msg" name="messaggio" required rows="4"></textarea><span class="hint">Spazio, date, idea: raccontaci in poche righe.</span><span class="err">Scrivi un messaggio.</span></div>
+          <div class="field field-check"><label class="check" for="f-privacy"><input id="f-privacy" name="privacy" type="checkbox" value="letta" required><span>Ho letto l'<a href="privacy.html">informativa sulla privacy</a>. Usiamo nome ed email solo per risponderti.</span></label><span class="err">Per inviare il messaggio spunta la casella dell'informativa.</span></div>
+          <div><button class="submit" type="submit">Invia il messaggio</button></div>
+        </div>
+        <p class="ok" tabindex="-1">Grazie. Ti rispondiamo a breve.</p>
+      </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="paper tono-2" data-world="paper">
+  <div class="wrap">
+    <div class="f-brand">
+      <a class="f-ianua" href="https://collettivoianua.it/en/" aria-label="IANUA, il sito del collettivo"><img src="../assets/logo_dark.webp" alt="" width="2011" height="786"></a>
+      <p><span class="nobr">PRO-FILI</span> Festival è ideato e curato dal collettivo artistico IANUA.</p>
+    </div>
+    <div class="f-cols">
+      <nav aria-label="IANUA">
+        <h3>IANUA</h3>
+        <ul>
+          <li><a href="https://collettivoianua.it/en/collettivo.html" target="_blank" rel="noopener">Chi siamo</a></li>
+          <li><a href="https://collettivoianua.it/en/" target="_blank" rel="noopener">collettivoianua.it</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Contatti">
+        <h3>Contatti</h3>
+        <ul>
+          <li><a href="mailto:ianuaeventi@gmail.com">ianuaeventi@gmail.com</a></li>
+          <li><a href="https://wa.me/393460315409" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp al 346 031 5409, si apre in una nuova scheda">+39 346 031 5409</a></li>
+          <li><a href="https://instagram.com/___ianua___" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="legal">© 2026 <span class="nobr">PRO-FILI</span> Festival · a cura di IANUA · <a href="privacy.html">Privacy</a> · <a href="stampa.html">Stampa</a></p>
+  </div>
+</footer>
+
+<!-- prima la matassa: se c'e', site.js non disegna il filo colorato dell'apertura -->
+<script src="../assets/js/matassa.js?v=20261004c" defer></script>
+<script src="../assets/js/site.js?v=20261026a" defer></script>
+<script src="../assets/js/filo-laterale.js?v=4" defer></script>
+</body>
+</html>

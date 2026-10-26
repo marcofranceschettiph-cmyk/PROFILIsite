@@ -36,6 +36,12 @@
 # Qualsiasi indirizzo che non corrisponde a un file esistente mostra 404.html,
 # con il codice di stato giusto: senza il 404 i motori di ricerca
 # indicizzerebbero la pagina di errore come se fosse una pagina vera.
+# Pagine in inglese: un indirizzo sbagliato sotto /en/ mostra la 404 inglese
+[[redirects]]
+  from = "/en/*"
+  to = "/en/404.html"
+  status = 404
+
 [[redirects]]
   from = "/*"
   to = "/404.html"
