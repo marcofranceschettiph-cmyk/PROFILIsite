@@ -1,3 +1,11 @@
+/* Lingua: le pagine in /en/ hanno <html lang="en">. __T sceglie la stringa giusta,
+   __ASSETS e' il percorso di assets/ visto dalla pagina (vale anche dentro /en/). */
+window.__EN = (document.documentElement.lang || '').slice(0, 2) === 'en';
+window.__T = function (it, en) { return window.__EN ? en : it; };
+window.__ASSETS = (function () {
+  var s = document.querySelector('script[src*="assets/js/site.js"]');
+  return s ? s.getAttribute('src').replace(/js\/site\.js.*$/, '') : 'assets/';
+})();
 /* IANUA — script condiviso (nessuna dipendenza esterna)
    1. nav: solid / on-paper / si nasconde scendendo / menu mobile
    2. reveal al viewport (.rv, titoli a riga, immagini con "sipario", numeri che contano)
@@ -159,7 +167,7 @@
     var LAST = Math.min((parseInt(portal.getAttribute('data-last-frame'), 10) || COUNT) - 1, COUNT - 1);
     var FOCUS_X = parseFloat(portal.getAttribute('data-focus-x')) || 0.5; // dove sta la porta nel frame (0–1): viene portata al centro
     var SM = innerWidth <= 820;                       // telefono: fotogrammi piccoli, e uno ogni due
-    var dir = 'assets/frames/' + (SM ? 'sm' : 'lg') + '/';
+    var dir = __ASSETS + 'frames/' + (SM ? 'sm' : 'lg') + '/';
     var canvas = document.getElementById('portalCanvas'), ctx = canvas.getContext('2d', { alpha: false });
     var poster = document.getElementById('portalPoster');
     var title = document.getElementById('pTitle'), mid = document.getElementById('pMid'), flash = document.getElementById('pFlash'),
@@ -809,9 +817,9 @@
     var url = new URL(page || '', IANUA.sito).href;
     var maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(place);
     // La descrizione porta con sé tutto quello che serve a chi apre l'evento sul telefono.
-    var desc = [note, '', 'Dove: ' + place, 'Mappa: ' + maps, '', 'IANUA — collettivo artistico',
-                'Email: ' + IANUA.mail, 'Telefono: ' + IANUA.tel, 'Instagram: ' + IANUA.ig,
-                'Programma: ' + url, 'Sito: ' + IANUA.sito].join('\n');
+    var desc = [note, '', __T('Dove: ', 'Where: ') + place, __T('Mappa: ', 'Map: ') + maps, '', __T('IANUA — collettivo artistico', 'IANUA — artistic collective'),
+                'Email: ' + IANUA.mail, __T('Telefono: ', 'Phone: ') + IANUA.tel, 'Instagram: ' + IANUA.ig,
+                __T('Programma: ', 'Programme: ') + url, __T('Sito: ', 'Website: ') + IANUA.sito].join('\n');
     var stamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     var uid = ymd(start) + '-' + title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40) + '@ianua';
     var L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//IANUA//sito//IT', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
@@ -831,7 +839,7 @@
       a.download = (el.getAttribute('data-ev-title') || 'ianua').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.ics';
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
-      var was = btn.textContent; btn.setAttribute('data-done', ''); btn.textContent = 'Aggiunto';
+      var was = btn.textContent; btn.setAttribute('data-done', ''); btn.textContent = __T('Aggiunto', 'Added');
       setTimeout(function () { btn.removeAttribute('data-done'); btn.textContent = was; }, 2600);
     });
   });
@@ -841,8 +849,8 @@
     if (!ora || !btn || !ora.querySelector('time')) return;
     ora.setAttribute('role', 'button');
     ora.setAttribute('tabindex', '0');
-    ora.setAttribute('title', 'Aggiungi al calendario');
-    ora.setAttribute('aria-label', 'Aggiungi al calendario: ' + (app.querySelector('.app-t') || ora).textContent.trim() + ', ' + ora.textContent.trim());
+    ora.setAttribute('title', __T('Aggiungi al calendario', 'Add to calendar'));
+    ora.setAttribute('aria-label', __T('Aggiungi al calendario: ', 'Add to calendar: ') + (app.querySelector('.app-t') || ora).textContent.trim() + ', ' + ora.textContent.trim());
     ora.addEventListener('click', function () { btn.click(); });
     ora.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); } });
   });
@@ -854,29 +862,29 @@
      che si sta guardando. I quattro scritti nella pagina restano come rete di
      sicurezza: senza JavaScript si vedono quelli. */
   var ALTRI = [
-    {s:"mattia-signorini",n:"Mattia Signorini",r:"Scrittura",t:"Romanziere, tradotto in mezzo mondo.",i:"mattia-signorini-3-bn.webp",ss:"mattia-signorini-3-bn_sm.webp 800w, mattia-signorini-3-bn.webp 1280w",a:"Ritratto di Mattia Signorini",w:1280,h:1600},
-    {s:"giorgia-roversi",n:"Giorgia Roversi",r:"Pittura",t:"Pittura dell'anatomia invisibile delle emozioni.",i:"giorgia-roversi-2-bn.webp",ss:"giorgia-roversi-2-bn_sm.webp 800w, giorgia-roversi-2-bn.webp 1280w",a:"Ritratto di Giorgia Roversi, di profilo",w:1280,h:1600},
-    {s:"zentequerente",n:"Zentequerente",r:"Arti visive",t:"Disegno e segni raccolti: l'invisibile dentro il visibile.",i:"zentequerente-2-bn.webp",ss:"zentequerente-2-bn_sm.webp 800w, zentequerente-2-bn.webp 1280w",a:"Ritratto di Zentequerente, di profilo",w:1280,h:1600},
-    {s:"marcello-ubertone",n:"Marcello Ubertone",r:"Cantautorato",t:"Canzoni che raccontano storie, tra immaginazione e vita vera.",i:"marcello-ubertone-2-bn.webp",ss:"marcello-ubertone-2-bn_sm.webp 800w, marcello-ubertone-2-bn.webp 1280w",a:"Ritratto di Marcello Ubertone, di profilo",w:1280,h:1600},
-    {s:"anna-spazio-marangon",n:"Anna Spazio Marangon",r:"Arti visive · installazione",t:"Installazioni di fili e nodi, tra spazio e materia.",i:"anna-spazio-marangon-2-bn.webp",ss:"anna-spazio-marangon-2-bn_sm.webp 800w, anna-spazio-marangon-2-bn.webp 1280w",a:"Ritratto di Anna Spazio Marangon, di profilo",w:1280,h:1600},
-    {s:"enrico-buoso",n:"Enrico Buoso",r:"Musica e composizione",t:"Intrecci di note e reti di persone.",i:"enrico-buoso-2-bn.webp",ss:"enrico-buoso-2-bn_sm.webp 800w, enrico-buoso-2-bn.webp 1280w",a:"Ritratto di Enrico Buoso",w:1280,h:1600},
-    {s:"martino-prendini",n:"Martino Prendini",r:"Arti visive",t:"Esplora con i sensi quello che non si scopre in altro modo.",i:"martino-prendini-2-bn.webp",ss:"martino-prendini-2-bn_sm.webp 800w, martino-prendini-2-bn.webp 1280w",a:"Ritratto di Martino Prendini",w:1280,h:1600},
-    {s:"daniele-corrain",n:"Daniele Corrain",r:"Pittura e illustrazione",t:"Dipinge quello che gli passa per la testa, sporcandosi le mani.",i:"daniele-corrain-2-bn.webp",ss:"daniele-corrain-2-bn_sm.webp 800w, daniele-corrain-2-bn.webp 1280w",a:"Ritratto di Daniele Corrain, di profilo",w:1280,h:1600},
-    {s:"giulia-dal-pra",n:"Giulia Dal Prà",r:"Collage",t:"Ritaglia, accosta e ricompone quello che gli altri hanno smesso di guardare.",i:"giulia-dal-pra-2-bn.webp",ss:"giulia-dal-pra-2-bn_sm.webp 800w, giulia-dal-pra-2-bn.webp 1280w",a:"Ritratto di Giulia Dal Prà, di profilo",w:1280,h:1600},
-    {s:"anna-randolo",n:"Anna Randolo",r:"Illustrazione · Unnyverso",t:"Dà colore e voce alle storie, soprattutto per i bambini.",i:"anna-randolo-2-bn.webp",ss:"anna-randolo-2-bn_sm.webp 800w, anna-randolo-2-bn.webp 1280w",a:"Ritratto di Anna Randolo",w:1280,h:1600},
-    {s:"caino",n:"CAINO",r:"Fotografia",t:"Fotografie che strappano e ricompongono le icone della pittura.",i:"caino.webp",ss:"caino_sm.webp 640w, caino.webp 1280w",a:"Logo di CAINO, bianco su fondo nero",w:1280,h:1600},
-    {s:"filo",n:"FILO",r:"Cantautorato",t:"Cantautore, autore del disco «In cerca di un filo».",i:"filo-2-bn.webp",ss:"filo-2-bn_sm.webp 800w, filo-2-bn.webp 1280w",a:"Ritratto di FILO, di profilo",w:1280,h:1600},
-    {s:"massimo-marchioro",n:"Massimo Marchioro",r:"Pittura",t:"Cerca nelle stanze più profonde e le scale che portano in alto.",i:"massimo-marchioro-2-bn.webp",ss:"massimo-marchioro-2-bn_sm.webp 800w, massimo-marchioro-2-bn.webp 1280w",a:"Ritratto di Massimo Marchioro, di profilo",w:1280,h:1600},
-    {s:"salvatore-passalacqua",n:"Salvatore Passalacqua",r:"Musica e arti visive · ETHA",t:"Strumenti acustici ed elettronica, tra il reale e il surreale.",i:"salvatore-passalacqua-2-bn.webp",ss:"salvatore-passalacqua-2-bn_sm.webp 800w, salvatore-passalacqua-2-bn.webp 1280w",a:"Ritratto di Salvatore Passalacqua, di profilo",w:1280,h:1600},
-    {s:"salsa-wasabbee",n:"salsa_wasabbee",r:"Fumetto e illustrazione",t:"Tavole in bianco e nero: sperimenta, si spaventa, si addormenta.",i:"salsa-wasabbee-2-bn.webp",ss:"salsa-wasabbee-2-bn_sm.webp 800w, salsa-wasabbee-2-bn.webp 1280w",a:"Ritratto di salsa_wasabbee, di profilo",w:1280,h:1600},
-    {s:"francesca-de-simone",n:"Francesca De Simone",r:"Poesia",t:"Fissa in pochi versi un sentire sconosciuto.",i:"francesca-de-simone-2-bn.webp",ss:"francesca-de-simone-2-bn_sm.webp 800w, francesca-de-simone-2-bn.webp 1280w",a:"Ritratto di Francesca De Simone, di profilo, in bianco e nero",w:1280,h:1600},
-    {s:"elia-pellegrini",n:"Elia Pellegrini",r:"Arti visive e 3D",t:"Luce, architettura e tempo, tra i rosoni gotici e il mondo onirico.",i:"elia-pellegrini-2-bn.webp",ss:"elia-pellegrini-2-bn_sm.webp 800w, elia-pellegrini-2-bn.webp 1280w",a:"Ritratto di Elia Pellegrini, di profilo",w:1280,h:1600},
-    {s:"alessandro-alfonsi",n:"Alessandro Alfonsi",r:"Musica e teatro",t:"Musica e parola, memoria e ascolto.",i:"alessandro-alfonsi-2-bn.webp",ss:"alessandro-alfonsi-2-bn_sm.webp 800w, alessandro-alfonsi-2-bn.webp 1280w",a:"Ritratto di Alessandro Alfonsi, di profilo",w:1280,h:1600},
-    {s:"irma-paulon",n:"Irma Paulon",r:"Arti visive e scultura",t:"Resina, legno, vetro e metallo: la dignità estetica della materia.",i:"irma-paulon-3-bn.webp",ss:"irma-paulon-3-bn_sm.webp 800w, irma-paulon-3-bn.webp 1280w",a:"Irma Paulon di profilo, con le mani sulle radici di un albero sradicato",w:1280,h:1600},
-    {s:"nihil",n:"NIHIL",r:"Musica e cantautorato",t:"Erede al trono di un regno senza terra, in viaggio con la musica.",i:"nihil-2-bn.webp",ss:"nihil-2-bn_sm.webp 800w, nihil-2-bn.webp 1280w",a:"Ritratto di NIHIL di profilo, con il volto blu e la maschera di cristalli",w:1280,h:1600},
-    {s:"andrea-fabbri",n:"Andrea Fabbri",r:"Pittura e tatuaggio",t:"Tatuaggio e pittura: trasformare l'ombra in emozione.",i:"andrea-fabbri-2-bn.webp",ss:"andrea-fabbri-2-bn_sm.webp 800w, andrea-fabbri-2-bn.webp 1280w",a:"Andrea Fabbri di profilo mentre dipinge, con la tavolozza in mano",w:1280,h:1600},
-    {s:"maryam-amirfarshi",n:"Maryam Amirfarshi",r:"Pittura e tecnica mista",t:"Segni, codici e fili che legano lingue, memorie e geografie.",i:"maryam-amirfarshi-bn.webp",ss:"maryam-amirfarshi-bn_sm.webp 800w, maryam-amirfarshi-bn.webp 1280w",a:"Ritratto di Maryam Amirfarshi, di profilo",w:1280,h:1600},
-    {s:"martina-barison",n:"Martina Barison",r:"Collezione di copricapi",t:"Cosa racconta un copricapo? Viaggi e popoli, da ogni capo del mondo.",i:"martina-barison-bn.webp",ss:"martina-barison-bn_sm.webp 800w, martina-barison-bn.webp 1280w",a:"Ritratto di Martina Barison, di profilo e sorridente",w:1280,h:1600}
+    {s:"mattia-signorini",n:"Mattia Signorini",r:"Scrittura",t:"Romanziere, tradotto in mezzo mondo.",i:"mattia-signorini-3-bn.webp",ss:"mattia-signorini-3-bn_sm.webp 800w, mattia-signorini-3-bn.webp 1280w",a:"Ritratto di Mattia Signorini",w:1280,h:1600,re:"Writing",te:"A novelist translated around the world."},
+    {s:"giorgia-roversi",n:"Giorgia Roversi",r:"Pittura",t:"Pittura dell'anatomia invisibile delle emozioni.",i:"giorgia-roversi-2-bn.webp",ss:"giorgia-roversi-2-bn_sm.webp 800w, giorgia-roversi-2-bn.webp 1280w",a:"Ritratto di Giorgia Roversi, di profilo",w:1280,h:1600,re:"Painting",te:"Painting the invisible anatomy of emotions."},
+    {s:"zentequerente",n:"Zentequerente",r:"Arti visive",t:"Disegno e segni raccolti: l'invisibile dentro il visibile.",i:"zentequerente-2-bn.webp",ss:"zentequerente-2-bn_sm.webp 800w, zentequerente-2-bn.webp 1280w",a:"Ritratto di Zentequerente, di profilo",w:1280,h:1600,re:"Visual arts",te:"Drawings and gathered signs: the invisible within the visible."},
+    {s:"marcello-ubertone",n:"Marcello Ubertone",r:"Cantautorato",t:"Canzoni che raccontano storie, tra immaginazione e vita vera.",i:"marcello-ubertone-2-bn.webp",ss:"marcello-ubertone-2-bn_sm.webp 800w, marcello-ubertone-2-bn.webp 1280w",a:"Ritratto di Marcello Ubertone, di profilo",w:1280,h:1600,re:"Songwriting",te:"Songs that tell stories, between imagination and real life."},
+    {s:"anna-spazio-marangon",n:"Anna Spazio Marangon",r:"Arti visive · installazione",t:"Installazioni di fili e nodi, tra spazio e materia.",i:"anna-spazio-marangon-2-bn.webp",ss:"anna-spazio-marangon-2-bn_sm.webp 800w, anna-spazio-marangon-2-bn.webp 1280w",a:"Ritratto di Anna Spazio Marangon, di profilo",w:1280,h:1600,re:"Visual arts · installation",te:"Installations of threads and knots, between space and matter."},
+    {s:"enrico-buoso",n:"Enrico Buoso",r:"Musica e composizione",t:"Intrecci di note e reti di persone.",i:"enrico-buoso-2-bn.webp",ss:"enrico-buoso-2-bn_sm.webp 800w, enrico-buoso-2-bn.webp 1280w",a:"Ritratto di Enrico Buoso",w:1280,h:1600,re:"Music and composition",te:"Weaving notes and networks of people."},
+    {s:"martino-prendini",n:"Martino Prendini",r:"Arti visive",t:"Esplora con i sensi quello che non si scopre in altro modo.",i:"martino-prendini-2-bn.webp",ss:"martino-prendini-2-bn_sm.webp 800w, martino-prendini-2-bn.webp 1280w",a:"Ritratto di Martino Prendini",w:1280,h:1600,re:"Visual arts",te:"Exploring with the senses what cannot be discovered any other way."},
+    {s:"daniele-corrain",n:"Daniele Corrain",r:"Pittura e illustrazione",t:"Dipinge quello che gli passa per la testa, sporcandosi le mani.",i:"daniele-corrain-2-bn.webp",ss:"daniele-corrain-2-bn_sm.webp 800w, daniele-corrain-2-bn.webp 1280w",a:"Ritratto di Daniele Corrain, di profilo",w:1280,h:1600,re:"Painting and illustration",te:"He paints whatever crosses his mind, getting his hands dirty."},
+    {s:"giulia-dal-pra",n:"Giulia Dal Prà",r:"Collage",t:"Ritaglia, accosta e ricompone quello che gli altri hanno smesso di guardare.",i:"giulia-dal-pra-2-bn.webp",ss:"giulia-dal-pra-2-bn_sm.webp 800w, giulia-dal-pra-2-bn.webp 1280w",a:"Ritratto di Giulia Dal Prà, di profilo",w:1280,h:1600,re:"Collage",te:"She cuts, pairs and recomposes what others have stopped looking at."},
+    {s:"anna-randolo",n:"Anna Randolo",r:"Illustrazione · Unnyverso",t:"Dà colore e voce alle storie, soprattutto per i bambini.",i:"anna-randolo-2-bn.webp",ss:"anna-randolo-2-bn_sm.webp 800w, anna-randolo-2-bn.webp 1280w",a:"Ritratto di Anna Randolo",w:1280,h:1600,re:"Illustration · Unnyverso",te:"Giving colour and voice to stories, above all for children."},
+    {s:"caino",n:"CAINO",r:"Fotografia",t:"Fotografie che strappano e ricompongono le icone della pittura.",i:"caino.webp",ss:"caino_sm.webp 640w, caino.webp 1280w",a:"Logo di CAINO, bianco su fondo nero",w:1280,h:1600,re:"Photography",te:"Photographs that tear apart and recompose the icons of painting."},
+    {s:"filo",n:"FILO",r:"Cantautorato",t:"Cantautore, autore del disco «In cerca di un filo».",i:"filo-2-bn.webp",ss:"filo-2-bn_sm.webp 800w, filo-2-bn.webp 1280w",a:"Ritratto di FILO, di profilo",w:1280,h:1600,re:"Songwriting",te:"Singer-songwriter, author of the album «In cerca di un filo»."},
+    {s:"massimo-marchioro",n:"Massimo Marchioro",r:"Pittura",t:"Cerca nelle stanze più profonde e le scale che portano in alto.",i:"massimo-marchioro-2-bn.webp",ss:"massimo-marchioro-2-bn_sm.webp 800w, massimo-marchioro-2-bn.webp 1280w",a:"Ritratto di Massimo Marchioro, di profilo",w:1280,h:1600,re:"Painting",te:"Searching the deepest rooms and the stairs that lead upwards."},
+    {s:"salvatore-passalacqua",n:"Salvatore Passalacqua",r:"Musica e arti visive · ETHA",t:"Strumenti acustici ed elettronica, tra il reale e il surreale.",i:"salvatore-passalacqua-2-bn.webp",ss:"salvatore-passalacqua-2-bn_sm.webp 800w, salvatore-passalacqua-2-bn.webp 1280w",a:"Ritratto di Salvatore Passalacqua, di profilo",w:1280,h:1600,re:"Music and visual arts · ETHA",te:"Acoustic instruments and electronics, between the real and the surreal."},
+    {s:"salsa-wasabbee",n:"salsa_wasabbee",r:"Fumetto e illustrazione",t:"Tavole in bianco e nero: sperimenta, si spaventa, si addormenta.",i:"salsa-wasabbee-2-bn.webp",ss:"salsa-wasabbee-2-bn_sm.webp 800w, salsa-wasabbee-2-bn.webp 1280w",a:"Ritratto di salsa_wasabbee, di profilo",w:1280,h:1600,re:"Comics and illustration",te:"Black-and-white pages: experimenting, getting scared, falling asleep."},
+    {s:"francesca-de-simone",n:"Francesca De Simone",r:"Poesia",t:"Fissa in pochi versi un sentire sconosciuto.",i:"francesca-de-simone-2-bn.webp",ss:"francesca-de-simone-2-bn_sm.webp 800w, francesca-de-simone-2-bn.webp 1280w",a:"Ritratto di Francesca De Simone, di profilo, in bianco e nero",w:1280,h:1600,re:"Poetry",te:"Capturing an unknown feeling in a few lines."},
+    {s:"elia-pellegrini",n:"Elia Pellegrini",r:"Arti visive e 3D",t:"Luce, architettura e tempo, tra i rosoni gotici e il mondo onirico.",i:"elia-pellegrini-2-bn.webp",ss:"elia-pellegrini-2-bn_sm.webp 800w, elia-pellegrini-2-bn.webp 1280w",a:"Ritratto di Elia Pellegrini, di profilo",w:1280,h:1600,re:"Visual arts and 3D",te:"Light, architecture and time, between Gothic rose windows and dream worlds."},
+    {s:"alessandro-alfonsi",n:"Alessandro Alfonsi",r:"Musica e teatro",t:"Musica e parola, memoria e ascolto.",i:"alessandro-alfonsi-2-bn.webp",ss:"alessandro-alfonsi-2-bn_sm.webp 800w, alessandro-alfonsi-2-bn.webp 1280w",a:"Ritratto di Alessandro Alfonsi, di profilo",w:1280,h:1600,re:"Music and theatre",te:"Music and words, memory and listening."},
+    {s:"irma-paulon",n:"Irma Paulon",r:"Arti visive e scultura",t:"Resina, legno, vetro e metallo: la dignità estetica della materia.",i:"irma-paulon-3-bn.webp",ss:"irma-paulon-3-bn_sm.webp 800w, irma-paulon-3-bn.webp 1280w",a:"Irma Paulon di profilo, con le mani sulle radici di un albero sradicato",w:1280,h:1600,re:"Visual arts and sculpture",te:"Resin, wood, glass and metal: the aesthetic dignity of matter."},
+    {s:"nihil",n:"NIHIL",r:"Musica e cantautorato",t:"Erede al trono di un regno senza terra, in viaggio con la musica.",i:"nihil-2-bn.webp",ss:"nihil-2-bn_sm.webp 800w, nihil-2-bn.webp 1280w",a:"Ritratto di NIHIL di profilo, con il volto blu e la maschera di cristalli",w:1280,h:1600,re:"Music and songwriting",te:"Heir to the throne of a kingdom without land, travelling with music."},
+    {s:"andrea-fabbri",n:"Andrea Fabbri",r:"Pittura e tatuaggio",t:"Tatuaggio e pittura: trasformare l'ombra in emozione.",i:"andrea-fabbri-2-bn.webp",ss:"andrea-fabbri-2-bn_sm.webp 800w, andrea-fabbri-2-bn.webp 1280w",a:"Andrea Fabbri di profilo mentre dipinge, con la tavolozza in mano",w:1280,h:1600,re:"Painting and tattoo",te:"Tattoo and painting: turning shadow into emotion."},
+    {s:"maryam-amirfarshi",n:"Maryam Amirfarshi",r:"Pittura e tecnica mista",t:"Segni, codici e fili che legano lingue, memorie e geografie.",i:"maryam-amirfarshi-bn.webp",ss:"maryam-amirfarshi-bn_sm.webp 800w, maryam-amirfarshi-bn.webp 1280w",a:"Ritratto di Maryam Amirfarshi, di profilo",w:1280,h:1600,re:"Painting and mixed media",te:"Signs, codes and threads binding languages, memories and geographies."},
+    {s:"martina-barison",n:"Martina Barison",r:"Collezione di copricapi",t:"Cosa racconta un copricapo? Viaggi e popoli, da ogni capo del mondo.",i:"martina-barison-bn.webp",ss:"martina-barison-bn_sm.webp 800w, martina-barison-bn.webp 1280w",a:"Ritratto di Martina Barison, di profilo e sorridente",w:1280,h:1600,re:"Headwear collection",te:"What does a headdress tell? Journeys and peoples, from every corner of the world."}
   ];
 
   (function () {
@@ -902,13 +910,13 @@
       var testo = scheda.querySelectorAll('figure > p');
       if (!img || !h3 || !ruolo) return;
       scheda.setAttribute('href', a.s + '.html');
-      img.setAttribute('src', '../assets/img/' + a.i);
-      img.setAttribute('srcset', a.ss.replace(/([a-z0-9_.-]+\.webp)/g, '../assets/img/$1'));
-      img.setAttribute('alt', a.a);
+      img.setAttribute('src', __ASSETS + 'img/' + a.i);
+      img.setAttribute('srcset', a.ss.replace(/([a-z0-9_.-]+\.webp)/g, __ASSETS + 'img/$1'));
+      img.setAttribute('alt', __EN ? a.a.replace('Ritratto di ', 'Portrait of ').replace(', di profilo', ', in profile') : a.a);
       img.setAttribute('width', a.w); img.setAttribute('height', a.h);
       h3.textContent = a.n;
-      ruolo.textContent = a.r;
-      if (testo.length) testo[testo.length - 1].textContent = a.t;
+      ruolo.textContent = __EN && a.re || a.r;
+      if (testo.length) testo[testo.length - 1].textContent = __EN && a.te || a.t;
     });
   })();
 
@@ -916,7 +924,7 @@
     var d = new Date(el.getAttribute('data-countdown') + 'T00:00:00');
     var oggi = new Date(); oggi.setHours(0, 0, 0, 0);
     var g = Math.round((d - oggi) / 86400000);
-    el.textContent = g > 1 ? 'Mancano ' + g + ' giorni' : g === 1 ? 'È domani' : g === 0 ? 'È oggi' : 'Già passato';
+    el.textContent = g > 1 ? __T('Mancano ' + g + ' giorni', g + ' days to go') : g === 1 ? __T('È domani', 'Tomorrow') : g === 0 ? __T('È oggi', 'Today') : __T('Già passato', 'Already over');
   });
 
   // Conto alla rovescia del banner in home: giorni, ore, minuti e secondi. Le cifre
@@ -957,8 +965,8 @@
     }
     function monta() {
       el.textContent = ''; el.classList.add('is-live');
-      if (lab) lab.textContent = 'Manca';
-      gruppi = [['giorno', 'giorni'], ['ora', 'ore'], ['minuto', 'minuti'], ['secondo', 'secondi']].map(function (w) {
+      if (lab) lab.textContent = __T('Manca', 'Starts in');
+      gruppi = (__EN ? [['day', 'days'], ['hour', 'hours'], ['minute', 'minutes'], ['second', 'seconds']] : [['giorno', 'giorni'], ['ora', 'ore'], ['minuto', 'minuti'], ['secondo', 'secondi']]).map(function (w) {
         var u = document.createElement('span'); u.className = 'pf-cd-u';
         var n = document.createElement('span'); n.className = 'pf-cd-n';
         var t = document.createElement('span'); t.className = 'pf-cd-w';
@@ -968,10 +976,10 @@
     }
     function finito(ora) {
       var aperto = !!(fine && ora < fine);          // durante il festival: invito, non conto
-      if (lab) { lab.hidden = !aperto; if (aperto) lab.textContent = 'Fino all\'11 ottobre'; }
+      if (lab) { lab.hidden = !aperto; if (aperto) lab.textContent = __T('Fino all\'11 ottobre', 'Until 11 October'); }
       if (box) { box.removeAttribute('aria-hidden'); box.classList.toggle('pf-cd--aperto', aperto); }
       el.classList.remove('is-live'); gruppi = null;
-      var t = aperto ? 'Vieni a trovarci, la porta è aperta' : 'Edizione 0 conclusa';
+      var t = aperto ? __T('Vieni a trovarci, la porta è aperta', 'Come and visit us, the door is open') : __T('Edizione 0 conclusa', 'Edition 0 is over');
       if (el.textContent !== t) el.textContent = t;
       return !(fine && ora < fine);                 // true: non c'e' piu' niente da aggiornare
     }
@@ -1024,8 +1032,8 @@
 
     var box = document.createElement('div');
     box.className = 'lightbox'; box.setAttribute('role', 'dialog');
-    box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Fotografia ingrandita');
-    box.innerHTML = '<button class="lb-close" type="button" aria-label="Chiudi">' +
+    box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', __T('Fotografia ingrandita', 'Enlarged photograph'));
+    box.innerHTML = '<button class="lb-close" type="button" aria-label="' + __T('Chiudi', 'Close') + '">' +
       '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">' +
       '<path d="M3 3l16 16M19 3L3 19" stroke="currentColor" stroke-width="1.2"/></svg></button>' +
       '<figure class="lb-fig"><img alt=""><figcaption class="lb-credit" hidden></figcaption></figure>';
@@ -1050,7 +1058,7 @@
       im.classList.add('zoomable');
       im.setAttribute('tabindex', '0');
       im.setAttribute('role', 'button');
-      if (!im.getAttribute('aria-label')) im.setAttribute('aria-label', (im.alt || 'Fotografia') + ' — ingrandisci');
+      if (!im.getAttribute('aria-label')) im.setAttribute('aria-label', (im.alt || __T('Fotografia', 'Photograph')) + __T(' — ingrandisci', ' — enlarge'));
       im.addEventListener('click', function () { open(im); });
       im.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(im); } });
     });
@@ -1079,8 +1087,8 @@
 
       function perPosta() {
         var to = form.getAttribute('data-mailto');
-        var corpo = 'Nome: ' + data.get('nome') + '\nEmail: ' + data.get('email') + '\n\n' + data.get('messaggio');
-        location.href = 'mailto:' + to + '?subject=' + encodeURIComponent('Contatto dal sito PRO-FILI Festival') + '&body=' + encodeURIComponent(corpo);
+        var corpo = __T('Nome: ', 'Name: ') + data.get('nome') + '\nEmail: ' + data.get('email') + '\n\n' + data.get('messaggio');
+        location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(__T('Contatto dal sito PRO-FILI Festival', 'Message from the PRO-FILI Festival website')) + '&body=' + encodeURIComponent(corpo);
       }
 
       if (!dove || !window.fetch) { perPosta(); return; }
@@ -1145,8 +1153,8 @@
     }
     function monta() {
       el.textContent = ''; el.classList.add('is-live');
-      if (lab) lab.textContent = 'Manca';
-      gruppi = [['giorno', 'giorni'], ['ora', 'ore'], ['minuto', 'minuti'], ['secondo', 'secondi']].map(function (w) {
+      if (lab) lab.textContent = __T('Manca', 'Starts in');
+      gruppi = (__EN ? [['day', 'days'], ['hour', 'hours'], ['minute', 'minutes'], ['second', 'seconds']] : [['giorno', 'giorni'], ['ora', 'ore'], ['minuto', 'minuti'], ['secondo', 'secondi']]).map(function (w) {
         var u = document.createElement('span'); u.className = 'pf-cd-u';
         var n = document.createElement('span'); n.className = 'pf-cd-n';
         var t = document.createElement('span'); t.className = 'pf-cd-w';
@@ -1156,10 +1164,10 @@
     }
     function finito(ora) {
       var aperto = !!(fine && ora < fine);          // durante il festival: invito, non conto
-      if (lab) { lab.hidden = !aperto; if (aperto) lab.textContent = 'Fino all\'11 ottobre'; }
+      if (lab) { lab.hidden = !aperto; if (aperto) lab.textContent = __T('Fino all\'11 ottobre', 'Until 11 October'); }
       if (box) { box.removeAttribute('aria-hidden'); box.classList.toggle('pf-cd--aperto', aperto); }
       el.classList.remove('is-live'); gruppi = null;
-      var t = aperto ? 'Vieni a trovarci, la porta è aperta' : 'Edizione 0 conclusa';
+      var t = aperto ? __T('Vieni a trovarci, la porta è aperta', 'Come and visit us, the door is open') : __T('Edizione 0 conclusa', 'Edition 0 is over');
       if (el.textContent !== t) el.textContent = t;
       return !(fine && ora < fine);                 // true: non c'e' piu' niente da aggiornare
     }
@@ -1486,7 +1494,7 @@
       var d = giorno(t.getAttribute('data-giorno')); if (!d) return;
       if (d.getTime() === oggi.getTime()) {
         t.classList.add('is-oggi');
-        var e = document.createElement('span'); e.className = 'gg-oggi'; e.textContent = 'oggi';
+        var e = document.createElement('span'); e.className = 'gg-oggi'; e.textContent = __T('oggi', 'today');
         t.appendChild(e);
       } else if (d < oggi) t.classList.add('is-passato');
     });
@@ -1507,7 +1515,7 @@
     // l'appuntamento in corso e il prossimo si distinguevano solo col colore: ora hanno
     // anche un'etichetta scritta, accanto all'ora, come «oggi» sul giorno
     apps.forEach(function (ap) {
-      var testo = ap.classList.contains('is-ora') ? 'in corso' : ap.classList.contains('is-poi') ? 'a seguire' : '';
+      var testo = ap.classList.contains('is-ora') ? __T('in corso', 'now on') : ap.classList.contains('is-poi') ? __T('a seguire', 'up next') : '';
       var ora2 = ap.querySelector('.app-ora');
       if (!testo || !ora2) return;
       var e = document.createElement('span'); e.className = 'app-stato'; e.textContent = testo;
@@ -1738,7 +1746,7 @@
   'use strict';
   var box = document.getElementById('locandina');
   if (!box || !window.fetch) return;
-  var base = box.getAttribute('data-loc-base') || 'assets/locandina/';
+  var base = box.getAttribute('data-loc-base') || (__ASSETS + 'locandina/');
   var nomi = ['programma.pdf', 'programma.jpg'];   // due tentativi, non di piu': ogni file assente e' un 404 in console
 
   function accendi(url) {
