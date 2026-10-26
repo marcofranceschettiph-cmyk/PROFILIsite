@@ -32,7 +32,8 @@
     largo:   { W: 2688, H: 1428, palla: { x: 90, y: 5 },   punta: 3 / 3285 },
     stretto: { W: 900,  H: 1428, palla: { x: -2, y: -19 }, punta: 3 / 3000 }
   };
-  var DIR = 'assets/img/matassa/';
+  var qui = (document.querySelector('script[src*="js/matassa.js"]') || {}).getAttribute ? document.querySelector('script[src*="js/matassa.js"]').getAttribute('src') : '';
+  var DIR = qui ? qui.replace(/js\/matassa\.js.*$/, 'img/matassa/') : 'assets/img/matassa/';
   var scena = null;   // il taglio caricato: immagine di base, pixel del filo, tempi
   var ultimo = -1, visibile = true, attesa = false;
 
